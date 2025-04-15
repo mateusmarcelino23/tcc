@@ -55,6 +55,7 @@ body {
 
 .btn:hover {
     background-color: #003366;
+    color: white;
 }
 
 /* Estilo dos formulários */
@@ -88,3 +89,14 @@ input, select {
     }
 }
 
+/* Link para voltar ao painel */
+.link-back {
+    color: black;
+    font-size: 20px;
+    text-decoration: none;
+    position: fixed;
+    top: 100px;
+    left: 20px;
+    transition: color 0.3s ease;
+    cursor: pointer;
+}

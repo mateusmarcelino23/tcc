@@ -1,7 +1,7 @@
 <?php
 // Função para buscar livros na API do Google Books
 function buscarLivros($termo) {
-    $url = "https://www.googleapis.com/books/v1/volumes?q=" . urlencode($termo);
+    $url = "https://www.googleapis.com/books/v1/volumes?q=" . urlencode($termo) . "&key=YOUR_API_KEY"; // Substitua YOUR_API_KEY pela sua chave de API
     
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -9,6 +9,9 @@ function buscarLivros($termo) {
     curl_setopt($ch, CURLOPT_TIMEOUT, 30);
     
     $resposta = curl_exec($ch);
+    if ($resposta === false) {
+        echo 'Curl error: ' . curl_error($ch);
+    }
     curl_close($ch);
     
     return json_decode($resposta, true);
@@ -42,7 +45,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     $conn->close();
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -50,67 +52,82 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar Livros - Sistema da Biblioteca</title>
+    <title>Cadastrar Livros</title>
 
     <!-- Link para o CSS do Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    
-    <!-- Link para a fonte do Google Fonts (exemplo: Roboto) -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 
+    <!-- Adicionando o Modal -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-..." crossorigin="anonymous"></script>
+
+    <script>
+        const myModal = document.getElementById('resultadosModal');
+        const myInput = document.getElementById('myInput'); // Se você tiver um input específico para focar
+
+        myModal.addEventListener('shown.bs.modal', () => {
+            myInput.focus(); // Se você tiver um input para focar, caso contrário, remova esta linha
+        });
+    </script>
+    
     <!-- Vinculando o CSS personalizado -->
     <link rel="stylesheet" type="text/css" href="../frontend/registrar.css">
-
 </head>
 <body>
 
     <!-- Cabeçalho -->
     <header>
-        <h1>Biblioteca M.V.C</h1>
+        <div class="header">Biblioteca M.V.C</div>
     </header>
 
-    <div class="container">
-        <h2 class="text-center">Cadastrar Livros</h2>
-
-        <!-- Formulário de busca -->
-        <form action="cadastrar_livros.php" method="POST">
-            <div class="mb-3">
-                <label for="termo_busca" class="form-label">Digite o título, autor ou ISBN:</label>
-                <input type="text" name="termo_busca" id="termo_busca" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-gradient w-100">Buscar</button>
-        </form>
-
-        <br>
-
-        <a href="painel.php" class="btn btn-primary mt-3 w-100">Voltar para o Painel</a>
-
-        <!-- Exibição dos resultados -->
-        <?php if (isset($resultados)): ?>
-            <h2>Resultados:</h2>
-            <?php if (isset($resultados['items']) && count($resultados['items']) > 0): ?>
-                <ul>
-                    <?php foreach ($resultados['items'] as $index => $livro): ?>
-                        <li>
-                            <strong><?php echo htmlspecialchars($livro['volumeInfo']['title']); ?></strong><br>
-                            <em><?php echo isset($livro['volumeInfo']['authors']) ? implode(', ', $livro['volumeInfo']['authors']) : 'Autor desconhecido'; ?></em><br>
-                            <strong>ISBN:</strong> <?php echo isset($livro['volumeInfo']['industryIdentifiers'][0]['identifier']) ? $livro['volumeInfo']['industryIdentifiers'][0]['identifier'] : 'ISBN não disponível'; ?><br>
-                            <a href="<?php echo $livro['volumeInfo']['infoLink']; ?>" target="_blank">Mais informações</a><br>
-                            <form action="cadastrar_livros.php" method="POST">
-                                <input type="hidden" name="termo_busca" value="<?php echo htmlspecialchars($termo); ?>">
-                                <input type="hidden" name="adicionar_livro_id" value="<?php echo $index; ?>">
-                                <button type="submit" class="btn btn-gradient">Adicionar Livro</button>
-                            </form>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            <?php else: ?>
-                <p>Nenhum resultado encontrado.</p>
-            <?php endif; ?>
-        <?php endif; ?>
+    <!-- Voltar ao painel -->
+    <div class="mt-3 text-start">
+        <a href="painel.php" class="link-back">< Voltar para o painel</a>
     </div>
 
-    <!-- Script do Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Container para o formulário -->
+    <div class="container">
+        <h2>Buscar Livros</h2>
+        <form method="POST" action="">
+            <label for="termo_busca">Digite o Nome ou ISBN do Livro:</label>
+            <input type="text" id="termo_busca" name="termo_busca" required>
+            <!-- Botão para abrir o modal -->
+            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#resultadosModal">
+                Ver Resultados
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="resultadosModal" tabindex="-1" aria-labelledby="resultadosModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="resultadosModalLabel">Resultados da Busca</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <ul>
+                                <?php if (isset($resultados) && !empty($resultados['items'])): ?>
+                                    <?php foreach ($resultados['items'] as $index => $item): ?>
+                                        <li>
+                                            <strong><?php echo $item['volumeInfo']['title']; ?></strong><br>
+                                            Autor: <?php echo isset($item['volumeInfo']['authors']) ? implode(', ', $item['volumeInfo']['authors']) : 'Autor desconhecido'; ?><br>
+                                            ISBN: <?php echo isset($item['volumeInfo']['industryIdentifiers'][0]['identifier']) ? $item['volumeInfo']['industryIdentifiers'][0]['identifier'] : 'ISBN não disponível'; ?><br>
+                                            <img src="<?php echo isset($item['volumeInfo']['imageLinks']['thumbnail']) ? $item['volumeInfo']['imageLinks']['thumbnail'] : 'Imagem não disponível'; ?>" alt="Capa do Livro" style="max-width: 100px; max-height: 150px;"><br>
+                                            <form method="POST" action="">
+                                                <input type="hidden" name="adicionar_livro_id" value="<?php echo $index; ?>">
+                                                <button type="submit" class="btn">Adicionar Livro</button>
+                                            </form>
+                                        </li>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <li>Nenhum resultado encontrado.</li>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
 </body>
 </html>

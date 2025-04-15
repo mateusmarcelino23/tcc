@@ -1,0 +1,93 @@
+<?php
+// Inicia a sessão
+session_start();
+
+// Verifica se o professor está logado
+if (!isset($_SESSION['professor_id'])) {
+    header("Location: login.php"); // Redireciona para o login se não estiver logado
+    exit();
+}
+
+// Conectar com o banco de dados
+$conn = new mysqli('localhost', 'root', '', 'crud_db');
+
+// Verifica a conexão
+if ($conn->connect_error) {
+    die("Falha na conexão com o banco de dados: " . $conn->connect_error);
+}
+
+// Consulta para buscar todos os professores
+$sql = "SELECT * FROM professor";
+$result = $conn->query($sql);
+
+// Fecha a conexão
+$conn->close();
+?>
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Professores</title>
+    <!-- Link para o CSS do Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- Link para o datatables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    
+    <!-- Link para o seu CSS personalizado -->
+    <link rel="stylesheet" type="text/css" href="../frontend/style.css">
+
+</head>
+<body>
+    <div class="header">Biblioteca M.V.C</div>
+    <div class="mt-3 text-start">
+        <a href="painel.php" class="link-back">< Voltar para o painel</a>
+    </div>
+
+    <div class="text-end mb-2">
+        <a href="cadastrar_professor.php" class="link-registrar">Cadastrar Professor</a>
+    </div>
+
+    <div class="container">
+        <h1>Professores</h1>
+        <table id="emprestimosTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Editar</th>
+                    <th>Remover</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td>" . $row['id'] . "</td>";
+                    echo "<td>" . $row['nome'] . "</td>";
+                    echo "<td>" . $row['email'] . "</td>";
+                    echo "<td><a href='editar_professor.php?id=" . $row['id'] . "' class='edit-link'>Editar</a></td>";
+                    echo "<td><a href='?remover=" . $row['id'] . "' class='delete-link' onclick='return confirm(\"Tem certeza de que deseja remover este professor?\")'>Remover</a></td>";
+                    echo "</tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#emprestimosTable').DataTable({
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json'
+                }
+            });
+        });
+    </script>
+</body>
+</html>

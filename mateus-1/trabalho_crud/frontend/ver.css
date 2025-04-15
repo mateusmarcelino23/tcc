@@ -1,0 +1,156 @@
+        /* Estilo do corpo da página */
+        body {
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        
+        /* Cabeçalho estilizado */
+        .header {
+            width: 100%;
+            background-color: #004080;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 26px;
+            font-weight: bold;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .container {
+            background: white;
+            width: 95%;
+            max-width: 1900px;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            font-size: 20px;
+            margin-top: 100px;
+        }
+        
+        .table-container {
+            max-height: 500px; /* Defina a altura máxima da tabela */
+            overflow-y: auto; /* Habilita a rolagem vertical */
+            margin-top: 20px; /* Espaçamento superior para separar da área de texto */
+        }
+        
+        .table {
+            width: 100%; /* Garante que a tabela ocupe toda a largura */
+            table-layout: fixed; /* Evita que as colunas se expandam muito */
+        }
+        
+        .table th, .table td {
+            white-space: nowrap; /* Evita que os textos sejam quebrados */
+        }        
+
+
+        /* Estilo do botão de registrar emprestimo */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #004080;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            margin-left: -1200px;
+            margin-top: 14px;
+        }
+
+        .btn:hover {
+            background-color: #003366;
+            color: white;
+        }
+
+        td {
+            vertical-align: middle; /* Garante que o botão fique centralizado verticalmente */
+            text-align: center; /* Centraliza horizontalmente */
+        }
+
+          /* Estilo do link "Entregue", que muda de cor ao passar o mouse */
+          td .status-entregue {
+            display: inline-block;
+            color: 	#32CD32;
+            font-size: 16px;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        td .status-entregue:hover {
+            color: #228B22;
+        }
+
+        /* Estilo das linhas da tabela */
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Estilo do link editar */
+        .edit-link {
+            display: inline-block;
+            color: 	blue;
+            font-size: 16px;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .edit-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Estilo do link excluir */
+        .delete-link {
+            display: inline-block;
+            color: 	red;
+            font-size: 16px;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .delete-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Link Para Registrar Empréstimo */
+        .link-registrar {
+            color: #004080;
+            font-size: 20px;
+            text-decoration: none;
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .link-registrar:hover {
+            text-decoration: underline;
+        }
+
+        /* Link para voltar ao painel */
+        .link-back {
+            color: black;
+            font-size: 20px;
+            text-decoration: none;
+            position: fixed;
+            top: 100px;
+            left: 20px;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .link-back:hover {
+            text-decoration: underline;
+        }

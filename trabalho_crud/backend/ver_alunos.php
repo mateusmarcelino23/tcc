@@ -75,7 +75,7 @@ $conn->close();
         <div class="container mt-5">
             <h2 class="text-center">Lista de Alunos</h2>
             <div class="text-end mb-2">
-                <a href="registrar_aluno.php" class="link-registrar">Registrar Aluno</a>
+                <a href="cadastrar_aluno.php" class="link-registrar">Cadastrar Aluno</a>
             </div>
             <table id="emprestimosTable" class="table table-striped">
                 <thead>

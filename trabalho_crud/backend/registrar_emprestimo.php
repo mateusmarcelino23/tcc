@@ -63,31 +63,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     <!-- Link para o CSS do Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    
-    <!-- Link para a fonte do Google Fonts (exemplo: Roboto) -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 
-    <!-- Link para o CSS do Flatpickr -->
-    <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
-    
+    <!-- Link para o CSS personalizado -->
+    <link rel="stylesheet" type="text/css" href="../frontend/registrar.css">
+
 </head>
+
 <body>
-    
-    <!-- Header -->
-    <header class="bg-primary text-white p-3">
-        <h1 class="text-center">Biblioteca M.V.C</h1>
+
+    <!-- Cabeçalho -->
+    <header>
+        <div class="header">Biblioteca M.V.C</div>
     </header>
 
-    <!-- Conteúdo principal -->
-    <div class="container mt-4">
-        <h2>Registrar Empréstimo</h2>
-        
+    <!-- Voltar ao painel -->
+    <div class="mt-3 text-start">
+        <a href="painel.php" class="link-back">< Voltar para o painel</a>
+    </div>
+
+    <div class="container">
+        <h2 class="text-center">Registrar Empréstimo</h2>
         <form action="registrar_emprestimo.php" method="POST">
             <div class="mb-3">
                 <label for="id_aluno" class="form-label">Aluno:</label>
                 <select name="id_aluno" id="id_aluno" class="form-select" required>
-                    <?php while ($aluno = $alunos->fetch_assoc()): ?>
-                        <option value="<?php echo $aluno['id']; ?>"><?php echo $aluno['nome']; ?></option>
+                    <option value="">Selecione um aluno</option>
+                    <?php while ($aluno = $alunos->fetch_assoc()) : ?>
+                        <option value="<?= $aluno['id'] ?>"><?= $aluno['nome'] ?></option>
                     <?php endwhile; ?>
                 </select>
             </div>
@@ -95,50 +97,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="mb-3">
                 <label for="id_livro" class="form-label">Livro:</label>
                 <select name="id_livro" id="id_livro" class="form-select" required>
-                    <?php while ($livro = $livros->fetch_assoc()): ?>
-                        <option value="<?php echo $livro['id']; ?>"><?php echo $livro['nome_livro']; ?></option>
+                    <option value="">Selecione um livro</option>
+                    <?php while ($livro = $livros->fetch_assoc()) : ?>
+                        <option value="<?= $livro['id'] ?>"><?= $livro['nome_livro'] ?></option>
                     <?php endwhile; ?>
                 </select>
             </div>
             
             <div class="mb-3">
-                <label for="data_emprestimo" class="form-label">Data de Empréstimo:</label>
-                <input type="text" name="data_emprestimo" id="data_emprestimo" class="form-control" required>
+                <label for="data_emprestimo" class="form-label">Data de Emprestimo:</label>
+                <input type="date" name="data_emprestimo" id="data_emprestimo" class="form-control" required>
             </div>
             
             <div class="mb-3">
                 <label for="data_devolucao" class="form-label">Data de Devolução:</label>
-                <input type="text" name="data_devolucao" id="data_devolucao" class="form-control" required>
+                <input type="date" name="data_devolucao" id="data_devolucao" class="form-control" required>
             </div>
             
             <button type="submit" class="btn btn-gradient w-100">Registrar Empréstimo</button>
         </form>
-
-        <a href="painel.php" class="bg-primary text-white btn mt-3">Voltar ao Painel</a>
     </div>
 
-    <!-- Script do Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <!-- Link para o JavaScript do Bootstrap -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js
+    /bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
-    <!-- Script do Flatpickr -->
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    
-    <!-- Carregando o idioma português do Flatpickr -->
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
-
-    <!-- Inicializando o Flatpickr nos campos de data -->
-    <script>
-        flatpickr("#data_emprestimo", {
-            locale: "pt", // Define o idioma para português
-            dateFormat: "d/m/Y", // Formato de data (dia/mês/ano)
-            minDate: "today", // Impede a seleção de datas passadas
-        });
-
-        flatpickr("#data_devolucao", {
-            locale: "pt", // Define o idioma para português
-            dateFormat: "d/m/Y", // Formato de data (dia/mês/ano)
-            minDate: "today", // Impede a seleção de datas passadas
-        });
-    </script>
 </body>
 </html>

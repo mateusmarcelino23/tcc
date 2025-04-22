@@ -35,24 +35,31 @@ $conn->close();
 
     <!-- Link para o datatables -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-    
-    <!-- Link para o seu CSS personalizado -->
-    <link rel="stylesheet" type="text/css" href="../frontend/style.css">
+
+    <!-- Link para o CSS personalizado -->
+    <link rel="stylesheet" type="text/css" href="../frontend/ver.css">
 
 </head>
 <body>
-    <div class="header">Biblioteca M.V.C</div>
+
+    <!-- Cabeçalho -->
+    <header>
+        <div class="header">Biblioteca M.V.C</div>
+    </header>
+
+    <!-- Voltar ao painel -->
     <div class="mt-3 text-start">
         <a href="painel.php" class="link-back">< Voltar para o painel</a>
     </div>
 
-    <div class="text-end mb-2">
+    <!-- Cadastrar professor -->
+    <div class="mt-3 text-end">
         <a href="cadastrar_professor.php" class="link-registrar">Cadastrar Professor</a>
     </div>
-
+    
     <div class="container">
-        <h1>Professores</h1>
-        <table id="emprestimosTable" class="table table-striped">
+        <h2 class="text-center">Professores Cadastrados</h2>
+        <table id="professoresTable" class="table table-striped">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -78,16 +85,13 @@ $conn->close();
         </table>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#emprestimosTable').DataTable({
-                language: {
-                    url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json'
-                }
-            });
+            $('#professoresTable').DataTable();
         });
     </script>
+
 </body>
 </html>

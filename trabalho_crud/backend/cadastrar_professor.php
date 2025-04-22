@@ -41,67 +41,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <!-- Link para o CSS do Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     
-    <!-- Link para o seu CSS personalizado -->
-    <link rel="stylesheet" type="text/css" href="../frontend/style.css">
-    
-    <style>
-        body {
-            background-color: #ffffff;
-            font-family: 'Roboto', sans-serif;
-        }
-        header {
-            background-color: #007bff;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        .container {
-            max-width: 600px;
-            margin-top: 40px;
-        }
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
-        form {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        label {
-            font-weight: bold;
-        }
-        input {
-            width: 100%;
-            padding: 8px;
-            margin: 5px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        button {
-            background-color: #28a745;
-            border: none;
-            padding: 10px 15px;
-            color: white;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #218838;
-        }
-    </style>
-</head>
-<body>
+    <!-- Vinculando o CSS personalizado -->
+    <link rel="stylesheet" type="text/css" href="../frontend/registrar.css">
 
+</head>
+
+<body>
     <!-- Cabeçalho -->
     <header>
-        <h1>Biblioteca M.V.C</h1>
+        <div class="header">Biblioteca M.V.C</div>
     </header>
+
+    <!-- Voltar ao painel -->
+    <div class="mt-3 text-start">
+        <a href="painel.php" class="link-back">< Voltar para o painel</a>
+    </div>
 
     <div class="container">
         <h2 class="text-center">Cadastrar Professor</h2>
@@ -129,12 +83,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <button type="submit" class="btn btn-gradient w-100">Cadastrar Professor</button>
         </form>
-
-        <!-- Botão de Voltar ao Painel -->
-        <a href="painel.php" class="btn btn-primary mt-3 w-100">Voltar ao Painel</a>
     </div>
+    
+        <!-- Link para o JavaScript do Bootstrap -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js
+    /bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
-    <!-- Script do Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

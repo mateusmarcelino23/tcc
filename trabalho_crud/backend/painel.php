@@ -61,6 +61,13 @@ $conn->close();
         Painel do Professor
     </div>
 
+    <!-- Menu lateral à direita -->
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="painel.php">Painel</a>
+        <a href="logout.php">Sair</a>
+    </div>
+
     <!-- Container do painel -->
     <div class="container">
         <table class="table table-bordered">

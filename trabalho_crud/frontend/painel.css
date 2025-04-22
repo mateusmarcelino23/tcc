@@ -11,6 +11,22 @@
             flex-direction: column;
         }
 
+        /* Link de logout */
+        .logout-link {
+            color: red;
+            font-size: 20px;
+            text-decoration: none;
+            position: fixed;
+            top: 10px;
+            left: 20px;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .logout-link:hover {
+            text-decoration: underline;
+        }
+
         /* Cabeçalho estilizado */
         .header {
             width: 100%;
@@ -112,17 +128,28 @@
     background-color: #002b5c;
 }
 
-        /* Responsividade */
-        @media (max-width: 600px) {
-            .container {
-                width: 95%;
-                padding: 15px;
-            }
-            .welcome {
-                left: 20px;
-                font-size: 22px;
-            }
-            .btn {
-                font-size: 16px;
-            }
+        /* Menu lateral à direita */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -250px; /* Mudar a posição para a direita */
+            height: 100%;
+            width: 250px;
+            background-color: #333;
+            color: white;
+            transition: 0.3s;
+            padding-top: 30px;
+        }
+
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #575757;
         }

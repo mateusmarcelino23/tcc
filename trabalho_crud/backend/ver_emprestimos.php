@@ -43,8 +43,11 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <title>Lista de Empréstimos</title>
+    <!-- Link para o CSS do Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <!-- Link para o CSS do DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <!-- Link para o CSS personalizado -->
     <link rel="stylesheet" type="text/css" href="../frontend/ver.css">
 
 <div class="mt-3 text-start">
@@ -66,14 +69,10 @@ $conn->close();
     <table id="emprestimosTable" class="table table-striped">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Aluno</th>
                 <th>Livro</th>
-                <th>Autor</th>
-                <th>Empréstimo</th>
                 <th>Devolução</th>
                 <th>Professor</th>
-                <th>Status</th>
                 <th>Devolver</th>
                 <th>Editar</th>
                 <th>Remover</th>
@@ -82,20 +81,10 @@ $conn->close();
         <tbody>
         <?php while ($emprestimo = $result->fetch_assoc()): ?>
             <tr>
-                <td><?php echo $emprestimo['id']; ?></td>
                 <td><?php echo $emprestimo['aluno_nome']; ?></td>
                 <td><?php echo $emprestimo['nome_livro']; ?></td>
-                <td><?php echo $emprestimo['nome_autor']; ?></td>
-                <td><?php echo !empty($emprestimo['data_emprestimo']) && $emprestimo['data_emprestimo'] !== '0000-00-00' ? date("d/m/Y", strtotime($emprestimo['data_emprestimo'])) : "-"; ?></td>
                 <td><?php echo !empty($emprestimo['data_devolucao']) && $emprestimo['data_devolucao'] !== '0000-00-00' ? date("d/m/Y", strtotime($emprestimo['data_devolucao'])) : "-"; ?></td>
                 <td><?php echo $emprestimo['professor_nome']; ?></td>
-                <td>
-                    <?php if ($emprestimo['status'] == 0): ?>Pendente
-                    <?php elseif ($emprestimo['status'] == 1): ?>Realizado
-                    <?php elseif ($emprestimo['status'] == 2): ?>Devolvido
-                    <?php elseif ($emprestimo['status'] == 3): ?>Atraso
-                    <?php endif; ?>
-                </td>
                 <td><button class="status-entregue" onclick="devolverEmpréstimo(<?php echo $emprestimo['id']; ?>)">Devolvido</button></td>
             </div>
 

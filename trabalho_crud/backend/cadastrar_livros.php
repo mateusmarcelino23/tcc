@@ -17,6 +17,8 @@ function buscarLivros($termo) {
     return json_decode($resposta, true);
 }
 
+var_dump ($resposta);
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $termo = $_POST['termo_busca'];
     $resultados = buscarLivros($termo);

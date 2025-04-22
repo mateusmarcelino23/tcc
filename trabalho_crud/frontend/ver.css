@@ -44,6 +44,12 @@
             overflow-y: auto; /* Habilita a rolagem vertical */
             margin-top: 20px; /* Espaçamento superior para separar da área de texto */
         }
+
+        .emprestimosTable {
+            max-height: 500px; /* Defina a altura máxima da tabela */
+            overflow-y: auto; /* Habilita a rolagem vertical */
+            margin-top: 20px; /* Espaçamento superior para separar da área de texto */
+        }
         
         .table {
             width: 100%; /* Garante que a tabela ocupe toda a largura */
@@ -51,7 +57,7 @@
         }
         
         .table th, .table td {
-            white-space: nowrap; /* Evita que os textos sejam quebrados */
+            white-space: wrap; /* Evita que os textos sejam quebrados */
         }        
 
 

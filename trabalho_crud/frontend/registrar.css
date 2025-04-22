@@ -100,3 +100,43 @@ input, select {
     transition: color 0.3s ease;
     cursor: pointer;
 }
+
+
+/* Apenas para registrar alunos no empréstimo */
+.suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-top: none;
+    max-height: 200px;
+    overflow-y: auto;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.suggestions div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: white;
+    transition: background-color 0.2s;
+    border-bottom: 1px solid #eee;
+}
+
+.suggestions div:hover {
+    background-color: #f0f0f0;
+}
+
+.suggestions div.selected {
+    background-color: #007bff;
+    color: white;
+}
+
+.suggestions div:first-child {
+    border-top: 1px solid #ccc;
+}

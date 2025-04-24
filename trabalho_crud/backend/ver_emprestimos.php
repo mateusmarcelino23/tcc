@@ -71,11 +71,12 @@ $conn->close();
             <tr>
                 <th>Aluno</th>
                 <th>Livro</th>
+                <th>Empréstimo</th>
                 <th>Devolução</th>
                 <th>Professor</th>
-                <th>Devolver</th>
-                <th>Editar</th>
-                <th>Remover</th>
+                <th></th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -83,9 +84,10 @@ $conn->close();
             <tr>
                 <td><?php echo $emprestimo['aluno_nome']; ?></td>
                 <td><?php echo $emprestimo['nome_livro']; ?></td>
+                <td><?php echo date("d/m/Y", strtotime($emprestimo['data_emprestimo'])); ?></td>
                 <td><?php echo !empty($emprestimo['data_devolucao']) && $emprestimo['data_devolucao'] !== '0000-00-00' ? date("d/m/Y", strtotime($emprestimo['data_devolucao'])) : "-"; ?></td>
                 <td><?php echo $emprestimo['professor_nome']; ?></td>
-                <td><button class="status-entregue" onclick="devolverEmpréstimo(<?php echo $emprestimo['id']; ?>)">Devolvido</button></td>
+                <td><button class="status-entregue" onclick="devolverEmpréstimo(<?php echo $emprestimo['id']; ?>)">Marcar como Devolvido</button></td>
             </div>
 
 </div>

@@ -46,7 +46,7 @@ $conn->close();
 </header>
 
 <div class="mt-3 text-start">
-    <a href="painel.php" class="link-back">&lt; Voltar para o painel</a>
+    <a href="ver_emprestimos.php" class="link-back">&lt; Voltar</a>
 </div>
 
 <div class="container">

@@ -55,9 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="header">Biblioteca M.V.C</div>
     </header>
 
-    <!-- Voltar ao painel -->
+    <!-- Voltar -->
     <div class="mt-3 text-start">
-        <a href="painel.php" class="link-back">< Voltar para o painel</a>
+        <a href="ver_alunos.php" class="link-back">< Voltar</a>
     </div>
 
     <div class="container">

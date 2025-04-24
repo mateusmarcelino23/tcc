@@ -62,12 +62,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="../frontend/style.css">
+    <link rel="stylesheet" href="../frontend/login.css">
 </head>
-<body class="d-flex justify-content-center align-items-center" style="height: 100vh; background: linear-gradient(to right, #ba7c1a, #f1c40f);">
-    <div class="container bg-white p-5 rounded-4 shadow-lg" style="width: 400px;">
+<body class="body">
+    <div class="container">
         <div class="text-center">
-            <h1 class="login-container">Login</h1>
+            <h1 class="h1">Login</h1>
         </div>
         <form action="login.php" method="POST">
             <div class="mb-3">
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             <button type="submit" class="login-container button">Entrar</button>
             <div class="text-center mt-3">
-                <p>Novo Professor? <a href="cadastrar_professor.php">Clique aqui</a></p>
+                <p>Novo Professor? <a href="cadastrar_professor.php">Clique aqui para se cadastrar</a></p>
             </div>
         </form>
     </div>

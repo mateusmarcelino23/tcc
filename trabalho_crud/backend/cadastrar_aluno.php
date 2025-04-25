@@ -69,9 +69,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <input type="text" name="nome" id="nome" class="form-control" required>
             </div>
 
-            <div class="mb-3">
-                <label for="serie" class="form-label">Série:</label>
-                <input type="text" name="serie" id="serie" class="form-control" required>
+            <div class="mb-3 d-flex">
+                <div class="flex-grow-1 me-2">
+                    <label for="ano" class="form-label">Ano:</label>
+                    <select name="ano" id="ano" class="form-select" required>
+                        <option value="">Selecione o ano</option>
+                        <option value="1">6º Ano</option>
+                        <option value="2">7º Ano</option>
+                        <option value="3">8º Ano</option>
+                        <option value="4">9º Ano</option>
+                        <option value="1">1º Ano</option>
+                        <option value="2">2º Ano</option>
+                        <option value="3">3º Ano</option>
+                    </select>
+                </div>
+                <div class="flex-shrink-1">
+                    <label for="letra" class="form-label">Sala:</label>
+                    <input type="text" name="letra" id="letra" class="form-control" maxlength="1" required>
+                </div>
             </div>
 
             <div class="mb-3">

@@ -49,7 +49,37 @@ $conn->close();
 </head>
 <body>
     <!-- Cabeçalho -->
-    <div class="header">Biblioteca M.V.C</div>
+    <nav class="header">Biblioteca M.V.C
+            <!-- Botão para abrir/fechar o menu lateral -->
+            <span id="toggleSidebar" class="openbtn" onclick="toggleNav()">&#9776;</span>
+
+
+            <script>
+                function toggleNav() {
+                    const sidebar = document.getElementById("mySidebar");
+                    const toggleBtn = document.getElementById("toggleSidebar");
+
+                    if (sidebar.classList.contains("open")) {
+                        sidebar.classList.remove("open");
+                        toggleBtn.innerHTML = "&#9776;"; // ícone de abrir
+                    } else {
+                        sidebar.classList.add("open");
+                        toggleBtn.innerHTML = "&times;"; // ícone de fechar
+                    }
+                }
+            </script>
+
+    </nav>
+
+    <!-- Menu lateral -->
+    <div class="sidebar" id="mySidebar">
+        <ul>
+            <li><a href="info_prof.php">Informações do professor</a></li>
+            <li><a href="configuracoes.php">Configurações</a></li>
+            <li><a href="logout.php">Logout</a></li>
+            <li><a href="ver_professores.php">Professores</a></li>
+        </ul>
+    </div>
 
     <!-- Mensagem de boas-vindas -->
     <div class="welcome">
@@ -59,13 +89,6 @@ $conn->close();
     <!-- mensagem acima do container-->
     <div class="explanation">
         Painel do Professor
-    </div>
-
-    <!-- Menu lateral à direita -->
-    <div class="sidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="painel.php">Painel</a>
-        <a href="logout.php">Sair</a>
     </div>
 
     <!-- Container do painel -->
@@ -88,18 +111,6 @@ $conn->close();
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        // Função para abrir o menu lateral
-        function openNav() {
-            document.getElementById("mySidebar").style.right = "0";  // Abrir menu da direita
-        }
-
-        // Função para fechar o menu lateral
-        function closeNav() {
-            document.getElementById("mySidebar").style.right = "-250px";  // Fechar menu da direita
-        }
-    </script>
 
 </body>
 </html>

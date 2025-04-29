@@ -54,11 +54,41 @@ $conn->close();
 <a href="painel.php" class="link-back">< Voltar para o painel</a>
 </div>
 
-    
 </head>
+
 <body>
-<div class="header">Biblioteca M.V.C</div>
-</div>
+    <!-- Cabeçalho -->
+    <nav class="header">Biblioteca M.V.C
+            <!-- Botão para abrir/fechar o menu lateral -->
+            <span id="toggleSidebar" class="openbtn" onclick="toggleNav()">&#9776;</span>
+
+
+            <script>
+                function toggleNav() {
+                    const sidebar = document.getElementById("mySidebar");
+                    const toggleBtn = document.getElementById("toggleSidebar");
+
+                    if (sidebar.classList.contains("open")) {
+                        sidebar.classList.remove("open");
+                        toggleBtn.innerHTML = "&#9776;"; // ícone de abrir
+                    } else {
+                        sidebar.classList.add("open");
+                        toggleBtn.innerHTML = "&times;"; // ícone de fechar
+                    }
+                }
+            </script>
+
+    </nav>
+
+    <!-- Menu lateral -->
+    <div class="sidebar" id="mySidebar">
+        <ul>
+            <li><a href="info_prof.php">Informações do professor</a></li>
+            <li><a href="configuracoes.php">Configurações</a></li>
+            <li><a href="logout.php">Logout</a></li>
+            <li><a href="ver_professores.php">Professores</a></li>
+        </ul>
+    </div>
 
 <a href="registrar_emprestimo.php" class="link-registrar">Registrar Empréstimo</a>
 

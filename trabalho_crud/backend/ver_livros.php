@@ -15,6 +15,35 @@ if ($conn->connect_error) {
     die("Falha na conexão com o banco de dados: " . $conn->connect_error);
 }
 
+// Verifica se a ação de remover foi solicitada
+if (isset($_GET['remover'])) {
+    $id = intval($_GET['remover']); // ID do livro a ser removido
+
+    // Verifica se o livro está em algum empréstimo
+    $checkSql = "SELECT * FROM emprestimo WHERE id_livro = ?";
+    $checkStmt = $conn->prepare($checkSql);
+    $checkStmt->bind_param("i", $id);
+    $checkStmt->execute();
+    $resultCheck = $checkStmt->get_result();
+
+    if ($resultCheck->num_rows > 0) {
+        echo "<script>alert('Este livro está vinculado a um empréstimo. Primeiro remova o empréstimo para depois excluir o livro.');</script>";
+    } else {
+        // Remove o livro
+        $deleteSql = "DELETE FROM livro WHERE id = ?";
+        $stmt = $conn->prepare($deleteSql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+
+        // Redireciona silenciosamente após exclusão
+        header("Location: ver_livros.php");
+        exit();
+    }
+
+    $checkStmt->close();
+}
+
+
 // Consulta para buscar todos os livros
 $sql = "SELECT * FROM livro";
 $result = $conn->query($sql);
@@ -39,8 +68,37 @@ $conn->close();
     
 </head>
 <body>
-<div class="header">Biblioteca M.V.C</div>
-</div>
+    <!-- Cabeçalho -->
+    <nav class="header">Biblioteca M.V.C
+            <!-- Botão para abrir/fechar o menu lateral -->
+            <span id="toggleSidebar" class="openbtn" onclick="toggleNav()">&#9776;</span>
+
+
+            <script>
+                function toggleNav() {
+                    const sidebar = document.getElementById("mySidebar");
+                    const toggleBtn = document.getElementById("toggleSidebar");
+
+                    if (sidebar.classList.contains("open")) {
+                        sidebar.classList.remove("open");
+                        toggleBtn.innerHTML = "&#9776;"; // ícone de abrir
+                    } else {
+                        sidebar.classList.add("open");
+                        toggleBtn.innerHTML = "&times;"; // ícone de fechar
+                    }
+                }
+            </script>
+
+    </nav>
+
+    <!-- Menu lateral -->
+    <div class="sidebar" id="mySidebar">
+        <ul>
+            <li><a href="info_prof.php">Informações do professor</a></li>
+            <li><a href="configuracoes.php">Configurações</a></li>
+            <li><a href="logout.php">Logout</a></li>
+        </ul>
+    </div>
 
 <a href="cadastrar_livros.php" class="link-registrar">Cadastrar Livro</a>
 
@@ -51,18 +109,16 @@ $conn->close();
     <table id="emprestimosTable" class="table table-striped">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Nome</th>
                 <th>Autor</th>
                 <th>ISBN</th>
-                <th>Remover</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             <?php 
             while ($row = $result->fetch_assoc()) { 
                 echo "<tr>"; 
-                echo "<td>" . $row['id'] . "</td>"; 
                 echo "<td>" . $row['nome_livro'] . "</td>"; 
                 echo "<td>" . $row['nome_autor'] . "</td>"; 
                 echo "<td>" . $row['isbn'] . "</td>"; 

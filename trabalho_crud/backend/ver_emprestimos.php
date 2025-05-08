@@ -54,11 +54,40 @@ $conn->close();
 <a href="painel.php" class="link-back">< Voltar para o painel</a>
 </div>
 
-    
 </head>
+
 <body>
-<div class="header">Biblioteca M.V.C</div>
-</div>
+    <!-- Cabeçalho -->
+    <nav class="header">Biblioteca M.V.C
+            <!-- Botão para abrir/fechar o menu lateral -->
+            <span id="toggleSidebar" class="openbtn" onclick="toggleNav()">&#9776;</span>
+
+
+            <script>
+                function toggleNav() {
+                    const sidebar = document.getElementById("mySidebar");
+                    const toggleBtn = document.getElementById("toggleSidebar");
+
+                    if (sidebar.classList.contains("open")) {
+                        sidebar.classList.remove("open");
+                        toggleBtn.innerHTML = "&#9776;"; // ícone de abrir
+                    } else {
+                        sidebar.classList.add("open");
+                        toggleBtn.innerHTML = "&times;"; // ícone de fechar
+                    }
+                }
+            </script>
+
+    </nav>
+
+    <!-- Menu lateral -->
+    <div class="sidebar" id="mySidebar">
+        <ul>
+            <li><a href="info_prof.php">Informações do professor</a></li>
+            <li><a href="configuracoes.php">Configurações</a></li>
+            <li><a href="logout.php">Logout</a></li>
+        </ul>
+    </div>
 
 <a href="registrar_emprestimo.php" class="link-registrar">Registrar Empréstimo</a>
 
@@ -87,18 +116,17 @@ $conn->close();
                 <td><?php echo date("d/m/Y", strtotime($emprestimo['data_emprestimo'])); ?></td>
                 <td><?php echo !empty($emprestimo['data_devolucao']) && $emprestimo['data_devolucao'] !== '0000-00-00' ? date("d/m/Y", strtotime($emprestimo['data_devolucao'])) : "-"; ?></td>
                 <td><?php echo $emprestimo['professor_nome']; ?></td>
-                <td><button class="status-entregue" onclick="devolverEmpréstimo(<?php echo $emprestimo['id']; ?>)">Marcar como Devolvido</button></td>
+                <td><button class="status-entregue" onclick="devolverEmprestimo(<?php echo $emprestimo['id']; ?>)">Marcar como Devolvido</button></td>
             </div>
 
 </div>
 <script>
-function devolverEmpréstimo(id) {
-    if (confirm('Tem certeza de que deseja devolver este empréstimo?')) {
+function devolverEmprestimo(id) {
+    if (confirm('Clique para confirmar devolução do empréstimo')) {
         fetch('devolver_emprestimo.php?id=' + id)
             .then(response => response.text())
             .then(data => {
                 if (data == 'ok') {
-                    alert('Empréstimo devolvido com sucesso!');
                     location.reload();
                 } else {
                     alert('Erro ao devolver empréstimo!');
@@ -128,4 +156,3 @@ $(document).ready(function() {
 </body>
 
 </html>
-

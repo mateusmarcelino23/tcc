@@ -18,8 +18,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Recebe os dados do formulário
     $nome = $_POST['nome'];
-    $serie = $_POST['serie'];
+    $ano = $_POST['ano']; // Alterado para 'ano'
+    $sala = $_POST['sala']; // Alterado para 'sala'
     $email = $_POST['email'];
+
+    // Concatenar ano e sala para formar a série
+    $serie = $ano . 'º Ano ' . $sala;
 
     // Consulta para inserir o aluno no banco de dados
     $sql = "INSERT INTO aluno (nome, serie, email) VALUES ('$nome', '$serie', '$email')";
@@ -49,11 +53,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 </head>
 <body>
-
     <!-- Cabeçalho -->
-    <header>
-        <div class="header">Biblioteca M.V.C</div>
-    </header>
+    <nav class="header">Biblioteca M.V.C
+            <!-- Botão para abrir/fechar o menu lateral -->
+            <span id="toggleSidebar" class="openbtn" onclick="toggleNav()">&#9776;</span>
+
+            <script>
+                function toggleNav() {
+                    const sidebar = document.getElementById("mySidebar");
+                    const toggleBtn = document.getElementById("toggleSidebar");
+
+                    if (sidebar.classList.contains("open")) {
+                        sidebar.classList.remove("open");
+                        toggleBtn.innerHTML = "&#9776;"; // ícone de abrir
+                    } else {
+                        sidebar.classList.add("open");
+                        toggleBtn.innerHTML = "&times;"; // ícone de fechar
+                    }
+                }
+            </script>
+
+    </nav>
+
+    <!-- Menu lateral -->
+    <div class="sidebar" id="mySidebar">
+        <ul>
+            <li><a href="info_prof.php">Informações do professor</a></li>
+            <li><a href="configuracoes.php">Configurações</a></li>
+            <li><a href="logout.php">Logout</a></li>
+        </ul>
+    </div>
 
     <!-- Voltar -->
     <div class="mt-3 text-start">
@@ -74,18 +103,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <label for="ano" class="form-label">Ano:</label>
                     <select name="ano" id="ano" class="form-select" required>
                         <option value="">Selecione o ano</option>
-                        <option value="1">6º Ano</option>
-                        <option value="2">7º Ano</option>
-                        <option value="3">8º Ano</option>
-                        <option value="4">9º Ano</option>
+                        <option value="6">6º Ano</option>
+                        <option value="7">7º Ano</option>
+                        <option value="8">8º Ano</option>
+                        <option value="9">9º Ano</option>
                         <option value="1">1º Ano</option>
                         <option value="2">2º Ano</option>
                         <option value="3">3º Ano</option>
                     </select>
                 </div>
                 <div class="flex-shrink-1">
-                    <label for="letra" class="form-label">Sala:</label>
-                    <input type="text" name="letra" id="letra" class="form-control" maxlength="1" required>
+                    <label for="sala" class="form-label">Sala:</label>
+                    <input type="text" name="sala" id="sala" class="form-control" maxlength="1" required>
                 </div>
             </div>
 
@@ -99,8 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 
     <!-- Link para o JavaScript do Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js
-    /bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
 </body>
 </html>

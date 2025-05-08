@@ -140,3 +140,65 @@ input, select {
 .suggestions div:first-child {
     border-top: 1px solid #ccc;
 }
+
+/* Sidebar estilizada */
+.sidebar {
+    position: fixed;
+    top: 79px; /* Ajuste este valor para a altura da navbar */
+    right: -250px; /* Inicialmente escondido */
+    width: 250px;
+    height: calc(100% - 70px); /* Ajuste a altura para ocupar o restante da tela */
+    background-color: #666666;
+    color: white;
+    padding: 20px;
+    transition: right 0.3s ease;
+    box-shadow: -4px 0 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* Para garantir que fique sobre outros elementos */
+}
+
+.sidebar.open {
+    right: 0; /* Exibe o menu lateral */
+}
+
+/* Botão de toggle (abrir/fechar) */
+.openbtn {
+    position: fixed;
+    top: 12px;
+    right: 20px;
+    font-size: 36px;
+    color: white;
+    cursor: pointer;
+    z-index: 1100; /* acima da sidebar */
+}
+
+.sidebar .closebtn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 36px;
+    color: white;
+    cursor: pointer;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar li {
+    margin-bottom: 15px; /* Espaço entre os itens da lista */
+}
+
+.sidebar a {
+    color: rgb(255, 255, 255); /* Cor do texto */
+    text-decoration: none; /* Remove o sublinhado */
+    font-size: 18px; /* Tamanho da fonte */
+    padding: 3px 0; /* Espaço ao redor do texto */
+    display: block; /* Faz com que o link ocupe toda a largura do item da lista */
+    transition: color 0.3s ease; /* Transição suave para a cor */
+}
+
+.sidebar a:hover {
+    text-decoration: underline; /* Sublinhado ao passar o mouse */
+}

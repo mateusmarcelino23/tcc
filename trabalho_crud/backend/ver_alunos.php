@@ -28,12 +28,11 @@ if (isset($_GET['remover'])) {
     } else {
         // Remove o aluno
         $sql_remover = "DELETE FROM aluno WHERE id = $aluno_id";
-        if ($conn->query($sql_remover) === TRUE) {
-            echo "<script>alert('Aluno removido com sucesso!');</script>";
-            echo "<script>window.location.href = 'ver_alunos.php';</script>";
-        } else {
-            echo "Erro ao remover aluno: " . $conn->error;
-        }
+        $conn->query($sql_remover);
+
+        // Redireciona silenciosamente após exclusão
+        header("Location: ver_alunos.php");
+        exit();
     }
 }
 
@@ -92,10 +91,9 @@ $conn->close();
             <li><a href="info_prof.php">Informações do professor</a></li>
             <li><a href="configuracoes.php">Configurações</a></li>
             <li><a href="logout.php">Logout</a></li>
-            <li><a href="ver_professores.php">Professores</a></li>
         </ul>
     </div>
-    
+
         <div class="mt-3 text-start">
             <a href="painel.php" class="link-back">< Voltar para o painel</a>
         </div>
@@ -108,19 +106,17 @@ $conn->close();
             <table id="emprestimosTable" class="table table-striped">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Nome</th>
                         <th>Série</th>
                         <th>Email</th>
-                        <th>Editar</th>
-                        <th>Remover</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php 
                     while ($row = $result->fetch_assoc()) { 
                         echo "<tr>";
-                        echo "<td>" . $row['id'] . "</td>";
                         echo "<td>" . $row['nome'] . "</td>";
                         echo "<td>" . $row['serie'] . "</td>";
                         echo "<td>" . $row['email'] . "</td>";

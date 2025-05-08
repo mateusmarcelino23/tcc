@@ -86,7 +86,6 @@ $conn->close();
             <li><a href="info_prof.php">Informações do professor</a></li>
             <li><a href="configuracoes.php">Configurações</a></li>
             <li><a href="logout.php">Logout</a></li>
-            <li><a href="ver_professores.php">Professores</a></li>
         </ul>
     </div>
 
@@ -117,18 +116,17 @@ $conn->close();
                 <td><?php echo date("d/m/Y", strtotime($emprestimo['data_emprestimo'])); ?></td>
                 <td><?php echo !empty($emprestimo['data_devolucao']) && $emprestimo['data_devolucao'] !== '0000-00-00' ? date("d/m/Y", strtotime($emprestimo['data_devolucao'])) : "-"; ?></td>
                 <td><?php echo $emprestimo['professor_nome']; ?></td>
-                <td><button class="status-entregue" onclick="devolverEmpréstimo(<?php echo $emprestimo['id']; ?>)">Marcar como Devolvido</button></td>
+                <td><button class="status-entregue" onclick="devolverEmprestimo(<?php echo $emprestimo['id']; ?>)">Marcar como Devolvido</button></td>
             </div>
 
 </div>
 <script>
-function devolverEmpréstimo(id) {
-    if (confirm('Tem certeza de que deseja devolver este empréstimo?')) {
+function devolverEmprestimo(id) {
+    if (confirm('Clique para confirmar devolução do empréstimo')) {
         fetch('devolver_emprestimo.php?id=' + id)
             .then(response => response.text())
             .then(data => {
                 if (data == 'ok') {
-                    alert('Empréstimo devolvido com sucesso!');
                     location.reload();
                 } else {
                     alert('Erro ao devolver empréstimo!');
@@ -158,4 +156,3 @@ $(document).ready(function() {
 </body>
 
 </html>
-

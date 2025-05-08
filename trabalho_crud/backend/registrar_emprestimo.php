@@ -71,7 +71,6 @@ $conn->close();
             <li><a href="info_prof.php">Informações do professor</a></li>
             <li><a href="configuracoes.php">Configurações</a></li>
             <li><a href="logout.php">Logout</a></li>
-            <li><a href="ver_professores.php">Professores</a></li>
         </ul>
     </div>
 <div class="mt-3 text-start">

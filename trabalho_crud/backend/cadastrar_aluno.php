@@ -81,7 +81,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <li><a href="info_prof.php">Informações do professor</a></li>
             <li><a href="configuracoes.php">Configurações</a></li>
             <li><a href="logout.php">Logout</a></li>
-            <li><a href="ver_professores.php">Professores</a></li>
         </ul>
     </div>
 

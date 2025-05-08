@@ -220,6 +220,5 @@ tr:nth-child(even) {
 }
 
 .sidebar a:hover {
-    color: #0056b3; /* Cor ao passar o mouse */
     text-decoration: underline; /* Sublinhado ao passar o mouse */
 }

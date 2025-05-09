@@ -11,7 +11,7 @@ if ($conn->connect_error) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Recebe os dados do formulário
     $nome = $_POST['nome'];
-    $cpf = $_POST['cpf'];
+    $cpf = preg_replace('/\D/', '', $_POST['cpf']);
     $email = $_POST['email'];
     $senha = $_POST['senha'];
 
@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <form id="cadastroForm" action="cadastrar_professor.php" method="POST" novalidate>
         <div class="mb-3">
-            <label for="nome" class="form-label">Nome:</label>
+            <label for="nome" class="form-label">Nome e Sobrenome:</label>
             <input type="text" name="nome" id="nome" class="form-control" required>
         </div>
 

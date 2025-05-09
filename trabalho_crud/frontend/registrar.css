@@ -148,12 +148,15 @@ input, select {
     right: -250px; /* Inicialmente escondido */
     width: 250px;
     height: calc(100% - 70px); /* Ajuste a altura para ocupar o restante da tela */
-    background-color: #666666;
     color: white;
     padding: 20px;
     transition: right 0.3s ease;
     box-shadow: -4px 0 8px rgba(0, 0, 0, 0.2);
     z-index: 1000; /* Para garantir que fique sobre outros elementos */
+    position: fixed;
+    background-color: #263238;
+    transition: right 0.3s ease-in-out;
+    padding-top: 30px;
 }
 
 .sidebar.open {
@@ -199,6 +202,24 @@ input, select {
     transition: color 0.3s ease; /* Transição suave para a cor */
 }
 
+.sidebar a {
+    padding: 12px 20px;
+    text-decoration: none;
+    font-size: 18px;
+    color: white;
+    display: block;
+    transition: background 0.3s;
+}
+
 .sidebar a:hover {
-    text-decoration: underline; /* Sublinhado ao passar o mouse */
+    background-color: #37474f;
+}
+
+.sidebar .closebtn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 32px;
+    color: white;
+    cursor: pointer;
 }

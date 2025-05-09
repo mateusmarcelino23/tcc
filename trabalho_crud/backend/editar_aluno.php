@@ -27,8 +27,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $ano = $_POST['ano'];
     $sala = $_POST['sala'];
     $email = $_POST['email'];
-    $serie = $ano . 'º Ano ' . $sala;
 
+    // Concatenar o ano e a sala para formar a série
+    if (in_array($ano, ['1', '2', '3'])) {
+        $serie = $ano . 'º Ano EM ' . $sala;  // Se for Ensino Médio, adicionar 'EM'
+    } else {
+        $serie = $ano . 'º Ano ' . $sala;  // Caso contrário, apenas o ano e sala
+    }
+
+    // Atualiza os dados no banco
     $sql = "UPDATE aluno SET nome='$nome', serie='$serie', email='$email' WHERE id=$aluno_id";
 
     if ($conn->query($sql) === TRUE) {
@@ -48,10 +55,15 @@ if ($result->num_rows != 1) {
 
 $aluno = $result->fetch_assoc();
 
-// Extrai ano e sala da série
-preg_match('/(\d+)º Ano\s*(\w)/', $aluno['serie'], $match);
+// Extrai o ano e a sala da série
+preg_match('/(\d+)º Ano\s*(EM\s*)?(\w+)/', $aluno['serie'], $match);
+
+// Ajusta os valores conforme a série
 $ano = $match[1] ?? '';
-$sala = $match[2] ?? '';
+$sala = $match[3] ?? '';
+
+// Se o aluno está no EM, a série será 'EM'
+$em = isset($match[2]) ? 'EM' : '';
 ?>
 
 <!DOCTYPE html>
@@ -98,28 +110,33 @@ $sala = $match[2] ?? '';
 
     <form action="editar_aluno.php?id=<?= $aluno_id ?>" method="POST">
         <div class="mb-3">
-            <label for="nome" class="form-label">Nome:</label>
+            <label for="nome" class="form-label">Nome e Sobrenome:</label>
             <input type="text" name="nome" id="nome" class="form-control" value="<?= htmlspecialchars($aluno['nome']) ?>" required>
         </div>
 
         <div class="mb-3 d-flex">
             <div class="flex-grow-1 me-2">
-                <label for="ano" class="form-label">Ano:</label>
-                <select name="ano" id="ano" class="form-select" required>
-                    <option value="">Selecione o ano</option>
-                    <?php
-                    $anos = [6, 7, 8, 9, 1, 2, 3];
-                    foreach ($anos as $a) {
-                        $selected = ($a == $ano) ? "selected" : "";
-                        echo "<option value='$a' $selected>$aº Ano</option>";
-                    }
-                    ?>
-                </select>
+            <label for="ano" class="form-label">Ano:</label>
+                    <select name="ano" id="ano" class="form-select" required>
+                        <option value="">Selecione o ano</option>
+                        <option value="6">6º Ano</option>
+                        <option value="7">7º Ano</option>
+                        <option value="8">8º Ano</option>
+                        <option value="9">9º Ano</option>
+                        <option value="1">1º Ano EM</option>
+                        <option value="2">2º Ano EM</option>
+                        <option value="3">3º Ano EM</option>
+                    </select>
             </div>
             <div class="flex-shrink-1">
                 <label for="sala" class="form-label">Sala:</label>
                 <input type="text" name="sala" id="sala" class="form-control" maxlength="1" value="<?= htmlspecialchars($sala) ?>" required>
             </div>
+            <script>
+                document.getElementById('sala').addEventListener('input', function () {
+                    this.value = this.value.toUpperCase();
+                });
+            </script>
         </div>
 
         <div class="mb-3">

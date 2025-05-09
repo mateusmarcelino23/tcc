@@ -121,7 +121,7 @@ $conn->close();
                 echo "<tr>"; 
                 echo "<td>" . $row['nome_livro'] . "</td>"; 
                 echo "<td>" . $row['nome_autor'] . "</td>"; 
-                echo "<td>" . $row['isbn'] . "</td>"; 
+                echo "<td>" . $row['isbn'] . "</td>";
                 echo "<td><a href='?remover=" . $row['id'] . "' class='delete-link' onclick='return confirm(\"Tem certeza de que deseja remover este livro?\")'>Remover</a></td>"; 
             } 
             ?>

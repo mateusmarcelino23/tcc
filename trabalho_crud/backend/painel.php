@@ -50,25 +50,21 @@ $conn->close();
 <body>
     <!-- Cabeçalho -->
     <nav class="header">Biblioteca M.V.C
-            <!-- Botão para abrir/fechar o menu lateral -->
-            <span id="toggleSidebar" class="openbtn" onclick="toggleNav()">&#9776;</span>
+        <span id="toggleSidebar" class="openbtn" onclick="toggleNav()">&#9776;</span>
+        <script>
+            function toggleNav() {
+                const sidebar = document.getElementById("mySidebar");
+                const toggleBtn = document.getElementById("toggleSidebar");
 
-
-            <script>
-                function toggleNav() {
-                    const sidebar = document.getElementById("mySidebar");
-                    const toggleBtn = document.getElementById("toggleSidebar");
-
-                    if (sidebar.classList.contains("open")) {
-                        sidebar.classList.remove("open");
-                        toggleBtn.innerHTML = "&#9776;"; // ícone de abrir
-                    } else {
-                        sidebar.classList.add("open");
-                        toggleBtn.innerHTML = "&times;"; // ícone de fechar
-                    }
+                if (sidebar.classList.contains("open")) {
+                    sidebar.classList.remove("open");
+                    toggleBtn.innerHTML = "&#9776;"; // ícone de abrir
+                } else {
+                    sidebar.classList.add("open");
+                    toggleBtn.innerHTML = "&times;"; // ícone de fechar
                 }
-            </script>
-
+            }
+        </script>
     </nav>
 
     <!-- Menu lateral -->

@@ -23,7 +23,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
 
     // Concatenar ano e sala para formar a série
-    $serie = $ano . 'º Ano ' . $sala;
+    // Verifica se é Ensino Médio
+    if (in_array($ano, ['1', '2', '3'])) {
+        $serie = $ano . 'º Ano EM ' . $sala;
+    } else {
+        $serie = $ano . 'º Ano ' . $sala;
+    }
+
 
     // Consulta para inserir o aluno no banco de dados
     $sql = "INSERT INTO aluno (nome, serie, email) VALUES ('$nome', '$serie', '$email')";
@@ -94,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <form action="cadastrar_aluno.php" method="POST">
             <div class="mb-3">
-                <label for="nome" class="form-label">Nome:</label>
+                <label for="nome" class="form-label">Nome e Sobrenome:</label>
                 <input type="text" name="nome" id="nome" class="form-control" required>
             </div>
 
@@ -107,9 +113,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <option value="7">7º Ano</option>
                         <option value="8">8º Ano</option>
                         <option value="9">9º Ano</option>
-                        <option value="1">1º Ano</option>
-                        <option value="2">2º Ano</option>
-                        <option value="3">3º Ano</option>
+                        <option value="1">1º Ano EM</option>
+                        <option value="2">2º Ano EM</option>
+                        <option value="3">3º Ano EM</option>
                     </select>
                 </div>
                 <div class="flex-shrink-1">

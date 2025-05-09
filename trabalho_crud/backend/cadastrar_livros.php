@@ -122,8 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <!-- Menu lateral -->
     <div class="sidebar" id="mySidebar">
         <ul>
-            <li><a href="info_prof.php">Informações do professor</a></li>
-            <li><a href="configuracoes.php">Configurações</a></li>
+            <li><a href="relatorios.php">Relatórios</a></li>
             <li><a href="logout.php">Logout</a></li>
         </ul>
     </div>

@@ -5,6 +5,8 @@ if ($conn->connect_error) {
     die("Erro na conexão: " . $conn->connect_error);
 }
 
+$paginaAnterior = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '../../index.php';
+
 // Consulta 1: Alunos que mais leram
 $sqlAlunos = "SELECT a.nome AS aluno_nome, COUNT(e.id) AS total
               FROM emprestimo e
@@ -45,9 +47,8 @@ $resultSeries = $conn->query($sqlSeries);
   <link rel="stylesheet" type="text/css" href="../frontend/relatorios.css">
   <script src="https://www.gstatic.com/charts/loader.js"></script>
 
-  <nav class="header">Biblioteca M.V.C
-    <a href="painel.php" class="link-back">< Voltar</a>
-  </nav>
+  <nav class="header">Biblioteca M.V.C</nav>
+  <a href="<?php echo $paginaAnterior; ?>" class="link-back">< Voltar</a>
 
   <script>
     google.charts.load('current', {packages: ['corechart']});
@@ -61,11 +62,11 @@ $resultSeries = $conn->query($sqlSeries);
 
     function drawAlunosChart() {
       var data = google.visualization.arrayToDataTable([
-        ['Aluno', 'Livros Lidos', { role: 'annotation' }],
+        ['Aluno', 'Livros Lidos'],
         <?php
           if ($resultAlunos->num_rows > 0) {
             while ($row = $resultAlunos->fetch_assoc()) {
-              echo "['" . addslashes($row['aluno_nome']) . "', " . (int)$row['total'] . ", '" . $row['total'] . "'],";
+              echo "['" . addslashes($row['aluno_nome']) . "', " . (int)$row['total'] . "],";
             }
           }
         ?>
@@ -76,7 +77,11 @@ $resultSeries = $conn->query($sqlSeries);
         legend: { position: 'none' },
         chartArea: { width: '70%' },
         height: 400,
-        hAxis: { minValue: 0 }
+        hAxis: {
+          minValue: 0,
+          textStyle: { color: 'transparent' }, // oculta os números
+          gridlines: { color: 'transparent' }  // oculta as linhas de grade
+        }
       };
 
       var chart = new google.visualization.BarChart(document.getElementById('graficoAlunos'));
@@ -85,11 +90,11 @@ $resultSeries = $conn->query($sqlSeries);
 
     function drawLivrosChart() {
       var data = google.visualization.arrayToDataTable([
-        ['Livro', 'Leituras', { role: 'annotation' }],
+        ['Livro', 'Leituras'],
         <?php
           if ($resultLivros->num_rows > 0) {
             while ($row = $resultLivros->fetch_assoc()) {
-              echo "['" . addslashes($row['nome_livro']) . "', " . (int)$row['total'] . ", '" . $row['total'] . "'],";
+              echo "['" . addslashes($row['nome_livro']) . "', " . (int)$row['total'] . "],";
             }
           }
         ?>
@@ -100,7 +105,11 @@ $resultSeries = $conn->query($sqlSeries);
         legend: { position: 'none' },
         chartArea: { width: '70%' },
         height: 400,
-        hAxis: { minValue: 0 }
+        hAxis: {
+          minValue: 0,
+          textStyle: { color: 'transparent' }, // oculta os números
+          gridlines: { color: 'transparent' }  // oculta as linhas de grade
+        }
       };
 
       var chart = new google.visualization.BarChart(document.getElementById('graficoLivros'));
@@ -109,22 +118,26 @@ $resultSeries = $conn->query($sqlSeries);
 
     function drawSeriesChart() {
       var data = google.visualization.arrayToDataTable([
-        ['Série', 'Leituras', { role: 'annotation' }],
+        ['Série', 'Leituras'],
         <?php
           if ($resultSeries->num_rows > 0) {
             while ($row = $resultSeries->fetch_assoc()) {
-              echo "['" . addslashes($row['serie']) . "', " . (int)$row['total'] . ", '" . $row['total'] . "'],";
+              echo "['" . addslashes($row['serie']) . "', " . (int)$row['total'] . "],";
             }
           }
         ?>
       ]);
 
       var options = {
-        title: 'Séries que mais leram',
+        title: 'Turmas que mais leram',
         legend: { position: 'none' },
         chartArea: { width: '70%' },
         height: 400,
-        hAxis: { minValue: 0 }
+        hAxis: {
+          minValue: 0,
+          textStyle: { color: 'transparent' }, // oculta os números
+          gridlines: { color: 'transparent' }  // oculta as linhas de grade
+        }
       };
 
       var chart = new google.visualization.BarChart(document.getElementById('graficoSeries'));
@@ -144,4 +157,3 @@ $resultSeries = $conn->query($sqlSeries);
 <?php
 $conn->close();
 ?>
-

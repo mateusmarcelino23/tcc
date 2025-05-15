@@ -3,7 +3,7 @@ session_start();
 
 // Verifica se o professor já está logado
 if (isset($_SESSION['professor_id'])) {
-    header("Location: painel.php"); // Redireciona para o painel se já estiver logado
+    header("Location: ../../index.php"); // Redireciona para o painel se já estiver logado
     exit();
 }
 
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (password_verify($senha, $professor['senha'])) {
             $_SESSION['professor_id'] = $professor['id'];
             $_SESSION['professor_nome'] = $professor['nome'];
-            header("Location: painel.php");
+            header("Location: ../../index.php");
             exit();
         }
     }

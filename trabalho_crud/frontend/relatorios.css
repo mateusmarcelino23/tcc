@@ -3,6 +3,7 @@
 /* Cor do fundo */
 body {
     background-color: #f4f4f4;
+    padding-top: 80px;
 }
 
 /* Cabeçalho estilizado */
@@ -17,21 +18,15 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 100;
-}
-
-/* Título da página */
-h1 {
-    font-size: 36px;
-    margin-bottom: 20px;
+    z-index: 900;
 }
 
 /* Container do gráfico */
 .grafico {
+    margin-top: 100px;
     width: 100%;
-    max-width: 900px;
+    max-width: 1400px;
     margin: 40px auto;
     text-align: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);

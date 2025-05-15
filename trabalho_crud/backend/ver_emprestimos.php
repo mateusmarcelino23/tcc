@@ -51,7 +51,7 @@ $conn->close();
     <link rel="stylesheet" type="text/css" href="../frontend/ver.css">
 
 <div class="mt-3 text-start">
-<a href="painel.php" class="link-back">< Voltar para o painel</a>
+<a href="../../index.php" class="link-back">< Voltar para o painel</a>
 </div>
 
 </head>
@@ -108,6 +108,7 @@ $conn->close();
           <th>Status</th>
           <th></th>
           <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -140,6 +141,11 @@ $conn->close();
             <!-- COLUNA DE STATUS (SEM DEVOLVIDO) -->
             <td><span class="badge <?php echo $classeStatus; ?>"><?php echo $status; ?></span></td>
             <td>
+            <button class="status-entregue" onclick="devolverEmprestimo(<?php echo $emprestimo['id']; ?>)">
+                Confirmar devolução
+            </button>
+            </td>
+            <td>
               <button class="edit-link" onclick="location.href='editar_emprestimo.php?id=<?php echo $emprestimo['id']; ?>'">
                 Editar
               </button>
@@ -163,13 +169,13 @@ $conn->close();
   $(document).ready(function() {
     $('#emprestimosTable').DataTable({
       language: {
-        url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
+        url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json'
       }
     });
   });
 
   function devolverEmprestimo(id) {
-    if (confirm('Clique para confirmar devolução do empréstimo')) {
+    if (confirm('Confirmar devolução do empréstimo')) {
       fetch('devolver_emprestimo.php?id=' + id)
         .then(response => response.text())
         .then(data => {

@@ -62,7 +62,7 @@ $conn->close();
     <link rel="stylesheet" type="text/css" href="../frontend/ver.css">
 
 <div class="mt-3 text-start">
-<a href="painel.php" class="link-back">< Voltar para o painel</a>
+<a href="../../index.php" class="link-back">< Voltar para o painel</a>
 </div>
 
     
@@ -136,11 +136,11 @@ $conn->close();
 $(document).ready(function() {
     $('#emprestimosTable').DataTable({
         language: {
-            url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
+            url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json'
         }
     });
 });
 </script>
-</body>
 
+</body>
 </html>

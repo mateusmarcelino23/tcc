@@ -56,11 +56,9 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ver Professores</title>
     <!-- Link para o CSS do Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-    <!-- Link para o datatables -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Link para o CSS do DataTables -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-
     <!-- Link para o CSS personalizado -->
     <link rel="stylesheet" type="text/css" href="../frontend/ver.css">
 
@@ -100,7 +98,8 @@ $conn->close();
 
     <!-- Voltar ao painel -->
     <div class="mt-3 text-start">
-        <a href="painel.php" class="link-back">< Voltar para o painel</a>
+    <a href="../../index.php" class="link-back">< Voltar para o painel</a>
+
     </div>
 
     <!-- Cadastrar professor -->
@@ -112,7 +111,7 @@ $conn->close();
         <h2 class="text-center">Professores Cadastrados</h2>
 
         <div class="table-container">
-        <table id="professoresTable" class="table table-striped">
+        <table id="emprestimosTable" class="table table-striped">
             <thead>
                 <tr>
                     <th>Nome</th>
@@ -136,13 +135,17 @@ $conn->close();
         </table>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#professoresTable').DataTable();
-        });
-    </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#emprestimosTable').DataTable({
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json'
+        }
+    });
+});
+</script>
 
 </body>
 </html>

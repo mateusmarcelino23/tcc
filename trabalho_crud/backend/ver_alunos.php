@@ -94,7 +94,7 @@ $conn->close();
     </div>
 
         <div class="mt-3 text-start">
-            <a href="painel.php" class="link-back">< Voltar para o painel</a>
+        <a href="../../index.php" class="link-back">< Voltar para o painel</a>
         </div>
 
         <div class="container mt-5">

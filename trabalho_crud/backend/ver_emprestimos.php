@@ -91,67 +91,97 @@ $conn->close();
 <a href="registrar_emprestimo.php" class="link-registrar">Registrar Empréstimo</a>
 
 <div class="container mt-4">
-    <h2 class="text-center">Lista de Empréstimos</h2>
-    <div class="text-end mb-2">
-    
+  <h2 class="text-center">Lista de Empréstimos</h2>
+  <div class="text-end mb-3">
+    <a href="registrar_emprestimo.php" class="link-registrar">Registrar Empréstimo</a>
+  </div>
+
+  <div class="table-container">
     <table id="emprestimosTable" class="table table-striped">
-        <thead>
-            <tr>
-                <th>Aluno</th>
-                <th>Livro</th>
-                <th>Empréstimo</th>
-                <th>Devolução</th>
-                <th>Professor</th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-        <?php while ($emprestimo = $result->fetch_assoc()): ?>
-            <tr>
-                <td><?php echo $emprestimo['aluno_nome']; ?></td>
-                <td><?php echo $emprestimo['nome_livro']; ?></td>
-                <td><?php echo date("d/m/Y", strtotime($emprestimo['data_emprestimo'])); ?></td>
-                <td><?php echo !empty($emprestimo['data_devolucao']) && $emprestimo['data_devolucao'] !== '0000-00-00' ? date("d/m/Y", strtotime($emprestimo['data_devolucao'])) : "-"; ?></td>
-                <td><?php echo $emprestimo['professor_nome']; ?></td>
-                <td><button class="status-entregue" onclick="devolverEmprestimo(<?php echo $emprestimo['id']; ?>)">Marcar como Devolvido</button></td>
-            </div>
+      <thead>
+        <tr>
+          <th>Aluno</th>
+          <th>Livro</th>
+          <th>Empréstimo</th>
+          <th>Devolução</th>
+          <th>Professor</th>
+          <th>Status</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+        $hoje = date('Y-m-d');
+        while ($emprestimo = $result->fetch_assoc()):
+          $status = '';
+          $classeStatus = '';
 
-</div>
-<script>
-function devolverEmprestimo(id) {
-    if (confirm('Clique para confirmar devolução do empréstimo')) {
-        fetch('devolver_emprestimo.php?id=' + id)
-            .then(response => response.text())
-            .then(data => {
-                if (data == 'ok') {
-                    location.reload();
-                } else {
-                    alert('Erro ao devolver empréstimo!');
-                }
-            });
-    }
-}
-</script>
-                <td><button class="edit-link" onclick="location.href='editar_emprestimo.php?id=<?php echo $emprestimo['id']; ?>'">Editar</button></td>
-                <td><a href="?remover=<?php echo $emprestimo['id']; ?>" class="delete-link" onclick="return confirm('Tem certeza de que deseja remover este empréstimo?')">Remover</a></td>
-            </tr>
+          if ($emprestimo['data_devolucao'] < $hoje) {
+            $status = 'Atrasado';
+            $classeStatus = 'status-atrasado';
+          } else {
+            $status = 'Em andamento';
+            $classeStatus = 'status-andamento';
+          }
+        ?>
+          <tr>
+            <td><?php echo $emprestimo['aluno_nome']; ?></td>
+            <td><?php echo $emprestimo['nome_livro']; ?></td>
+            <td><?php echo date("d/m/Y", strtotime($emprestimo['data_emprestimo'])); ?></td>
+            <td>
+              <?php
+              echo !empty($emprestimo['data_devolucao']) && $emprestimo['data_devolucao'] !== '0000-00-00'
+                ? date("d/m/Y", strtotime($emprestimo['data_devolucao']))
+                : "-";
+              ?>
+            </td>
+            <td><?php echo $emprestimo['professor_nome']; ?></td>
+            <!-- COLUNA DE STATUS (SEM DEVOLVIDO) -->
+            <td><span class="badge <?php echo $classeStatus; ?>"><?php echo $status; ?></span></td>
+            <td>
+              <button class="edit-link" onclick="location.href='editar_emprestimo.php?id=<?php echo $emprestimo['id']; ?>'">
+                Editar
+              </button>
+            </td>
+            <td>
+              <a href="?remover=<?php echo $emprestimo['id']; ?>" class="delete-link" onclick="return confirm('Tem certeza de que deseja remover este empréstimo?')">
+                Remover
+              </a>
+            </td>
+          </tr>
         <?php endwhile; ?>
-        </tbody>
+      </tbody>
     </table>
+  </div>
+</div>
 
+<!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script>
-$(document).ready(function() {
+  $(document).ready(function() {
     $('#emprestimosTable').DataTable({
-        language: {
-            url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
-        }
+      language: {
+        url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
+      }
     });
-});
-</script>
-</body>
+  });
 
+  function devolverEmprestimo(id) {
+    if (confirm('Clique para confirmar devolução do empréstimo')) {
+      fetch('devolver_emprestimo.php?id=' + id)
+        .then(response => response.text())
+        .then(data => {
+          if (data === 'ok') {
+            location.reload();
+          } else {
+            alert('Erro ao devolver empréstimo!');
+          }
+        });
+    }
+  }
+</script>
+
+</body>
 </html>

@@ -110,6 +110,8 @@ $conn->close();
     
     <div class="container">
         <h2 class="text-center">Professores Cadastrados</h2>
+
+        <div class="table-container">
         <table id="professoresTable" class="table table-striped">
             <thead>
                 <tr>

@@ -40,8 +40,7 @@ $conn->close();
     <title>Registrar Empréstimo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
-    <link rel="stylesheet" type="text/css" href="../frontend/registrar.css">
-    <!-- Incluindo o CSS do flatpickr -->
+    <link rel="stylesheet" type="text/css" href="../frontend/relatorios.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 
@@ -97,13 +96,11 @@ $conn->close();
             <!-- Datas -->
             <div class="mb-3">
                 <label for="data_emprestimo" class="form-label">Data de Empréstimo:</label>
-                <!-- Tipo text para que o flatpickr controle -->
                 <input type="text" name="data_emprestimo" id="data_emprestimo" class="form-control" required>
             </div>
 
             <div class="mb-3">
                 <label for="data_devolucao" class="form-label">Data de Devolução:</label>
-                <!-- Tipo text para que o flatpickr controle -->
                 <input type="text" name="data_devolucao" id="data_devolucao" class="form-control" required>
             </div>
 
@@ -116,7 +113,6 @@ $conn->close();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <!-- Incluindo o JS do flatpickr -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <script>

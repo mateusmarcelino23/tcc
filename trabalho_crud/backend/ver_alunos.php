@@ -102,6 +102,7 @@ $conn->close();
             <div class="text-end mb-2">
                 <a href="cadastrar_aluno.php" class="link-registrar">Cadastrar Aluno</a>
             </div>
+            <div class="table-container">
             <table id="emprestimosTable" class="table table-striped">
                 <thead>
                     <tr>

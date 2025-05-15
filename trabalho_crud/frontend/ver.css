@@ -40,26 +40,47 @@ body {
 }
 
 .table-container {
-    max-height: 500px; /* Defina a altura máxima da tabela */
-    overflow-y: auto; /* Habilita a rolagem vertical */
-    margin-top: 20px; /* Espaçamento superior para separar da área de texto */
+    max-height: 500px;
+    overflow-y: auto;
+    overflow-x: auto;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
 }
 
+/* Remova esse trecho */
 .emprestimosTable {
-    max-height: 500px; /* Defina a altura máxima da tabela */
-    overflow-y: auto; /* Habilita a rolagem vertical */
-    margin-top: 20px; /* Espaçamento superior para separar da área de texto */
+    /* Remover max-height e overflow daqui */
+    margin-top: 20px;
 }
 
 .table {
-    width: 100%; /* Garante que a tabela ocupe toda a largura */
-    table-layout: fixed; /* Evita que as colunas se expandam muito */
+    width: 100%;
+    table-layout: fixed;
 }
 
 .table th, .table td {
-    white-space: wrap; /* Evita que os textos sejam quebrados */
-}        
+    white-space: nowrap; /* evita quebra de linha dentro da célula */
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
 
+.badge {
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    display: inline-block;
+  }
+  
+  .status-andamento {
+    background-color: #28a745; /* verde */
+    color: white;
+  }
+  
+  .status-atrasado {
+    background-color: #dc3545; /* vermelho */
+    color: white;
+  }
 
 /* Estilo do botão de registrar emprestimo */
 .btn {
@@ -242,3 +263,4 @@ td .status-entregue:hover {
     color: white;
     cursor: pointer;
 }
+

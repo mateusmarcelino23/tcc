@@ -1,6 +1,6 @@
 <?php
 // Conectar ao banco de dados
-$conn = new mysqli('localhost', 'root', '', 'crud_db');
+include '../conexao.php';
 
 // Verifica a conexão
 if ($conn->connect_error) {

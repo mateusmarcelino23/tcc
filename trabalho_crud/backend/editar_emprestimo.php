@@ -8,7 +8,7 @@ if (!isset($_SESSION['professor_id'])) {
 }
 
 // Conexão com o banco
-$conn = new mysqli('localhost', 'root', '', 'crud_db');
+include '../conexao.php';
 if ($conn->connect_error) {
     die("Erro de conexão: " . $conn->connect_error);
 }

@@ -9,7 +9,7 @@ if (!isset($_SESSION['professor_id'])) {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Conecta com o banco de dados
-    $conn = new mysqli('localhost', 'root', '', 'crud_db');
+    include '../conexao.php';
 
     // Verifica a conexão
     if ($conn->connect_error) {

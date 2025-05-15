@@ -5,7 +5,7 @@ if (!isset($_SESSION['professor_id'])) {
     exit();
 }
 
-$conn = new mysqli('localhost', 'root', '', 'crud_db');
+include '../conexao.php';
 $conn->set_charset("utf8");
 
 if ($conn->connect_error) {
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id_livro = $_POST['id_livro'];
     $data_emprestimo = DateTime::createFromFormat('d/m/Y', $_POST['data_emprestimo'])->format('Y-m-d');
     $data_devolucao = DateTime::createFromFormat('d/m/Y', $_POST['data_devolucao'])->format('Y-m-d');
-    
+
     if ($data_devolucao < $data_emprestimo) {
         echo "<p style='color: red;'>A data de devolução não pode ser anterior à data de empréstimo.</p>";
         exit();

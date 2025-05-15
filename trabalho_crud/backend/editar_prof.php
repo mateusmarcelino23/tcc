@@ -65,13 +65,12 @@ $prof = $result->fetch_assoc();
     </script>
 </nav>
 
-<div class="sidebar" id="mySidebar">
-    <ul>
-        <li><a href="info_prof.php">Informações do professor</a></li>
-        <li><a href="configuracoes.php">Configurações</a></li>
-        <li><a href="logout.php">Logout</a></li>
-    </ul>
-</div>
+    <div class="sidebar" id="mySidebar">
+        <ul>
+            <li><a href="relatorios.php">Relatórios</a></li>
+            <li><a href="logout.php">Logout</a></li>
+        </ul>
+    </div>
 
 <div class="mt-3 text-start">
     <a href="ver_professores.php" class="link-back">< Voltar</a>

@@ -40,26 +40,47 @@ body {
 }
 
 .table-container {
-    max-height: 500px; /* Defina a altura máxima da tabela */
-    overflow-y: auto; /* Habilita a rolagem vertical */
-    margin-top: 20px; /* Espaçamento superior para separar da área de texto */
+    max-height: 500px;
+    overflow-y: auto;
+    overflow-x: auto;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
 }
 
+/* Remova esse trecho */
 .emprestimosTable {
-    max-height: 500px; /* Defina a altura máxima da tabela */
-    overflow-y: auto; /* Habilita a rolagem vertical */
-    margin-top: 20px; /* Espaçamento superior para separar da área de texto */
+    /* Remover max-height e overflow daqui */
+    margin-top: 20px;
 }
 
 .table {
-    width: 100%; /* Garante que a tabela ocupe toda a largura */
-    table-layout: fixed; /* Evita que as colunas se expandam muito */
+    width: 100%;
+    table-layout: fixed;
 }
 
 .table th, .table td {
-    white-space: wrap; /* Evita que os textos sejam quebrados */
-}        
+    white-space: nowrap; /* evita quebra de linha dentro da célula */
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
 
+.badge {
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    display: inline-block;
+  }
+  
+  .status-andamento {
+    background-color: #28a745; /* verde */
+    color: white;
+  }
+  
+  .status-atrasado {
+    background-color: #dc3545; /* vermelho */
+    color: white;
+  }
 
 /* Estilo do botão de registrar emprestimo */
 .btn {
@@ -85,17 +106,14 @@ td {
     text-align: center; /* Centraliza horizontalmente */
 }
 
-  /* Estilo do link "Entregue", que muda de cor ao passar o mouse */
-  td .status-entregue {
+/* Remover borda e efeitos dos botões */
+td .status-entregue, td .edit-link, td .delete-link {
+    border: none;
+    text-decoration: none; /* Remover sublinhado */
     display: inline-block;
-    color: 	#32CD32;
     font-size: 16px;
     transition: color 0.3s ease;
     cursor: pointer;
-}
-
-td .status-entregue:hover {
-    color: #228B22;
 }
 
 /* Estilo das linhas da tabela */
@@ -104,30 +122,32 @@ tr:nth-child(even) {
 }
 
 /* Estilo do link editar */
-.edit-link {
-    display: inline-block;
-    color: 	blue;
-    font-size: 16px;
-    transition: color 0.3s ease;
-    cursor: pointer;
+td .edit-link {
+    color: blue;
 }
 
-.edit-link:hover {
-    text-decoration: underline;
+td .edit-link:hover {
+    color: #100157;
 }
 
 /* Estilo do link excluir */
-.delete-link {
-    display: inline-block;
-    color: 	red;
-    font-size: 16px;
-    transition: color 0.3s ease;
-    cursor: pointer;
+td .delete-link {
+    color: red;
 }
 
-.delete-link:hover {
-    text-decoration: underline;
+td .delete-link:hover {
+    color: rgb(153, 0, 0);
 }
+
+/* Estilo do botão marcar como devolvido */
+td .status-entregue {
+    color: #198b19;
+}
+
+td .status-entregue:hover {
+    color: #013f01;
+}
+
 
 /* Link Para Registrar Empréstimo */
 .link-registrar {
@@ -243,3 +263,4 @@ tr:nth-child(even) {
     color: white;
     cursor: pointer;
 }
+

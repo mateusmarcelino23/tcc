@@ -1,0 +1,76 @@
+/* Estilo da página de relatórios */
+
+/* Cor do fundo */
+body {
+    background-color: #f4f4f4;
+}
+
+/* Cabeçalho estilizado */
+.header {
+    width: 100%;
+    background-color: #004080;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 26px;
+    font-weight: bold;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+}
+
+/* Título da página */
+h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+/* Container do gráfico */
+.grafico {
+    width: 100%;
+    max-width: 900px;
+    margin: 40px auto;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: white;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    transition: transform 0.3s ease;
+    z-index: -100;
+}
+
+/* Estilo dos botões */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #004080;
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+} 
+
+.grafico img {
+    max-width: 100%;
+    z-index: -100;
+}
+
+.link-back {
+    color: black;
+    font-size: 20px;
+    text-decoration: none;
+    position: fixed;
+    top: 100px;
+    left: 20px;
+    transition: color 0.3s ease;
+    cursor: pointer;
+}

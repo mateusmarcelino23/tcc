@@ -94,8 +94,7 @@ $conn->close();
     <!-- Menu lateral -->
     <div class="sidebar" id="mySidebar">
         <ul>
-            <li><a href="info_prof.php">Informações do professor</a></li>
-            <li><a href="configuracoes.php">Configurações</a></li>
+            <li><a href="relatorios.php">Relatórios</a></li>
             <li><a href="logout.php">Logout</a></li>
         </ul>
     </div>
@@ -106,6 +105,7 @@ $conn->close();
     <h2 class="text-center">Lista de Livros</h2>
     <div class="text-end mb-2">
     
+    <div class="table-container">
     <table id="emprestimosTable" class="table table-striped">
         <thead>
             <tr>
@@ -127,6 +127,8 @@ $conn->close();
             ?>
         </tbody>
     </table>
+</div>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>

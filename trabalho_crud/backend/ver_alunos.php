@@ -88,8 +88,7 @@ $conn->close();
     <!-- Menu lateral -->
     <div class="sidebar" id="mySidebar">
         <ul>
-            <li><a href="info_prof.php">Informações do professor</a></li>
-            <li><a href="configuracoes.php">Configurações</a></li>
+            <li><a href="relatorios.php">Relatórios</a></li>
             <li><a href="logout.php">Logout</a></li>
         </ul>
     </div>
@@ -103,6 +102,7 @@ $conn->close();
             <div class="text-end mb-2">
                 <a href="cadastrar_aluno.php" class="link-registrar">Cadastrar Aluno</a>
             </div>
+            <div class="table-container">
             <table id="emprestimosTable" class="table table-striped">
                 <thead>
                     <tr>

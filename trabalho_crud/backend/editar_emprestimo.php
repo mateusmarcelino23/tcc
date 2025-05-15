@@ -69,6 +69,7 @@ $conn->close();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
     <link rel="stylesheet" type="text/css" href="../frontend/registrar.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 
 <body>
@@ -94,8 +95,7 @@ $conn->close();
     <!-- Menu lateral -->
     <div class="sidebar" id="mySidebar">
         <ul>
-            <li><a href="info_prof.php">Informações do professor</a></li>
-            <li><a href="configuracoes.php">Configurações</a></li>
+            <li><a href="relatorios.php">Relatórios</a></li>
             <li><a href="logout.php">Logout</a></li>
         </ul>
     </div>
@@ -123,15 +123,15 @@ $conn->close();
                 </select>
             </div>
 
-            <!-- Datas -->
+            <!-- Datas  COM FLATPICKR -->
             <div class="mb-3">
                 <label for="data_emprestimo" class="form-label">Data de Empréstimo:</label>
-                <input type="date" name="data_emprestimo" id="data_emprestimo" class="form-control" value="<?php echo $emprestimo['data_emprestimo']; ?>" required>
+                <input type="text" name="data_emprestimo" id="data_emprestimo" class="form-control" value="<?php echo $emprestimo['data_emprestimo']; ?>" required>
             </div>
 
             <div class="mb-3">
                 <label for="data_devolucao" class="form-label">Data de Devolução:</label>
-                <input type="date" name="data_devolucao" id="data_devolucao" class="form-control" value="<?php echo $emprestimo['data_devolucao']; ?>" required>
+                <input type="text" name="data_devolucao" id="data_devolucao" class="form-control" value="<?php echo $emprestimo['data_devolucao']; ?>" required>
             </div>
 
             <!-- Botão -->
@@ -142,6 +142,7 @@ $conn->close();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         $(document).ready(function () {
             function initSelect2(selector, url, placeholderText) {
@@ -170,6 +171,17 @@ $conn->close();
 
             initSelect2('#id_aluno', 'buscar_alunos.php', 'Digite o nome do aluno');
             initSelect2('#id_livro', 'buscar_livros.php', 'Digite o nome do livro');
+        });
+
+        // Inicializar o flatpickr nos campos de data com formato brasileiro (DD/MM/YYYY) e idioma PT-BR
+        flatpickr("#data_emprestimo", {
+            dateFormat: "d/m/Y",
+            locale: "pt-BR"
+        });
+
+        flatpickr("#data_devolucao", {
+            dateFormat: "d/m/Y",
+            locale: "pt-BR"
         });
     </script>
 </body>

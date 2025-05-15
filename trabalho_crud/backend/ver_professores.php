@@ -93,8 +93,7 @@ $conn->close();
     <!-- Menu lateral -->
     <div class="sidebar" id="mySidebar">
         <ul>
-            <li><a href="info_prof.php">Informações do professor</a></li>
-            <li><a href="configuracoes.php">Configurações</a></li>
+            <li><a href="relatorios.php">Relatórios</a></li>
             <li><a href="logout.php">Logout</a></li>
         </ul>
     </div>
@@ -111,6 +110,8 @@ $conn->close();
     
     <div class="container">
         <h2 class="text-center">Professores Cadastrados</h2>
+
+        <div class="table-container">
         <table id="professoresTable" class="table table-striped">
             <thead>
                 <tr>

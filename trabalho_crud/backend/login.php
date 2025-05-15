@@ -80,9 +80,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <input type="password" name="senha" id="senha" class="form-control shadow-sm" required>
             </div>
             <button type="submit" class="login-container button">Entrar</button>
-            <div class="text-center mt-3">
-                <p>Novo Professor? <a href="cadastrar_professor.php">Clique aqui para se cadastrar</a></p>
-            </div>
         </form>
     </div>
     <script>

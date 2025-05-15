@@ -118,7 +118,7 @@ $conn->close();
           $status = '';
           $classeStatus = '';
 
-          if ($emprestimo['data_devolucao'] < $hoje) {
+          if ($emprestimo['data_devolucao'] == $hoje) {
             $status = 'Atrasado';
             $classeStatus = 'status-atrasado';
           } else {
@@ -138,7 +138,6 @@ $conn->close();
               ?>
             </td>
             <td><?php echo $emprestimo['professor_nome']; ?></td>
-            <!-- COLUNA DE STATUS (SEM DEVOLVIDO) -->
             <td><span class="badge <?php echo $classeStatus; ?>"><?php echo $status; ?></span></td>
             <td>
             <button class="status-entregue" onclick="devolverEmprestimo(<?php echo $emprestimo['id']; ?>)">

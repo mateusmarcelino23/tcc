@@ -1,6 +1,6 @@
 <?php
 // Conexão com o banco
-$conn = new mysqli('localhost', 'root', '', 'crud_db');
+include '../conexao.php';
 if ($conn->connect_error) {
     die("Erro na conexão: " . $conn->connect_error);
 }

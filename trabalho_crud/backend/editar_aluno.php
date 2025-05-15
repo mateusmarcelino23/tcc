@@ -8,7 +8,7 @@ if (!isset($_SESSION['professor_id'])) {
 }
 
 // Conecta com o banco de dados
-$conn = new mysqli('localhost', 'root', '', 'crud_db');
+include '../conexao.php';
 if ($conn->connect_error) {
     die("Falha na conexão: " . $conn->connect_error);
 }
@@ -116,16 +116,17 @@ $em = isset($match[2]) ? 'EM' : '';
         <div class="mb-3 d-flex">
             <div class="flex-grow-1 me-2">
             <label for="ano" class="form-label">Ano:</label>
-                    <select name="ano" id="ano" class="form-select" required>
-                        <option value="">Selecione o ano</option>
-                        <option value="6">6º Ano</option>
-                        <option value="7">7º Ano</option>
-                        <option value="8">8º Ano</option>
-                        <option value="9">9º Ano</option>
-                        <option value="1">1º Ano EM</option>
-                        <option value="2">2º Ano EM</option>
-                        <option value="3">3º Ano EM</option>
-                    </select>
+            <select name="ano" id="ano" class="form-select" required>
+                <option value="">Selecione o ano</option>
+                <option value="6" <?= $ano == '6' ? 'selected' : '' ?>>6º Ano</option>
+                <option value="7" <?= $ano == '7' ? 'selected' : '' ?>>7º Ano</option>
+                <option value="8" <?= $ano == '8' ? 'selected' : '' ?>>8º Ano</option>
+                <option value="9" <?= $ano == '9' ? 'selected' : '' ?>>9º Ano</option>
+                <option value="1" <?= $ano == '1' ? 'selected' : '' ?>>1º Ano EM</option>
+                <option value="2" <?= $ano == '2' ? 'selected' : '' ?>>2º Ano EM</option>
+                <option value="3" <?= $ano == '3' ? 'selected' : '' ?>>3º Ano EM</option>
+            </select>
+
             </div>
             <div class="flex-shrink-1">
                 <label for="sala" class="form-label">Sala:</label>

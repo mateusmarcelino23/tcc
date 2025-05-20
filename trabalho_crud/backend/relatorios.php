@@ -16,6 +16,7 @@ $sqlAlunos = "SELECT a.nome AS aluno_nome, COUNT(e.id) AS total
               ORDER BY total DESC
               LIMIT 10";
 $resultAlunos = $conn->query($sqlAlunos);
+$temAlunos = $resultAlunos->num_rows > 0;
 
 // Consulta 2: Livros mais lidos
 $sqlLivros = "SELECT l.nome_livro, COUNT(e.id) AS total
@@ -26,6 +27,7 @@ $sqlLivros = "SELECT l.nome_livro, COUNT(e.id) AS total
               ORDER BY total DESC
               LIMIT 10";
 $resultLivros = $conn->query($sqlLivros);
+$temLivros = $resultLivros->num_rows > 0;
 
 // Consulta 3: Séries que mais leram
 $sqlSeries = "SELECT a.serie, COUNT(e.id) AS total
@@ -36,28 +38,36 @@ $sqlSeries = "SELECT a.serie, COUNT(e.id) AS total
               ORDER BY total DESC
               LIMIT 10";
 $resultSeries = $conn->query($sqlSeries);
+$temSeries = $resultSeries->num_rows > 0;
+
+// Consulta para observações
+$sqlNotas = "SELECT texto, data FROM anotacoes ORDER BY data DESC";
+$resultNotas = $conn->query($sqlNotas);
+
 ?>
+
 
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Dashboard</title>
+  <title>Relatórios</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="../frontend/relatorios.css">
   <script src="https://www.gstatic.com/charts/loader.js"></script>
-
-  <nav class="header">Biblioteca M.V.C</nav>
-  <a href="<?php echo $paginaAnterior; ?>" class="link-back">< Voltar</a>
 
   <script>
     google.charts.load('current', {packages: ['corechart']});
     google.charts.setOnLoadCallback(drawCharts);
 
+    const temAlunos = <?php echo $temAlunos ? 'true' : 'false'; ?>;
+    const temLivros = <?php echo $temLivros ? 'true' : 'false'; ?>;
+    const temSeries = <?php echo $temSeries ? 'true' : 'false'; ?>;
+
     function drawCharts() {
-      drawAlunosChart();
-      drawLivrosChart();
-      drawSeriesChart();
+      if (temAlunos) drawAlunosChart();
+      if (temLivros) drawLivrosChart();
+      if (temSeries) drawSeriesChart();
     }
 
     function drawAlunosChart() {
@@ -146,10 +156,61 @@ $resultSeries = $conn->query($sqlSeries);
   </script>
 </head>
 <body>
-  <div class="relatorios-container">
-    <div class="grafico" id="graficoAlunos"></div>
-    <div class="grafico" id="graficoLivros"></div>
-    <div class="grafico" id="graficoSeries"></div>
+  <nav class="header">Biblioteca M.V.C</nav>
+
+  <!-- Voltar para a página de antes com $paginaAnterior -->
+  <div class="mt-3 text-start">
+    <a href="<?php echo $paginaAnterior; ?>" class="link-back">< Voltar</a>
+  </div>
+
+  <div class="d-flex">
+    <div class="relatorios-container flex-grow-1">
+      <div id="graficoAlunos-container">
+        <div id="graficoAlunos" class="grafico"></div>
+        <?php if (!$temAlunos): ?>
+          <div id="semDadosAlunos" class="alert alert-warning">Nenhum dado de empréstimo devolvido encontrado para alunos.</div>
+        <?php endif; ?>
+      </div>
+
+      <div id="graficoLivros-container">
+        <div id="graficoLivros" class="grafico"></div>
+        <?php if (!$temLivros): ?>
+          <div id="semDadosLivros" class="alert alert-warning">Nenhum dado de empréstimo devolvido encontrado para livros.</div>
+        <?php endif; ?>
+      </div>
+
+      <div id="graficoSeries-container">
+        <div id="graficoSeries" class="grafico"></div>
+        <?php if (!$temSeries): ?>
+          <div id="semDadosSeries" class="alert alert-warning">Nenhum dado de empréstimo devolvido encontrado para séries.</div>
+        <?php endif; ?>
+      </div>
+    </div>
+
+    <!-- BARRA LATERAL -->
+    <div class="sidebar">
+      <h5 class="mt-3">Observações dos Professores</h5>
+      <div class="lista-observacoes">
+        <?php if ($resultNotas->num_rows > 0): ?>
+          <?php while ($nota = $resultNotas->fetch_assoc()): ?>
+            <div class="mb-2">
+              <small><strong><?php echo date('d/m/Y', strtotime($nota['data'])); ?></strong></small><br>
+              <p><?php echo nl2br(htmlspecialchars($nota['texto'])); ?></p>
+            </div>
+          <?php endwhile; ?>
+        <?php else: ?>
+          <p class="text-muted">Nenhuma observação registrada.</p>
+        <?php endif; ?>
+      </div>
+      <button onclick="document.getElementById('novaAnotacao').style.display='block'" class="btn btn-primary w-100 mt-3">Nova Anotação</button>
+
+      <div id="novaAnotacao" class="nova-anotacao mt-3" style="display: none;">
+        <form method="POST" action="salvar_anotacao.php">
+          <textarea name="texto" class="form-control mb-2" rows="4" placeholder="Escreva sua observação..." required></textarea>
+          <button type="submit" class="btn btn-success w-100">Salvar</button>
+        </form>
+      </div>
+    </div>
   </div>
 </body>
 </html>

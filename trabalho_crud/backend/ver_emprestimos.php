@@ -16,12 +16,32 @@ if ($conn->connect_error) {
     die("Falha na conexão com o banco de dados: " . $conn->connect_error);
 }
 
+$status = '';
+$classeStatus = '';
+
+if ($emprestimo['status'] == 1) {
+    $status = 'Devolvido';
+    $classeStatus = 'status-devolvido'; // crie essa classe no CSS se quiser
+} elseif ($emprestimo['status'] == 0) {
+    // verificar se está atrasado pela data_devolucao
+    if ($emprestimo['data_devolucao'] < $hoje && !empty($emprestimo['data_devolucao'])) {
+        $status = 'Atrasado';
+        $classeStatus = 'status-atrasado';
+    } else {
+        $status = 'Em andamento';
+        $classeStatus = 'status-andamento';
+    }
+} else {
+    $status = 'Desconhecido';
+}
+
 // Consulta para buscar todos os empréstimos com os dados relacionados
 $sql = "SELECT e.id, e.data_emprestimo, e.data_devolucao, e.status, a.nome AS aluno_nome, l.nome_livro, l.nome_autor, p.nome AS professor_nome
         FROM emprestimo e
         JOIN aluno a ON e.id_aluno = a.id
         JOIN livro l ON e.id_livro = l.id
-        JOIN professor p ON e.id_professor = p.id";
+        JOIN professor p ON e.id_professor = p.id
+        WHERE e.status = 'Em andamento'";
 $result = $conn->query($sql);
 
 // Verifica se a ação de remoção foi solicitada
@@ -35,6 +55,19 @@ if (isset($_GET['remover'])) {
         echo "Erro ao remover o empréstimo: " . $conn->error;
     }
 }
+
+// Verifica se a devolução foi solicitada
+if (isset($_GET['devolver'])) {
+    $id_emprestimo = $_GET['devolver'];
+    $sql = "UPDATE emprestimo SET status = 1, data_devolucao = NOW() WHERE id = $id";
+    if ($conn->query($sql_devolver) === TRUE) {
+        header("Location: ver_emprestimos.php");
+        exit();
+    } else {
+        echo "Erro ao devolver o empréstimo: " . $conn->error;
+    }
+}
+
 $conn->close();
 ?>
 
@@ -102,7 +135,7 @@ $conn->close();
         <tr>
           <th>Aluno</th>
           <th>Livro</th>
-          <th>Empréstimo</th>
+          <th>Retirada</th>
           <th>Devolução</th>
           <th>Professor</th>
           <th>Status</th>
@@ -126,7 +159,7 @@ $conn->close();
             $classeStatus = 'status-andamento';
           }
         ?>
-          <tr>
+          <tr id="linha-<?php echo $emprestimo['id']; ?>">
             <td><?php echo $emprestimo['aluno_nome']; ?></td>
             <td><?php echo $emprestimo['nome_livro']; ?></td>
             <td><?php echo date("d/m/Y", strtotime($emprestimo['data_emprestimo'])); ?></td>
@@ -140,9 +173,9 @@ $conn->close();
             <td><?php echo $emprestimo['professor_nome']; ?></td>
             <td><span class="badge <?php echo $classeStatus; ?>"><?php echo $status; ?></span></td>
             <td>
-            <button class="status-entregue" onclick="devolverEmprestimo(<?php echo $emprestimo['id']; ?>)">
+              <button class="status-entregue" onclick="devolverEmprestimo(<?php echo $emprestimo['id']; ?>)">
                 Confirmar devolução
-            </button>
+              </button>
             </td>
             <td>
               <button class="edit-link" onclick="location.href='editar_emprestimo.php?id=<?php echo $emprestimo['id']; ?>'">
@@ -178,14 +211,20 @@ $conn->close();
       fetch('devolver_emprestimo.php?id=' + id)
         .then(response => response.text())
         .then(data => {
-          if (data === 'ok') {
-            location.reload();
+          console.log('Resposta do servidor:', data); // LOG para debug
+          if (data.trim() === 'ok') {
+            const tabela = $('#emprestimosTable').DataTable();
+            const linha = document.getElementById('linha-' + id);
+            tabela.row(linha).remove().draw();
           } else {
-            alert('Erro ao devolver empréstimo!');
+            alert('Erro ao devolver empréstimo! ' + data);
           }
+        }).catch(error => {
+          alert('Erro na requisição: ' + error);
         });
     }
   }
+
 </script>
 
 </body>

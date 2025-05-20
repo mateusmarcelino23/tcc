@@ -1,12 +1,12 @@
-/* Estilo da página de relatórios */
-
-/* Cor do fundo */
 body {
-    background-color: #f4f4f4;
-    padding-top: 80px;
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
 }
 
-/* Cabeçalho estilizado */
+/* HEADER */
 .header {
     width: 100%;
     background-color: #004080;
@@ -18,47 +18,83 @@ body {
     position: fixed;
     top: 0;
     left: 0;
+    right: 0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 900;
 }
 
-/* Container do gráfico */
-.grafico {
-    margin-top: 100px;
-    width: 100%;
-    max-width: 1400px;
-    margin: 40px auto;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 20px;
-    overflow: hidden;
-    background-color: white;
-    padding: 20px;
+/* CONTAINER PRINCIPAL */
+.relatorios-principal {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    margin-top: 120px;
+    padding: 30px;
     box-sizing: border-box;
+}
+
+/* GRAFICO */
+.grafico {
+    background: white;
+    width: 98%;
+    max-width: 1000px;
+    padding: 40px;
+    border-radius: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-size: 24px;
+    margin: 120px auto 0 auto; /* ISSO CENTRALIZA */
+}
+
+/* SIDEBAR */
+.sidebar {
+    position: fixed;
+    top: 120px; /* abaixo do header */
+    right: 0;
+    bottom: 0;
+    width: 500px;
+    background-color: #ffffff;
+    border-left: 1px solid #e0e0e0;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
     gap: 20px;
-    transition: transform 0.3s ease;
-    z-index: -100;
+    position: sticky;
 }
 
-/* Estilo dos botões */
+
+/* LISTA DENTRO DA SIDEBAR */
+.lista-observacoes {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+/* BOTÃO */
 .btn {
     display: inline-block;
-    padding: 10px 20px;
-    background-color: #004080;
+    padding: 12px 24px;
+    background: #004080;
     color: white;
     text-decoration: none;
-    border-radius: 30px;
-} 
-
-.grafico img {
-    max-width: 100%;
-    z-index: -100;
+    border: none;
+    border-radius: 50px;
+    font-weight: 500;
+    text-align: center;
+    margin-top: 20px;
+    cursor: pointer;
 }
 
+.btn:hover {
+    background: #002b5c;
+}
+
+/* BOTÃO DE VOLTAR */
 .link-back {
     color: black;
     font-size: 20px;
@@ -68,4 +104,8 @@ body {
     left: 20px;
     transition: color 0.3s ease;
     cursor: pointer;
+}
+
+.link-back:hover {
+    text-decoration: underline;
 }

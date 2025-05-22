@@ -82,6 +82,12 @@ body {
     color: white;
   }
 
+  .status-devolvido {
+    background-color: #0bb8b8 !important;
+    color: white !important;
+  }
+
+
 /* Estilo do botão de registrar emprestimo */
 .btn {
     display: inline-block;

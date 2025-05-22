@@ -60,7 +60,7 @@ $conn->close();
     <!-- Link para o CSS do DataTables -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <!-- Link para o CSS personalizado -->
-    <link rel="stylesheet" type="text/css" href="../frontend/ver.css">
+    <link rel="stylesheet" type="text/css" href="../estilos/ver.css">
 
 </head>
 

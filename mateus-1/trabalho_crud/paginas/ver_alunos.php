@@ -58,7 +58,7 @@ $conn->close();
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
 
     <!-- Vinculando o CSS personalizado -->
-    <link rel="stylesheet" type="text/css" href="../frontend/ver.css">
+    <link rel="stylesheet" type="text/css" href="../estilos/ver.css">
 
 </head>
 <body>

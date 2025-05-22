@@ -49,7 +49,7 @@ $conn->close();
     <!-- Link para o CSS do DataTables -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <!-- Link para o CSS personalizado -->
-    <link rel="stylesheet" type="text/css" href="../frontend/ver.css">
+    <link rel="stylesheet" type="text/css" href="../estilos/ver.css">
 
 <div class="mt-3 text-start">
 <a href="../../index.php" class="link-back">< Voltar para o painel</a>
@@ -116,16 +116,31 @@ $conn->close();
         <?php
         $hoje = date('Y-m-d');
         while ($emprestimo = $result->fetch_assoc()):
+          
           $status = '';
           $classeStatus = '';
 
-          if ($emprestimo['data_devolucao'] <= $hoje) {
-            $status = 'Atrasado';
-            $classeStatus = 'status-atrasado';
-          } else {
-            $status = 'Em andamento';
-            $classeStatus = 'status-andamento';
+          switch ($emprestimo['status']) {
+              case 2:
+                  $status = 'Devolvido';
+                  $classeStatus = 'status-devolvido';
+                  break;
+              case 1:
+                  $status = 'Atrasado';
+                  $classeStatus = 'status-atrasado';
+                  break;
+              default:
+                  // Pode também verificar se a data de devolução já passou, pra forçar como "atrasado"
+                  $hoje = date('Y-m-d');
+                  if ($emprestimo['data_devolucao'] <= $hoje) {
+                      $status = 'Atrasado';
+                      $classeStatus = 'status-atrasado';
+                  } else {
+                      $status = 'Em andamento';
+                      $classeStatus = 'status-andamento';
+                  }
           }
+
         ?>
           <tr id="linha-<?php echo $emprestimo['id']; ?>">
             <td><?php echo $emprestimo['aluno_nome']; ?></td>
@@ -174,24 +189,27 @@ $conn->close();
     });
   });
 
-  function devolverEmprestimo(id) {
-    if (confirm('Confirmar devolução do empréstimo')) {
-      fetch('devolver_emprestimo.php?id=' + id)
-        .then(response => response.text())
-        .then(data => {
-          console.log('Resposta do servidor:', data); // LOG para debug
-          if (data.trim() === 'ok') {
-            const tabela = $('#emprestimosTable').DataTable();
-            const linha = document.getElementById('linha-' + id);
-            tabela.row(linha).remove().draw();
-          } else {
-            alert('Erro ao devolver empréstimo! ' + data);
-          }
-        }).catch(error => {
-          alert('Erro na requisição: ' + error);
-        });
-    }
+function devolverEmprestimo(id) {
+  if (confirm('Confirmar devolução do empréstimo')) {
+    fetch('devolver_emprestimo.php?id=' + id)
+      .then(response => response.text())
+      .then(data => {
+        console.log('Resposta do servidor:', data); // LOG para debug
+        if (data.trim() === 'ok') {
+          const linha = document.getElementById('linha-' + id);
+          const statusCell = linha.querySelector('td:nth-child(6) span');
+
+          statusCell.className = 'badge status-devolvido';  // Classe para estilizar "Devolvido"
+          statusCell.textContent = 'Devolvido';
+
+        } else {
+          alert('Erro ao devolver empréstimo! ' + data);
+        }
+      }).catch(error => {
+        alert('Erro na requisição: ' + error);
+      });
   }
+}
 
 </script>
 

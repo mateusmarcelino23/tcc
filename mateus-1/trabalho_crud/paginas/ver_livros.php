@@ -59,7 +59,7 @@ $conn->close();
     <title>Lista de Livros</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="../frontend/ver.css">
+    <link rel="stylesheet" type="text/css" href="../estilos/ver.css">
 
 <div class="mt-3 text-start">
 <a href="../../index.php" class="link-back">< Voltar para o painel</a>

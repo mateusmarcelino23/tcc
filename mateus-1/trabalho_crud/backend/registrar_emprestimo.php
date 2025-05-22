@@ -1,46 +1,29 @@
 <?php
 session_start();
-
-// Verifica se o professor está logado
 if (!isset($_SESSION['professor_id'])) {
-    header("Location: login.php"); // Redireciona para o login se não estiver logado
+    header("Location: login.php");
     exit();
 }
 
-// Conecta com o banco de dados
-$conn = new mysqli('localhost', 'root', '', 'crud_db');
+include '../conexao.php';
+$conn->set_charset("utf8");
 
-// Verifica a conexão
 if ($conn->connect_error) {
     die("Falha na conexão com o banco de dados: " . $conn->connect_error);
 }
 
-// Consulta para obter alunos
-$alunos = $conn->query("SELECT * FROM aluno");
-
-// Consulta para obter livros
-$livros = $conn->query("SELECT * FROM livro");
-
-// Fechar a conexão
-$conn->close();
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Conecta novamente para salvar o empréstimo
-    $conn = new mysqli('localhost', 'root', '', 'crud_db');
-    
-    // Verifica a conexão
-    if ($conn->connect_error) {
-        die("Falha na conexão com o banco de dados: " . $conn->connect_error);
+    $id_aluno = $_POST['id_aluno'];
+    $id_professor = $_SESSION['professor_id'];
+    $id_livro = $_POST['id_livro'];
+    $data_emprestimo = DateTime::createFromFormat('d/m/Y', $_POST['data_emprestimo'])->format('Y-m-d');
+    $data_devolucao = DateTime::createFromFormat('d/m/Y', $_POST['data_devolucao'])->format('Y-m-d');
+
+    if ($data_devolucao < $data_emprestimo) {
+        echo "<p style='color: red;'>A data de devolução não pode ser anterior à data de empréstimo.</p>";
+        exit();
     }
 
-    // Recebe os dados do formulário
-    $id_aluno = $_POST['id_aluno'];
-    $id_livro = $_POST['id_livro'];
-    $data_emprestimo = $_POST['data_emprestimo'];
-    $data_devolucao = $_POST['data_devolucao'];
-    $id_professor = $_SESSION['professor_id'];
-
-    // Consulta para registrar o empréstimo
     $sql = "INSERT INTO emprestimo (id_aluno, id_professor, id_livro, data_emprestimo, data_devolucao)
             VALUES ('$id_aluno', '$id_professor', '$id_livro', '$data_emprestimo', '$data_devolucao')";
 
@@ -49,10 +32,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         echo "<p style='color: red;'>Erro ao registrar o empréstimo: " . $conn->error . "</p>";
     }
-
-    // Fecha a conexão
-    $conn->close();
 }
+
+$conn->close();
+
 ?>
 
 <!DOCTYPE html>
@@ -60,84 +43,143 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Registrar Empréstimo</title>
-    
-    <!-- Link para o CSS do Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    
-    <!-- Link para a fonte do Google Fonts (exemplo: Roboto) -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-
-    <!-- Link para o CSS do Flatpickr -->
-    <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
-    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+    <link rel="stylesheet" type="text/css" href="../frontend/registrar.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
-<body>
-    
-    <!-- Header -->
-    <header class="bg-primary text-white p-3">
-        <h1 class="text-center">Biblioteca M.V.C</h1>
-    </header>
 
-    <!-- Conteúdo principal -->
-    <div class="container mt-4">
-        <h2>Registrar Empréstimo</h2>
-        
+<body>
+    <!-- Cabeçalho -->
+    <nav class="header">
+        Biblioteca M.V.C
+        <span id="toggleSidebar" class="openbtn" onclick="toggleNav()">&#9776;</span>
+
+        <script>
+            function toggleNav() {
+                const sidebar = document.getElementById("mySidebar");
+                const toggleBtn = document.getElementById("toggleSidebar");
+
+                if (sidebar.classList.contains("open")) {
+                    sidebar.classList.remove("open");
+                    toggleBtn.innerHTML = "&#9776;"; // ícone de abrir
+                } else {
+                    sidebar.classList.add("open");
+                    toggleBtn.innerHTML = "&times;"; // ícone de fechar
+                }
+            }
+        </script>
+    </nav>
+
+    <!-- Menu lateral -->
+    <div class="sidebar" id="mySidebar">
+        <ul>
+            <li><a href="relatorios.php">Relatórios</a></li>
+            <li><a href="logout.php">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="mt-3 text-start">
+        <a href="ver_emprestimos.php" class="link-back">&lt; Voltar</a>
+    </div>
+
+    <div class="container">
+        <h2 class="text-center">Registrar Empréstimo</h2>
         <form action="registrar_emprestimo.php" method="POST">
+            <!-- Campo Aluno -->
             <div class="mb-3">
                 <label for="id_aluno" class="form-label">Aluno:</label>
-                <select name="id_aluno" id="id_aluno" class="form-select" required>
-                    <?php while ($aluno = $alunos->fetch_assoc()): ?>
-                        <option value="<?php echo $aluno['id']; ?>"><?php echo $aluno['nome']; ?></option>
-                    <?php endwhile; ?>
-                </select>
+                <select name="id_aluno" id="id_aluno" class="form-select" required style="width: 100%;"></select>
             </div>
-            
+
+            <!-- Campo Livro -->
             <div class="mb-3">
                 <label for="id_livro" class="form-label">Livro:</label>
-                <select name="id_livro" id="id_livro" class="form-select" required>
-                    <?php while ($livro = $livros->fetch_assoc()): ?>
-                        <option value="<?php echo $livro['id']; ?>"><?php echo $livro['nome_livro']; ?></option>
-                    <?php endwhile; ?>
-                </select>
+                <select name="id_livro" id="id_livro" class="form-select" required style="width: 100%;"></select>
             </div>
-            
+
+            <!-- Datas -->
             <div class="mb-3">
                 <label for="data_emprestimo" class="form-label">Data de Empréstimo:</label>
                 <input type="text" name="data_emprestimo" id="data_emprestimo" class="form-control" required>
             </div>
-            
+
             <div class="mb-3">
                 <label for="data_devolucao" class="form-label">Data de Devolução:</label>
                 <input type="text" name="data_devolucao" id="data_devolucao" class="form-control" required>
             </div>
-            
+
+            <!-- Botão -->
             <button type="submit" class="btn btn-gradient w-100">Registrar Empréstimo</button>
         </form>
-
-        <a href="painel.php" class="bg-primary text-white btn mt-3">Voltar ao Painel</a>
     </div>
 
-    <!-- Script do Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
-    <!-- Script do Flatpickr -->
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    
-    <!-- Carregando o idioma português do Flatpickr -->
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
 
-    <!-- Inicializando o Flatpickr nos campos de data -->
     <script>
-        flatpickr("#data_emprestimo", {
-            locale: "pt", // Define o idioma para português
-            dateFormat: "d/m/Y", // Formato de data (dia/mês/ano)
-            minDate: "today", // Impede a seleção de datas passadas
-        });
+        $(document).ready(function () {
+            function initSelect2(selector, url, placeholderText) {
+                $(selector).select2({
+                    placeholder: placeholderText,
+                    ajax: {
+                        url: url,
+                        dataType: 'json',
+                        delay: 250,
+                        data: function (params) {
+                            return { term: params.term };
+                        },
+                        processResults: function (data) {
+                            return { results: data };
+                        },
+                        cache: true
+                    },
+                    minimumInputLength: 1,
+                    language: {
+                        noResults: function () {
+                            return "Nenhum resultado encontrado";
+                        }
+                    }
+                });
+            }
 
-        flatpickr("#data_devolucao", {
-            locale: "pt", // Define o idioma para português
-            dateFormat: "d/m/Y", // Formato de data (dia/mês/ano)
-            minDate: "today", // Impede a seleção de datas passadas
+            // Inicializar o Select2 nos campos
+            initSelect2('#id_aluno', 'buscar_alunos.php', 'Digite o nome do aluno');
+            initSelect2('#id_livro', 'buscar_livros.php', 'Digite o nome do livro');
+
+            // Inicializar o flatpickr nos campos de data com formato brasileiro (DD/MM/YYYY) e idioma PT-BR
+            flatpickr("#data_emprestimo", {
+                allowInput: false, // Impede a digitação manual
+                locale: 'pt',      // Idioma PT-BR
+                dateFormat: 'd/m/Y' // Formato de data brasileiro
+            });
+
+            flatpickr("#data_devolucao", {
+                allowInput: false, // Impede a digitação manual
+                locale: 'pt',      // Idioma PT-BR
+                dateFormat: 'd/m/Y' // Formato de data brasileiro
+            });
+
+            // Verificação antes de enviar o formulário
+            $('form').on('submit', function (e) {
+                const dataEmprestimoStr = $('#data_emprestimo').val();
+                const dataDevolucaoStr = $('#data_devolucao').val();
+
+                const [diaEmp, mesEmp, anoEmp] = dataEmprestimoStr.split('/');
+                const [diaDev, mesDev, anoDev] = dataDevolucaoStr.split('/');
+
+                const dataEmprestimo = new Date(`${anoEmp}-${mesEmp}-${diaEmp}`);
+                const dataDevolucao = new Date(`${anoDev}-${mesDev}-${diaDev}`);
+
+                if (dataDevolucao < dataEmprestimo) {
+                    e.preventDefault(); // Impede o envio do formulário
+                    alert("A data de devolução não pode ser anterior à data de empréstimo.");
+                    return false;
+                }
+            });
         });
     </script>
 </body>

@@ -3,14 +3,14 @@ session_start();
 
 // Verifica se o professor já está logado
 if (isset($_SESSION['professor_id'])) {
-    header("Location: painel.php"); // Redireciona para o painel se já estiver logado
+    header("Location: ../../index.php"); // Redireciona para o painel se já estiver logado
     exit();
 }
 
 // Processa o login quando o formulário é enviado
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Conecta ao banco de dados
-    $conn = new mysqli('localhost', 'root', '', 'crud_db');
+    include '../conexao.php';
 
     // Verifica a conexão
     if ($conn->connect_error) {
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (password_verify($senha, $professor['senha'])) {
             $_SESSION['professor_id'] = $professor['id'];
             $_SESSION['professor_nome'] = $professor['nome'];
-            header("Location: painel.php");
+            header("Location: ../../index.php");
             exit();
         }
     }
@@ -53,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->close();
     $conn->close();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -62,12 +63,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="../frontend/style.css">
+    <link rel="stylesheet" href="../frontend/login.css">
 </head>
-<body class="d-flex justify-content-center align-items-center" style="height: 100vh; background: linear-gradient(to right, #ba7c1a, #f1c40f);">
-    <div class="container bg-white p-5 rounded-4 shadow-lg" style="width: 400px;">
+<body class="body">
+    <div class="container">
         <div class="text-center">
-            <h1 class="login-container">Login</h1>
+            <h1 class="h1">Login</h1>
         </div>
         <form action="login.php" method="POST">
             <div class="mb-3">
@@ -79,9 +80,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <input type="password" name="senha" id="senha" class="form-control shadow-sm" required>
             </div>
             <button type="submit" class="login-container button">Entrar</button>
-            <div class="text-center mt-3">
-                <p>Novo Professor? <a href="cadastrar_professor.php">Clique aqui</a></p>
-            </div>
         </form>
     </div>
     <script>

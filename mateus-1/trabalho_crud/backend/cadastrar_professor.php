@@ -1,7 +1,7 @@
 <?php
 session_start();
 // Conecta ao banco de dados
-$conn = new mysqli('localhost', 'root', '', 'crud_db');
+include '../conexao.php';
 
 // Verifica a conexão
 if ($conn->connect_error) {
@@ -11,7 +11,7 @@ if ($conn->connect_error) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Recebe os dados do formulário
     $nome = $_POST['nome'];
-    $cpf = $_POST['cpf'];
+    $cpf = preg_replace('/\D/', '', $_POST['cpf']);
     $email = $_POST['email'];
     $senha = $_POST['senha'];
 
@@ -41,100 +41,113 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <!-- Link para o CSS do Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     
-    <!-- Link para o seu CSS personalizado -->
-    <link rel="stylesheet" type="text/css" href="../frontend/style.css">
-    
-    <style>
-        body {
-            background-color: #ffffff;
-            font-family: 'Roboto', sans-serif;
-        }
-        header {
-            background-color: #007bff;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        .container {
-            max-width: 600px;
-            margin-top: 40px;
-        }
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
-        form {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        label {
-            font-weight: bold;
-        }
-        input {
-            width: 100%;
-            padding: 8px;
-            margin: 5px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        button {
-            background-color: #28a745;
-            border: none;
-            padding: 10px 15px;
-            color: white;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #218838;
-        }
-    </style>
+    <!-- Vinculando o CSS personalizado -->
+    <link rel="stylesheet" type="text/css" href="../frontend/registrar.css">
+
 </head>
+
 <body>
-
     <!-- Cabeçalho -->
-    <header>
-        <h1>Biblioteca M.V.C</h1>
-    </header>
+    <nav class="header">Biblioteca M.V.C
+            <!-- Botão para abrir/fechar o menu lateral -->
+            <span id="toggleSidebar" class="openbtn" onclick="toggleNav()">&#9776;</span>
 
-    <div class="container">
-        <h2 class="text-center">Cadastrar Professor</h2>
 
-        <form action="cadastrar_professor.php" method="POST">
-            <div class="mb-3">
-                <label for="nome" class="form-label">Nome:</label>
-                <input type="text" name="nome" id="nome" class="form-control" required>
-            </div>
+            <script>
+                function toggleNav() {
+                    const sidebar = document.getElementById("mySidebar");
+                    const toggleBtn = document.getElementById("toggleSidebar");
 
-            <div class="mb-3">
-                <label for="cpf" class="form-label">CPF:</label>
-                <input type="text" name="cpf" id="cpf" class="form-control" required>
-            </div>
+                    if (sidebar.classList.contains("open")) {
+                        sidebar.classList.remove("open");
+                        toggleBtn.innerHTML = "&#9776;"; // ícone de abrir
+                    } else {
+                        sidebar.classList.add("open");
+                        toggleBtn.innerHTML = "&times;"; // ícone de fechar
+                    }
+                }
+            </script>
 
-            <div class="mb-3">
-                <label for="email" class="form-label">Email:</label>
-                <input type="email" name="email" id="email" class="form-control" required>
-            </div>
+    </nav>
 
-            <div class="mb-3">
-                <label for="senha" class="form-label">Senha:</label>
-                <input type="password" name="senha" id="senha" class="form-control" required>
-            </div>
-
-            <button type="submit" class="btn btn-gradient w-100">Cadastrar Professor</button>
-        </form>
-
-        <!-- Botão de Voltar ao Painel -->
-        <a href="painel.php" class="btn btn-primary mt-3 w-100">Voltar ao Painel</a>
+    <!-- Menu lateral -->
+    <div class="sidebar" id="mySidebar">
+        <ul>
+            <li><a href="relatorios.php">Relatórios</a></li>
+            <li><a href="logout.php">Logout</a></li>
+        </ul>
     </div>
 
-    <!-- Script do Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Voltar -->
+    <div class="mt-3 text-start">
+        <a href="ver_professores.php" class="link-back">< Voltar</a>
+    </div>
+
+    <div class="container">
+    <h2 class="text-center">Cadastrar Professor</h2>
+
+    <form id="cadastroForm" action="cadastrar_professor.php" method="POST" novalidate>
+        <div class="mb-3">
+            <label for="nome" class="form-label">Nome e Sobrenome:</label>
+            <input type="text" name="nome" id="nome" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="cpf" class="form-label">CPF:</label>
+            <input type="text" name="cpf" id="cpf" class="form-control" required 
+                pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" 
+                placeholder="000.000.000-00">
+            <div class="invalid-feedback">Informe um CPF válido no formato 000.000.000-00.</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email:</label>
+            <input type="email" name="email" id="email" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="senha" class="form-label">Senha:</label>
+            <input type="text" name="senha" id="senha" class="form-control" required
+                pattern="[a-z0-9]{8,16}" minlength="8" maxlength="16"
+                title="A senha deve conter apenas letras minúsculas e números, entre 8 e 16 caracteres.">
+            <div class="invalid-feedback">Use apenas letras minúsculas e números (8-16 caracteres).</div>
+        </div>
+
+        <button type="submit" class="btn btn-gradient w-100">Cadastrar Professor</button>
+    </form>
+</div>
+
+<!-- Máscara e validação via JS -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const cpfInput = document.getElementById("cpf");
+
+        cpfInput.addEventListener("input", function (e) {
+            let value = cpfInput.value.replace(/\D/g, ""); // Remove tudo que não for número
+            if (value.length > 11) value = value.slice(0, 11); // Limita a 11 dígitos
+
+            // Aplica a máscara: 000.000.000-00
+            value = value.replace(/(\d{3})(\d)/, "$1.$2");
+            value = value.replace(/(\d{3})(\d)/, "$1.$2");
+            value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+
+            cpfInput.value = value;
+        });
+
+        // Validação do formulário
+        const form = document.getElementById("cadastroForm");
+        form.addEventListener("submit", function (e) {
+            if (!form.checkValidity()) {
+                e.preventDefault();
+                e.stopPropagation();
+                form.classList.add("was-validated");
+            }
+        });
+    });
+</script>
+
+<!-- Bootstrap JS (corrigido link quebrado) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
 </body>
 </html>

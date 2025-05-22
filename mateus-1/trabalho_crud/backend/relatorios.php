@@ -7,6 +7,13 @@ if ($conn->connect_error) {
 
 $paginaAnterior = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '../../index.php';
 
+// Verifica se o usuário está logado
+session_start();
+if (!isset($_SESSION['professor_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
 // Consulta 1: Alunos que mais leram
 $sqlAlunos = "SELECT a.nome AS aluno_nome, COUNT(e.id) AS total
               FROM emprestimo e

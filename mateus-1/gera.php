@@ -20,7 +20,7 @@ $livros = [26, 29];
 $dataBase = strtotime('2025-05-01');
 $linhas = [];
 
-for ($i = 0; $i < 80; $i++) {
+for ($i = 0; $i < 40; $i++) {
     $id_aluno = $alunos[$i % count($alunos)];
     $id_livro = $livros[$i % count($livros)];
     $data_emprestimo = date('Y-m-d', strtotime("+$i days", $dataBase));

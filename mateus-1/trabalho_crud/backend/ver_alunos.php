@@ -8,7 +8,7 @@ if (!isset($_SESSION['professor_id'])) {
 }
 
 // Conectar com o banco de dados
-$conn = new mysqli('localhost', 'root', '', 'crud_db');
+include '../conexao.php';
 
 // Verifica a conexão
 if ($conn->connect_error) {
@@ -28,12 +28,11 @@ if (isset($_GET['remover'])) {
     } else {
         // Remove o aluno
         $sql_remover = "DELETE FROM aluno WHERE id = $aluno_id";
-        if ($conn->query($sql_remover) === TRUE) {
-            echo "<script>alert('Aluno removido com sucesso!');</script>";
-            echo "<script>window.location.href = 'ver_alunos.php';</script>";
-        } else {
-            echo "Erro ao remover aluno: " . $conn->error;
-        }
+        $conn->query($sql_remover);
+
+        // Redireciona silenciosamente após exclusão
+        header("Location: ver_alunos.php");
+        exit();
     }
 }
 
@@ -62,37 +61,62 @@ $conn->close();
     <link rel="stylesheet" type="text/css" href="../frontend/ver.css">
 
 </head>
+<body>
     <!-- Cabeçalho -->
-    <header>
-        <div class="header">Biblioteca M.V.C</div>
-    </header>
+    <nav class="header">Biblioteca M.V.C
+            <!-- Botão para abrir/fechar o menu lateral -->
+            <span id="toggleSidebar" class="openbtn" onclick="toggleNav()">&#9776;</span>
 
-    <body>
+
+            <script>
+                function toggleNav() {
+                    const sidebar = document.getElementById("mySidebar");
+                    const toggleBtn = document.getElementById("toggleSidebar");
+
+                    if (sidebar.classList.contains("open")) {
+                        sidebar.classList.remove("open");
+                        toggleBtn.innerHTML = "&#9776;"; // ícone de abrir
+                    } else {
+                        sidebar.classList.add("open");
+                        toggleBtn.innerHTML = "&times;"; // ícone de fechar
+                    }
+                }
+            </script>
+
+    </nav>
+
+    <!-- Menu lateral -->
+    <div class="sidebar" id="mySidebar">
+        <ul>
+            <li><a href="relatorios.php">Relatórios</a></li>
+            <li><a href="logout.php">Logout</a></li>
+        </ul>
+    </div>
+
         <div class="mt-3 text-start">
-            <a href="painel.php" class="link-back">< Voltar para o painel</a>
+        <a href="../../index.php" class="link-back">< Voltar para o painel</a>
         </div>
 
         <div class="container mt-5">
             <h2 class="text-center">Lista de Alunos</h2>
             <div class="text-end mb-2">
-                <a href="registrar_aluno.php" class="link-registrar">Registrar Aluno</a>
+                <a href="cadastrar_aluno.php" class="link-registrar">Cadastrar Aluno</a>
             </div>
+            <div class="table-container">
             <table id="emprestimosTable" class="table table-striped">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Nome</th>
                         <th>Série</th>
                         <th>Email</th>
-                        <th>Editar</th>
-                        <th>Remover</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php 
                     while ($row = $result->fetch_assoc()) { 
                         echo "<tr>";
-                        echo "<td>" . $row['id'] . "</td>";
                         echo "<td>" . $row['nome'] . "</td>";
                         echo "<td>" . $row['serie'] . "</td>";
                         echo "<td>" . $row['email'] . "</td>";

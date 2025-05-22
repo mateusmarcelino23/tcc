@@ -55,6 +55,7 @@ body {
 
 .btn:hover {
     background-color: #003366;
+    color: white;
 }
 
 /* Estilo dos formulários */
@@ -77,14 +78,137 @@ input, select {
     border-radius: 4px;
 }
 
-/* Responsividade */
-@media (max-width: 600px) {
-    .container {
-        width: 95%;
-        padding: 20px;
-    }
-    .btn {
-        font-size: 14px;
-    }
+/* Link para voltar ao painel */
+.link-back {
+    color: black;
+    font-size: 20px;
+    text-decoration: none;
+    position: fixed;
+    top: 100px;
+    left: 20px;
+    transition: color 0.3s ease;
+    cursor: pointer;
 }
 
+
+/* Apenas para registrar alunos no empréstimo */
+.suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-top: none;
+    max-height: 200px;
+    overflow-y: auto;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.suggestions div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: white;
+    transition: background-color 0.2s;
+    border-bottom: 1px solid #eee;
+}
+
+.suggestions div:hover {
+    background-color: #f0f0f0;
+}
+
+.suggestions div.selected {
+    background-color: #007bff;
+    color: white;
+}
+
+.suggestions div:first-child {
+    border-top: 1px solid #ccc;
+}
+
+/* Sidebar estilizada */
+.sidebar {
+    position: fixed;
+    top: 79px; /* Ajuste este valor para a altura da navbar */
+    right: -250px; /* Inicialmente escondido */
+    width: 250px;
+    height: calc(100% - 70px); /* Ajuste a altura para ocupar o restante da tela */
+    color: white;
+    padding: 20px;
+    transition: right 0.3s ease;
+    box-shadow: -4px 0 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* Para garantir que fique sobre outros elementos */
+    position: fixed;
+    background-color: #263238;
+    transition: right 0.3s ease-in-out;
+    padding-top: 30px;
+}
+
+.sidebar.open {
+    right: 0; /* Exibe o menu lateral */
+}
+
+/* Botão de toggle (abrir/fechar) */
+.openbtn {
+    position: fixed;
+    top: 12px;
+    right: 20px;
+    font-size: 36px;
+    color: white;
+    cursor: pointer;
+    z-index: 1100; /* acima da sidebar */
+}
+
+.sidebar .closebtn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 36px;
+    color: white;
+    cursor: pointer;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar li {
+    margin-bottom: 15px; /* Espaço entre os itens da lista */
+}
+
+.sidebar a {
+    color: rgb(255, 255, 255); /* Cor do texto */
+    text-decoration: none; /* Remove o sublinhado */
+    font-size: 18px; /* Tamanho da fonte */
+    padding: 3px 0; /* Espaço ao redor do texto */
+    display: block; /* Faz com que o link ocupe toda a largura do item da lista */
+    transition: color 0.3s ease; /* Transição suave para a cor */
+}
+
+.sidebar a {
+    padding: 12px 20px;
+    text-decoration: none;
+    font-size: 18px;
+    color: white;
+    display: block;
+    transition: background 0.3s;
+}
+
+.sidebar a:hover {
+    background-color: #37474f;
+}
+
+.sidebar .closebtn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 32px;
+    color: white;
+    cursor: pointer;
+}

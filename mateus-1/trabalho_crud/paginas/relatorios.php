@@ -48,7 +48,12 @@ $resultSeries = $conn->query($sqlSeries);
 $temSeries = $resultSeries->num_rows > 0;
 
 // Consulta para observações
-$sqlNotas = "SELECT texto, data FROM anotacoes ORDER BY data DESC";
+$sqlNotas = "
+    SELECT a.texto, a.data, p.nome AS professor_nome 
+    FROM anotacoes a
+    JOIN professor p ON a.id_professor = p.id
+    ORDER BY a.data DESC
+";
 $resultNotas = $conn->query($sqlNotas);
 
 ?>
@@ -175,50 +180,74 @@ $resultNotas = $conn->query($sqlNotas);
       <div id="graficoAlunos-container">
         <div id="graficoAlunos" class="grafico"></div>
         <?php if (!$temAlunos): ?>
-          <div id="semDadosAlunos" class="alert alert-warning">Nenhum dado de empréstimo devolvido encontrado para alunos.</div>
+          <div id="semDadosAlunos" class="alert-warning">Nenhum dado de empréstimo devolvido encontrado para alunos.</div>
         <?php endif; ?>
       </div>
 
       <div id="graficoLivros-container">
         <div id="graficoLivros" class="grafico"></div>
         <?php if (!$temLivros): ?>
-          <div id="semDadosLivros" class="alert alert-warning">Nenhum dado de empréstimo devolvido encontrado para livros.</div>
+          <div id="semDadosLivros" class="alert-warning">Nenhum dado de empréstimo devolvido encontrado para livros.</div>
         <?php endif; ?>
       </div>
 
       <div id="graficoSeries-container">
         <div id="graficoSeries" class="grafico"></div>
         <?php if (!$temSeries): ?>
-          <div id="semDadosSeries" class="alert alert-warning">Nenhum dado de empréstimo devolvido encontrado para séries.</div>
+          <div id="semDadosSeries" class="alert-warning">Nenhum dado de empréstimo devolvido encontrado para séries.</div>
         <?php endif; ?>
       </div>
     </div>
 
     <!-- BARRA LATERAL -->
     <div class="sidebar">
-      <h5 class="mt-3">Observações dos Professores</h5>
-      <div class="lista-observacoes">
-        <?php if ($resultNotas->num_rows > 0): ?>
-          <?php while ($nota = $resultNotas->fetch_assoc()): ?>
-            <div class="mb-2">
-              <small><strong><?php echo date('d/m/Y', strtotime($nota['data'])); ?></strong></small><br>
-              <p><?php echo nl2br(htmlspecialchars($nota['texto'])); ?></p>
-            </div>
-          <?php endwhile; ?>
-        <?php else: ?>
-          <p class="text-muted">Nenhuma observação registrada.</p>
-        <?php endif; ?>
+  <h5 class="mt-3">Observações dos Professores</h5>
+  <div class="lista-observacoes">
+  <?php if ($resultNotas->num_rows > 0): ?>
+  <?php while ($nota = $resultNotas->fetch_assoc()): ?>
+    <div class="observacao-container mb-3 p-3 border rounded">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <small><strong><?php echo htmlspecialchars($nota['professor_nome']); ?></strong></small>
+        <small class="text-muted"><?php echo date('d/m/Y H:i', strtotime($nota['data'])); ?></small>
       </div>
-      <button onclick="document.getElementById('novaAnotacao').style.display='block'" class="btn btn-primary w-100 mt-3">Nova Anotação</button>
-
-      <div id="novaAnotacao" class="nova-anotacao mt-3" style="display: none;">
-        <form method="POST" action="salvar_anotacao.php">
-          <textarea name="texto" class="form-control mb-2" rows="4" placeholder="Escreva sua observação..." required></textarea>
-          <button type="submit" class="btn btn-success w-100">Salvar</button>
-        </form>
-      </div>
+      <p><?php echo nl2br(htmlspecialchars($nota['texto'])); ?></p>
     </div>
+  <?php endwhile; ?>
+<?php else: ?>
+  <p class="text-muted">Nenhuma observação registrada.</p>
+<?php endif; ?>
   </div>
+
+  <!-- Botão que inicialmente aparece -->
+  <button id="btnNovaAnotacao" class="btn btn-primary w-100 mt-3">Nova Anotação</button>
+
+  <!-- Formulário escondido inicialmente -->
+  <form id="formAnotacao" method="POST" action="salvar_anotacao.php" style="display:none;" class="mt-3">
+    <textarea name="texto" class="form-control mb-2" rows="4" placeholder="Escreva sua observação..." required></textarea>
+    <div class="d-flex gap-2">
+      <button type="submit" class="btn btn-success flex-grow-1">Salvar</button>
+      <button type="button" id="btnCancelar" class="btn btn-secondary flex-grow-1">Cancelar</button>
+    </div>
+  </form>
+</div>
+
+<script>
+  const btnNovaAnotacao = document.getElementById('btnNovaAnotacao');
+  const formAnotacao = document.getElementById('formAnotacao');
+  const btnCancelar = document.getElementById('btnCancelar');
+
+  btnNovaAnotacao.addEventListener('click', () => {
+    btnNovaAnotacao.style.display = 'none';
+    formAnotacao.style.display = 'block';
+  });
+
+  btnCancelar.addEventListener('click', () => {
+    formAnotacao.style.display = 'none';
+    btnNovaAnotacao.style.display = 'block';
+    formAnotacao.reset();  // Limpa o textarea
+  });
+</script>
+
 </body>
 </html>
 

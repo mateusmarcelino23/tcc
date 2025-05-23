@@ -51,21 +51,21 @@ body {
 
 /* SIDEBAR */
 .sidebar {
-    position: fixed;
+    position: fixed; /* Deixa fixa */
     top: 120px; /* abaixo do header */
     right: 0;
     bottom: 0;
-    width: 500px;
+    width: 400px; /* pode ajustar o tamanho conforme seu layout */
     background-color: #ffffff;
     border-left: 1px solid #e0e0e0;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
     padding: 20px;
-    overflow-y: auto;
+    overflow-y: auto; /* Scroll vertical se conteúdo for grande */
     display: flex;
     flex-direction: column;
     gap: 20px;
-    position: sticky;
 }
+
 
 
 /* LISTA DENTRO DA SIDEBAR */
@@ -77,7 +77,6 @@ body {
 
 /* BOTÃO */
 .btn {
-    display: inline-block;
     padding: 12px 24px;
     background: #004080;
     color: white;
@@ -108,4 +107,39 @@ body {
 
 .link-back:hover {
     text-decoration: underline;
+}
+
+.card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .card-header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px 5px 0 0;
+  }
+  
+  .card-body {
+    padding: 10px;
+  }  
+
+  .observacao-container {
+    background-color: #f9f9f9;
+  }  
+
+  .btn-excluir {
+    background: none;
+    border: none;
+    color: white;
+    font-weight: bold;
+    float: right;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.btn-excluir:hover {
+    color: #ff4d4d;
 }

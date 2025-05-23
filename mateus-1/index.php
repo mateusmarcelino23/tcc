@@ -70,8 +70,8 @@ $conn->close();
     <!-- Menu lateral -->
     <div class="sidebar" id="mySidebar">
         <ul>
-            <li><a href="trabalho_crud/backend/relatorios.php">Relatórios</a></li>
-            <li><a href="trabalho_crud/backend/logout.php">Logout</a></li>
+            <li><a href="trabalho_crud/paginas/relatorios.php">Relatórios</a></li>
+            <li><a href="trabalho_crud/paginas/logout.php">Logout</a></li>
         </ul>
     </div>
 
@@ -89,16 +89,16 @@ $conn->close();
     <div class="container">
         <table class="table table-bordered">
             <tr>
-                <td><a href="trabalho_crud/backend/ver_emprestimos.php" class="btn btn-primary">Empréstimos</a></td>
+                <td><a href="trabalho_crud/paginas/ver_emprestimos.php" class="btn btn-primary">Empréstimos</a></td>
             </tr>
             <tr>
-                <td><a href="trabalho_crud/backend/ver_livros.php" class="btn btn-primary">Livros</a></td>
+                <td><a href="trabalho_crud/paginas/ver_livros.php" class="btn btn-primary">Livros</a></td>
             </tr>
             <tr>
-                <td><a href="trabalho_crud/backend/ver_alunos.php" class="btn btn-primary">Alunos</a></td>
+                <td><a href="trabalho_crud/paginas/ver_alunos.php" class="btn btn-primary">Alunos</a></td>
             </tr>
             <tr>
-                <td><a href="trabalho_crud/backend/ver_professores.php" class="btn btn-primary">Professores</a></td>
+                <td><a href="trabalho_crud/paginas/ver_professores.php" class="btn btn-primary">Professores</a></td>
             </tr>
         </table>
     </div>

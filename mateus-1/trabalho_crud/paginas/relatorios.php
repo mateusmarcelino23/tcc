@@ -60,7 +60,7 @@ $resultNotas = $conn->query($sqlNotas);
   <meta charset="UTF-8">
   <title>Relatórios</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="../frontend/relatorios.css">
+  <link rel="stylesheet" type="text/css" href="../estilos/relatorios.css">
   <script src="https://www.gstatic.com/charts/loader.js"></script>
 
   <script>

@@ -154,6 +154,14 @@ td .status-entregue:hover {
     color: #013f01;
 }
 
+td .status-cancelar {
+    color: #2c1111;
+}
+
+td .status-cancelar:hover {
+    color: #000000;
+}
+
 
 /* Link Para Registrar Empréstimo */
 .link-registrar {

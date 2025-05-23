@@ -18,7 +18,7 @@ if (!isset($_SESSION['professor_id'])) {
 $sqlAlunos = "SELECT a.nome AS aluno_nome, COUNT(e.id) AS total
               FROM emprestimo e
               JOIN aluno a ON e.id_aluno = a.id
-              WHERE e.status = 'Devolvido'
+              WHERE e.status = 2
               GROUP BY e.id_aluno
               ORDER BY total DESC
               LIMIT 10";
@@ -29,7 +29,7 @@ $temAlunos = $resultAlunos->num_rows > 0;
 $sqlLivros = "SELECT l.nome_livro, COUNT(e.id) AS total
               FROM emprestimo e
               JOIN livro l ON e.id_livro = l.id
-              WHERE e.status = 'Devolvido'
+              WHERE e.status = 2
               GROUP BY e.id_livro
               ORDER BY total DESC
               LIMIT 10";
@@ -40,7 +40,7 @@ $temLivros = $resultLivros->num_rows > 0;
 $sqlSeries = "SELECT a.serie, COUNT(e.id) AS total
               FROM emprestimo e
               JOIN aluno a ON e.id_aluno = a.id
-              WHERE e.status = 'Devolvido'
+              WHERE e.status = 2
               GROUP BY a.serie
               ORDER BY total DESC
               LIMIT 10";

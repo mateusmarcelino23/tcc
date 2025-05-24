@@ -3,7 +3,7 @@ session_start();
 
 // Verifica se o professor está logado
 if (!isset($_SESSION['professor_id'])) {
-    header("Location: trabalho_crud/backend/login.php");
+    header("Location: trabalho_crud/paginas/login.php");
     exit();
 }
 
@@ -44,7 +44,7 @@ $conn->close();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Link para o CSS personalizado -->
-    <link rel="stylesheet" type="text/css" href="trabalho_crud/frontend/painel.css">
+    <link rel="stylesheet" type="text/css" href="trabalho_crud/estilos/painel.css">
 
 </head>
 <body>

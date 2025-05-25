@@ -1,8 +1,8 @@
 <?php
+
 session_start();
 include '../conexao.php';
 
-// Verifica se o professor está logado e tem id na sessão
 if (!isset($_SESSION['professor_id'])) {
     header('Location: login.php');
     exit();
@@ -15,12 +15,18 @@ $data_atual = date('Y-m-d H:i:s');
 $sql = "INSERT INTO anotacoes (texto, data, id_professor) VALUES ('$texto', '$data_atual', $id_professor)";
 
 if ($conn->query($sql) === TRUE) {
-    // Redireciona de volta para a página de relatórios após salvar
-    header('Location: relatorios.php'); 
+    // Recebe a página anterior enviada no POST
+    $paginaAnterior = isset($_POST['paginaAnterior']) ? $_POST['paginaAnterior'] : 'relatorios.php';
+
+    // Evita redirecionamento para locais inválidos, opcionalmente
+    // por segurança, você pode validar que $paginaAnterior seja local e dentro do seu domínio
+
+    header('Location: ' . $paginaAnterior);
     exit();
 } else {
     echo "Erro: " . $conn->error;
 }
 
 $conn->close();
+
 ?>

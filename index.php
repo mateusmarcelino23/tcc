@@ -92,7 +92,7 @@ $conn->close();
                 <td><a href="trabalho_crud/paginas/ver_emprestimos.php" class="btn btn-primary">Empréstimos</a></td>
             </tr>
             <tr>
-                <td><a href="trabalho_crud/paginas/ver_livros.php" class="btn btn-primary">Livros</a></td>
+                <td><a href="trabalho_crud/paginas/cadastrar_livros.php" class="btn btn-primary">Cadastrar Livros</a></td>
             </tr>
             <tr>
                 <td><a href="trabalho_crud/paginas/ver_alunos.php" class="btn btn-primary">Alunos</a></td>

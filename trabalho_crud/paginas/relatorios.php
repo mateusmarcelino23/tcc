@@ -1,9 +1,13 @@
 <?php
+
+
 // Conexão com o banco
 include '../conexao.php';
 if ($conn->connect_error) {
     die("Erro na conexão: " . $conn->connect_error);
 }
+
+session_start();
 
 $paginaAnterior = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '../../index.php';
 
@@ -48,8 +52,12 @@ $resultSeries = $conn->query($sqlSeries);
 $temSeries = $resultSeries->num_rows > 0;
 
 // Consulta para observações
-$sqlNotas = "SELECT texto, data FROM anotacoes ORDER BY data DESC";
+$sqlNotas = "SELECT n.id, n.texto, n.data, p.nome AS professor_nome 
+             FROM anotacoes n
+             JOIN professor p ON n.id_professor = p.id
+             ORDER BY n.data DESC";
 $resultNotas = $conn->query($sqlNotas);
+$temNotas = $resultNotas->num_rows > 0;
 
 ?>
 
@@ -167,7 +175,7 @@ $resultNotas = $conn->query($sqlNotas);
 
   <!-- Voltar para a página de antes com $paginaAnterior -->
   <div class="mt-3 text-start">
-    <a href="<?php echo $paginaAnterior; ?>" class="link-back">< Voltar</a>
+    <a href="<?php echo htmlspecialchars($paginaAnterior); ?>" class="link-back">< Voltar</a>
   </div>
 
   <div class="d-flex">
@@ -194,32 +202,81 @@ $resultNotas = $conn->query($sqlNotas);
       </div>
     </div>
 
-    <!-- BARRA LATERAL -->
-    <div class="sidebar">
-      <h5 class="mt-3">Observações dos Professores</h5>
-      <div class="lista-observacoes">
-        <?php if ($resultNotas->num_rows > 0): ?>
-          <?php while ($nota = $resultNotas->fetch_assoc()): ?>
-            <div class="mb-2">
-              <small><strong><?php echo date('d/m/Y', strtotime($nota['data'])); ?></strong></small><br>
-              <p><?php echo nl2br(htmlspecialchars($nota['texto'])); ?></p>
-            </div>
-          <?php endwhile; ?>
-        <?php else: ?>
-          <p class="text-muted">Nenhuma observação registrada.</p>
-        <?php endif; ?>
-      </div>
-      <button onclick="document.getElementById('novaAnotacao').style.display='block'" class="btn btn-primary w-100 mt-3">Nova Anotação</button>
-
-      <div id="novaAnotacao" class="nova-anotacao mt-3" style="display: none;">
-        <form method="POST" action="salvar_anotacao.php">
-          <textarea name="texto" class="form-control mb-2" rows="4" placeholder="Escreva sua observação..." required></textarea>
-          <button type="submit" class="btn btn-success w-100">Salvar</button>
-        </form>
-      </div>
-    </div>
+<!-- BARRA LATERAL -->
+<div class="sidebar">
+  <div class="lista-observacoes">
+    <?php if ($resultNotas->num_rows > 0): ?>
+      <?php while ($nota = $resultNotas->fetch_assoc()): ?>
+        <div class="card">
+          <button class="btn-excluir" data-id="<?php echo $nota['id']; ?>">x</button>
+          <div class="card-header">
+            <strong><?php echo htmlspecialchars($nota['professor_nome']); ?></strong>
+            <span class="data-anotacao">
+              <?php echo date('d/m/Y H:i', strtotime($nota['data'])); ?>
+            </span>
+          </div>
+          <div class="card-body">
+            <p class="card-text"><?php echo nl2br(htmlspecialchars($nota['texto'])); ?></p>
+          </div>
+        </div>
+      <?php endwhile; ?>
+    <?php else: ?>
+      <div class="alert alert-warning">Nenhuma anotação encontrada.</div>
+    <?php endif; ?>
   </div>
+
+  <button id="btnNovaAnotacao" class="btn">Nova Anotação</button>
+
+  <div id="novaAnotacao" class="nova-anotacao" style="display: none;">
+    <form method="POST" action="salvar_anotacao.php">
+      <textarea name="texto" class="form-control mb-2" rows="4" placeholder="Escreva sua observação..." required></textarea>
+      <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-success">Salvar</button>
+        <button type="button" id="btnCancelar" class="btn btn-secondary">Cancelar</button>
+      </div>
+    </form>
+  </div>
+
+</div>
 </body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  document.getElementById('btnNovaAnotacao').addEventListener('click', function() {
+    document.getElementById('novaAnotacao').style.display = 'block';
+    this.style.display = 'none';
+  });
+
+  document.getElementById('btnCancelar').addEventListener('click', function() {
+    document.getElementById('novaAnotacao').style.display = 'none';
+    document.getElementById('btnNovaAnotacao').style.display = 'inline-block';
+  });
+
+    document.querySelectorAll('.btn-excluir').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const id = this.dataset.id;
+      console.log('Tentando excluir anotação ID:', id);  // Debug no console
+      if (confirm('Tem certeza que deseja excluir esta anotação?')) {
+        fetch('excluir_anotacao.php', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+          body: 'id=' + encodeURIComponent(id)
+        })
+        .then(response => response.text())
+        .then(result => {
+          console.log('Resposta do servidor:', result); // Debug resposta
+          location.reload();
+        })
+        .catch(err => {
+          alert('Erro ao excluir anotação.');
+          console.error(err);
+        });
+      }
+    });
+  });
+</script>
+
 </html>
 
 <?php

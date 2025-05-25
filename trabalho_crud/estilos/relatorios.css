@@ -33,6 +33,11 @@ body {
     box-sizing: border-box;
 }
 
+.relatorios-container {
+  margin-right: 320px; /* espaço para a sidebar */
+  padding: 20px;
+}
+
 /* GRAFICO */
 .grafico {
     background: white;
@@ -51,19 +56,18 @@ body {
 
 /* SIDEBAR */
 .sidebar {
-    position: fixed; /* Deixa fixa */
-    top: 120px; /* abaixo do header */
-    right: 0;
-    bottom: 0;
-    width: 400px; /* pode ajustar o tamanho conforme seu layout */
-    background-color: #ffffff;
-    border-left: 1px solid #e0e0e0;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-    padding: 20px;
-    overflow-y: auto; /* Scroll vertical se conteúdo for grande */
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 990px; /* altura total da tela */
+  width: 400px; /* ou ajuste conforme preferir */
+  background-color: #f8f9fa; /* cor clara, ou altere conforme o tema */
+  padding: 20px;
+  overflow-y: auto; /* rolagem caso tenha muitas observações */
+  box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  margin-top: 80px;
 }
 
 
@@ -77,20 +81,24 @@ body {
 
 /* BOTÃO */
 .btn {
-    padding: 12px 24px;
-    background: #004080;
-    color: white;
-    text-decoration: none;
-    border: none;
-    border-radius: 50px;
-    font-weight: 500;
-    text-align: center;
-    margin-top: 20px;
-    cursor: pointer;
+  display: inline-block; /* para que não cresça na largura do container */
+  width: auto; /* para respeitar o conteúdo */
+  max-width: 600px; /* limite máximo se quiser */
+  padding: 12px 24px;
+  border-radius: 50px;
+  background-color: #004080;
+  color: white;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 20px;
+  font-weight: 500;
+  border: none;
 }
+
 
 .btn:hover {
     background: #002b5c;
+    color: #fff;
 }
 
 /* BOTÃO DE VOLTAR */
@@ -113,18 +121,32 @@ body {
     border: 1px solid #ddd;
     border-radius: 5px;
     background-color: #f9f9f9;
+    margin-top: 40px;
   }
   
-  .card-header {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px;
-    border-radius: 5px 5px 0 0;
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #004080;
+  color: #fff;
+}
+
+.card-header .data-anotacao {
+  color: white;
+  font-size: 0.9em;
+}
+
+  .card-text {
+    font-size: 18px;
+    color: #000000;
   }
-  
-  .card-body {
-    padding: 10px;
-  }  
+
+.card-header .text-muted {
+  color: white; /* Texto da data também branco */
+  font-size: 0.9em; /* Um pouco menor, se quiser suavizar */
+}
+
 
   .observacao-container {
     background-color: #f9f9f9;
@@ -140,6 +162,30 @@ body {
     font-size: 18px;
 }
 
-.btn-excluir:hover {
-    color: #ff4d4d;
+.btn-excluir {
+  position: absolute;
+  top: -24px;
+  right: 0px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  width: 24px;
+  height: 24px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nova-anotacao {
+    margin-top: auto;
+}
+
+.alert {
+    color: rgb(0, 0, 0);
+    font-size: 18px;
+    margin-top: 20px;
+    text-align: center;
 }

@@ -1,17 +1,25 @@
 <?php
 include '../conexao.php';
+session_start();
 
-if(isset($_GET['id'])) {
-    $id = intval($_GET['id']);
+if (!isset($_SESSION['professor_id'])) {
+    http_response_code(403);
+    echo "Não autorizado";
+    exit();
+}
 
+if (isset($_POST['id'])) {
+    $id = intval($_POST['id']);
     $sql = "DELETE FROM anotacoes WHERE id = $id";
-    if($conn->query($sql) === TRUE) {
-        header("Location: relatorios.php"); // Ajuste para a página correta
-        exit();
+    if ($conn->query($sql) === TRUE) {
+        echo "Anotação excluída com sucesso.";
     } else {
-        echo "Erro ao excluir: " . $conn->error;
+        http_response_code(500);
+        echo "Erro ao excluir anotação: " . $conn->error;
     }
 } else {
-    echo "ID não especificado.";
+    http_response_code(400);
+    echo "ID não fornecido.";
 }
+$conn->close();
 ?>

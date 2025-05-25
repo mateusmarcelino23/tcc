@@ -12,6 +12,10 @@ if (!isset($_SESSION['professor_id'])) {
     exit();
 }
 
+// fuso horário
+date_default_timezone_set('America/Sao_Paulo');
+
+
 // Consulta 1: Alunos que mais leram
 $sqlAlunos = "SELECT a.nome AS aluno_nome, COUNT(e.id) AS total
               FROM emprestimo e
@@ -46,7 +50,7 @@ $resultSeries = $conn->query($sqlSeries);
 $temSeries = $resultSeries->num_rows > 0;
 
 // Consulta para observações
-$sqlNotas = "SELECT n.id, n.texto, n.data, p.nome AS professor_nome 
+$sqlNotas = "SELECT n.id, n.texto, n.data, p.nome AS professor_nome, CONVERT_TZ(data, '+00:00', '-05:00') AS data_corrigida
              FROM anotacoes n
              JOIN professor p ON n.id_professor = p.id
              ORDER BY n.data DESC";
@@ -207,7 +211,7 @@ $temNotas = $resultNotas->num_rows > 0;
           <div class="card-header">
             <strong><?php echo htmlspecialchars($nota['professor_nome']); ?></strong>
             <span class="data-anotacao">
-              <?php echo date('d/m/Y H:i', strtotime($nota['data'])); ?>
+              <?php echo date('d/m/Y H:i', strtotime($nota['data_corrigida'])); ?>
             </span>
           </div>
           <div class="card-body">

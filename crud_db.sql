@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 22/05/2025 às 12:37
+-- Tempo de geração: 25/05/2025 às 19:31
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -54,22 +54,17 @@ INSERT INTO `aluno` (`id`, `nome`, `serie`, `email`) VALUES
 
 CREATE TABLE `anotacoes` (
   `id` int(11) NOT NULL,
-  `professor` varchar(100) DEFAULT NULL,
+  `id_professor` int(11) NOT NULL,
   `texto` text NOT NULL,
-  `data` timestamp NOT NULL DEFAULT current_timestamp()
+  `data` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `anotacoes`
 --
 
-INSERT INTO `anotacoes` (`id`, `professor`, `texto`, `data`) VALUES
-(1, NULL, 'primeira do dia - teste', '2025-05-15 14:10:16'),
-(2, NULL, 'eu li primeiro', '2025-05-15 14:11:25'),
-(3, NULL, 'eu li primeiro', '2025-05-15 14:11:29'),
-(4, NULL, 'eu pooooosso cramaa-ar', '2025-05-15 14:39:30'),
-(5, NULL, 'my name is thanos', '2025-05-20 13:19:09'),
-(6, NULL, 'my name is thanos', '2025-05-20 13:19:15');
+INSERT INTO `anotacoes` (`id`, `id_professor`, `texto`, `data`) VALUES
+(50, 20, 'Olá', '2025-05-25 19:31:07');
 
 -- --------------------------------------------------------
 
@@ -96,43 +91,45 @@ INSERT INTO `emprestimo` (`id`, `id_aluno`, `id_professor`, `id_livro`, `data_em
 (282, 33, 20, 26, '2025-05-01', '2025-05-10', 0),
 (283, 34, 20, 29, '2025-05-02', '2025-05-11', 0),
 (284, 35, 20, 26, '2025-05-03', '2025-05-12', 0),
-(285, 36, 20, 29, '2025-05-04', '2025-05-13', 0),
+(285, 36, 20, 29, '2025-05-04', '2025-05-13', 2),
 (286, 34, 20, 26, '2025-05-05', '2025-05-22', 0),
 (287, 77, 20, 29, '2025-05-06', '2025-05-15', 0),
 (288, 33, 20, 26, '2025-05-07', '2025-05-16', 0),
-(289, 34, 20, 29, '2025-05-08', '2025-05-17', 0),
+(289, 34, 20, 29, '2025-05-08', '2025-05-17', 2),
 (290, 35, 20, 26, '2025-05-09', '2025-05-18', 0),
 (291, 36, 20, 29, '2025-05-10', '2025-05-19', 0),
-(292, 37, 20, 26, '2025-05-11', '2025-05-20', 0),
+(292, 37, 20, 26, '2025-05-11', '2025-05-20', 2),
 (293, 77, 20, 29, '2025-05-12', '2025-05-21', 0),
-(294, 33, 20, 26, '2025-05-13', '2025-05-22', 0),
+(294, 33, 20, 26, '2025-05-13', '2025-05-22', 2),
 (295, 34, 20, 29, '2025-05-14', '2025-05-23', 0),
 (296, 35, 20, 26, '2025-05-15', '2025-05-24', 0),
 (297, 36, 20, 29, '2025-05-16', '2025-05-25', 0),
-(298, 37, 20, 26, '2025-05-17', '2025-05-26', 0),
+(298, 37, 20, 26, '2025-05-17', '2025-05-26', 2),
 (299, 77, 20, 29, '2025-05-18', '2025-05-27', 0),
-(300, 33, 20, 26, '2025-05-19', '2025-05-28', 0),
+(300, 33, 20, 26, '2025-05-19', '2025-05-28', 2),
 (301, 34, 20, 29, '2025-05-20', '2025-05-29', 0),
 (302, 35, 20, 26, '2025-05-21', '2025-05-30', 0),
 (303, 36, 20, 29, '2025-05-22', '2025-05-31', 0),
 (304, 37, 20, 26, '2025-05-23', '2025-06-01', 0),
-(305, 77, 20, 29, '2025-05-24', '2025-06-02', 0),
-(306, 33, 20, 26, '2025-05-25', '2025-06-03', 0),
+(305, 34, 20, 29, '2025-05-24', '2025-06-02', 0),
+(306, 33, 20, 26, '2025-05-25', '2025-06-03', 2),
 (307, 34, 20, 29, '2025-05-26', '2025-06-04', 0),
 (308, 35, 20, 26, '2025-05-27', '2025-06-05', 0),
 (309, 36, 20, 29, '2025-05-28', '2025-06-06', 0),
-(310, 37, 20, 26, '2025-05-29', '2025-06-07', 0),
+(310, 37, 20, 26, '2025-05-29', '2025-06-07', 2),
 (311, 77, 20, 29, '2025-05-30', '2025-06-08', 0),
-(312, 33, 20, 26, '2025-05-31', '2025-06-09', 0),
+(312, 33, 20, 26, '2025-05-31', '2025-06-09', 2),
 (313, 34, 20, 29, '2025-06-01', '2025-06-10', 0),
-(314, 35, 20, 26, '2025-06-02', '2025-06-11', 0),
+(314, 35, 20, 26, '2025-06-02', '2025-06-11', 2),
 (315, 36, 20, 29, '2025-06-03', '2025-06-12', 0),
 (316, 37, 20, 26, '2025-06-04', '2025-06-13', 0),
 (317, 77, 20, 29, '2025-06-05', '2025-06-14', 0),
-(318, 33, 20, 26, '2025-06-06', '2025-06-15', 0),
+(318, 33, 20, 26, '2025-06-06', '2025-06-15', 2),
 (319, 34, 20, 29, '2025-06-07', '2025-06-16', 0),
 (320, 35, 20, 26, '2025-06-08', '2025-06-17', 0),
-(321, 36, 20, 29, '2025-06-09', '2025-06-18', 0);
+(321, 36, 20, 29, '2025-06-09', '2025-06-18', 2),
+(322, 34, 11, 26, '2025-05-24', '2025-06-07', 0),
+(323, 33, 20, 90, '2025-05-24', '2025-05-25', 0);
 
 -- --------------------------------------------------------
 
@@ -154,7 +151,10 @@ CREATE TABLE `livro` (
 INSERT INTO `livro` (`id`, `nome_livro`, `nome_autor`, `isbn`) VALUES
 (26, 'It: A coisa', 'Stephen King', '9788581051529'),
 (29, 'Dom Casmurro', 'Machado de Assis', 'ISBN não disponível'),
-(88, 'O Pequeno Príncipe', 'Antoine De  Saint-exupéry', '9781539839897');
+(88, 'O Pequeno Príncipe', 'Antoine De  Saint-exupéry', '9781539839897'),
+(89, 'História geral da civilização brasileira', 'Sérgio Buarque de Holanda', 'UVA:X001023965'),
+(90, 'Harry Potter e a Pedra Filosofal', 'J.K. Rowling', '9781781103685'),
+(91, 'Uma Vez Desbravador, Sempre Desbravador', 'Maksym Krupskyi', '9788534534864');
 
 -- --------------------------------------------------------
 
@@ -167,17 +167,19 @@ CREATE TABLE `professor` (
   `nome` varchar(40) NOT NULL,
   `cpf` varchar(11) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `senha` varchar(255) NOT NULL
+  `senha` varchar(255) NOT NULL,
+  `token_recuperacao` varchar(64) DEFAULT NULL,
+  `token_expiracao` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `professor`
 --
 
-INSERT INTO `professor` (`id`, `nome`, `cpf`, `email`, `senha`) VALUES
-(11, 'João', '00000000000', 'joaozinho@gmail.com', '$2y$10$9wsKRk73Ak7JUVY88kKfM.fXP1c5t9aMP/o2J3IxJ/AsaVrCEpjZq'),
-(19, 'Fernando', '11111111111', 'umavezflamengo@gmail.com', '$2y$10$TIIcdDCgLOD.GUhE3AIc4eQE/0LIdsP/UQBb54zAVruMoh1AW8L.m'),
-(20, 'Gabriel', '22222222222', 'gabrielhistoria@gmail.com', '$2y$10$2r4IOHUmBrhQK6cLTReere6B4jbvqf2O4.ERO75MLL7HTFY3kug2q');
+INSERT INTO `professor` (`id`, `nome`, `cpf`, `email`, `senha`, `token_recuperacao`, `token_expiracao`) VALUES
+(11, 'João', '00000000000', 'joaozinho@gmail.com', '$2y$10$9wsKRk73Ak7JUVY88kKfM.fXP1c5t9aMP/o2J3IxJ/AsaVrCEpjZq', 'b1b2ed89cbb0c3a9b06d59fab56aaea0', '2025-05-25 20:16:13'),
+(19, 'Fernando', '11111111111', 'umavezflamengo@gmail.com', '$2y$10$TIIcdDCgLOD.GUhE3AIc4eQE/0LIdsP/UQBb54zAVruMoh1AW8L.m', NULL, NULL),
+(20, 'Gabriel', '22222222222', 'gabrielhistoria@gmail.com', '$2y$10$2r4IOHUmBrhQK6cLTReere6B4jbvqf2O4.ERO75MLL7HTFY3kug2q', NULL, NULL);
 
 --
 -- Índices para tabelas despejadas
@@ -193,7 +195,8 @@ ALTER TABLE `aluno`
 -- Índices de tabela `anotacoes`
 --
 ALTER TABLE `anotacoes`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_professor` (`id_professor`);
 
 --
 -- Índices de tabela `emprestimo`
@@ -230,19 +233,19 @@ ALTER TABLE `aluno`
 -- AUTO_INCREMENT de tabela `anotacoes`
 --
 ALTER TABLE `anotacoes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT de tabela `emprestimo`
 --
 ALTER TABLE `emprestimo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=322;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=324;
 
 --
 -- AUTO_INCREMENT de tabela `livro`
 --
 ALTER TABLE `livro`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
 
 --
 -- AUTO_INCREMENT de tabela `professor`
@@ -253,6 +256,12 @@ ALTER TABLE `professor`
 --
 -- Restrições para tabelas despejadas
 --
+
+--
+-- Restrições para tabelas `anotacoes`
+--
+ALTER TABLE `anotacoes`
+  ADD CONSTRAINT `anotacoes_ibfk_1` FOREIGN KEY (`id_professor`) REFERENCES `professor` (`id`);
 
 --
 -- Restrições para tabelas `emprestimo`

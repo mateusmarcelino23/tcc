@@ -1,15 +1,9 @@
 <?php
-
-
 // Conexão com o banco
 include '../conexao.php';
 if ($conn->connect_error) {
     die("Erro na conexão: " . $conn->connect_error);
 }
-
-session_start();
-
-$paginaAnterior = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '../../index.php';
 
 // Verifica se o usuário está logado
 session_start();
@@ -175,8 +169,9 @@ $temNotas = $resultNotas->num_rows > 0;
 
   <!-- Voltar para a página de antes com $paginaAnterior -->
   <div class="mt-3 text-start">
-    <a href="<?php echo htmlspecialchars($paginaAnterior); ?>" class="link-back">< Voltar</a>
+    <a href="../../index.php" class="link-back">&lt; Voltar</a>
   </div>
+
 
   <div class="d-flex">
     <div class="relatorios-container flex-grow-1">

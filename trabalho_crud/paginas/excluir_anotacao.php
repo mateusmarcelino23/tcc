@@ -12,7 +12,13 @@ if (isset($_POST['id'])) {
     $id = intval($_POST['id']);
     $sql = "DELETE FROM anotacoes WHERE id = $id";
     if ($conn->query($sql) === TRUE) {
-        echo "Anotação excluída com sucesso.";
+        // Recebe a página anterior enviada no POST
+        $paginaAnterior = isset($_POST['paginaAnterior']) ? $_POST['paginaAnterior'] : 'relatorios.php';
+
+        // Redireciona para a página anterior
+        header('Location: ' . $paginaAnterior);
+        exit();
+
     } else {
         http_response_code(500);
         echo "Erro ao excluir anotação: " . $conn->error;

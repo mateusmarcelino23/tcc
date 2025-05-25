@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+$erro = ''; // Variável para armazenar a mensagem de erro
+
 // Verifica se o professor já está logado
 if (isset($_SESSION['professor_id'])) {
     header("Location: ../../index.php"); // Redireciona para o painel se já estiver logado
@@ -23,37 +25,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Valida CPF
     if (strlen($cpf) != 11) {
-        echo "<p style='color: red;'>CPF inválido.</p>";
-        exit();
-    }
-    
-    // Consulta para buscar o professor pelo CPF
-    $sql = "SELECT * FROM professor WHERE cpf = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $cpf);
-    $stmt->execute();
-    $result = $stmt->get_result();
+        $erro = "CPF inválido.";
+    } else {
+        // Consulta para buscar o professor pelo CPF
+        $sql = "SELECT * FROM professor WHERE cpf = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $cpf);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-    if ($result->num_rows > 0) {
-        $professor = $result->fetch_assoc();
-        
-        // Verifica a senha
-        if (password_verify($senha, $professor['senha'])) {
-            $_SESSION['professor_id'] = $professor['id'];
-            $_SESSION['professor_nome'] = $professor['nome'];
-            header("Location: ../../index.php");
-            exit();
+        if ($result->num_rows > 0) {
+            $professor = $result->fetch_assoc();
+
+            // Verifica a senha
+            if (password_verify($senha, $professor['senha'])) {
+                $_SESSION['professor_id'] = $professor['id'];
+                $_SESSION['professor_nome'] = $professor['nome'];
+                header("Location: ../../index.php");
+                exit();
+            }
         }
-    }
-    
-    // Se falhar, exibe erro
-    echo "<p style='color: red;'>CPF ou senha incorretos.</p>";
-    
-    // Fecha a conexão
-    $stmt->close();
-    $conn->close();
-}
 
+        // Se falhar, exibe erro
+        $erro = "CPF ou senha incorretos.";
+
+        $stmt->close();
+        $conn->close();
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -70,6 +69,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="text-center">
             <h1 class="h1">Login</h1>
         </div>
+
+        <?php if (!empty($erro)): ?>
+            <div class="alert alert-danger mt-3" role="alert">
+                <?php echo htmlspecialchars($erro); ?>
+            </div>
+        <?php endif; ?>
+
         <form action="login.php" method="POST">
             <div class="mb-3">
                 <label for="cpf" class="form-label">CPF:</label>
@@ -81,6 +87,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             <button type="submit" class="login-container button">Entrar</button>
         </form>
+
+        <!-- <p class="mt-3 esqueceu-senha-texto">
+            <span class="texto-esqueci-senha">Esqueceu a Senha?</span>
+            <a href="esqueci_senha.php" class="link-esqueci-senha">Clique Aqui para Recuperar</a>
+        </p> -->
+
     </div>
     <script>
     document.getElementById('cpf').addEventListener('input', function (e) {

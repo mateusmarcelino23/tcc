@@ -64,3 +64,21 @@ a:hover {
     text-decoration: underline;
 }
 
+.esqueceu-senha-texto {
+    text-align: center; /* Centraliza o conteúdo */
+    margin-top: 1rem; /* Ajusta espaçamento */
+}
+
+.texto-esqueci-senha {
+    color: #000; /* preto */
+}
+
+.link-esqueci-senha {
+    color: #007bff; /* azul padrão bootstrap */
+    cursor: pointer;
+}
+
+.link-esqueci-senha:hover {
+    color: #0056b3; /* azul mais escuro no hover */
+    text-decoration: underline; /* Adiciona sublinhado no hover */
+}

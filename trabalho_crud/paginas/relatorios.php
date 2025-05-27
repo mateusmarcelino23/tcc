@@ -276,6 +276,9 @@ $temNotas = $resultNotas->num_rows > 0;
   });
 </script>
 
+<!-- Link para a tratativa do JS -->
+<script src="../tratativa/script.js"></script>
+
 </html>
 
 <?php

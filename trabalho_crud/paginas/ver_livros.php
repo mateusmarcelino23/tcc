@@ -142,5 +142,8 @@ $(document).ready(function() {
 });
 </script>
 
+<!-- Link para a tratativa do JS -->
+<script src="../tratativa/script.js"></script>
+
 </body>
 </html>

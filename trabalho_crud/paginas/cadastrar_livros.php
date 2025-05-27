@@ -184,5 +184,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <?php endif; ?>
     </script>
 
+    <!-- Link para a tratativa do JS -->
+    <script src="../tratativa/script.js"></script>
+
 </body>
 </html>

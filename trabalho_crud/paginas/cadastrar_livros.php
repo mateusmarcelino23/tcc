@@ -143,7 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="resultadosModal" tabindex="-1" aria-labelledby="resultadosModalLabel" aria-hidden="true">
+    <div class="modal" id="resultadosModal" tabindex="-1" aria-labelledby="resultadosModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -158,10 +158,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     <strong><?php echo $item['volumeInfo']['title']; ?></strong><br>
                                     Autor: <?php echo isset($item['volumeInfo']['authors']) ? implode(', ', $item['volumeInfo']['authors']) : 'Autor desconhecido'; ?><br>
                                     ISBN: <?php echo isset($item['volumeInfo']['industryIdentifiers'][0]['identifier']) ? $item['volumeInfo']['industryIdentifiers'][0]['identifier'] : 'ISBN não disponível'; ?><br>
-                                    <img src="<?php echo isset($item['volumeInfo']['imageLinks']['thumbnail']) ? $item['volumeInfo']['imageLinks']['thumbnail'] : 'Imagem não disponível'; ?>" alt="Capa do Livro" style="max-width: 100px; max-height: 150px;"><br>
+                                    <img src="<?php echo isset($item['volumeInfo']['imageLinks']['thumbnail']) ? $item['volumeInfo']['imageLinks']['thumbnail'] : 'Imagem não disponível'; ?>" alt="Capa do Livro"><br>
                                     <form method="POST" action="">
                                         <input type="hidden" name="adicionar_livro_id" value="<?php echo $index; ?>">
-                                        <button type="submit" class="btn">Adicionar Livro</button>
+                                        <button type="submit" class="modal-btn">Adicionar Livro</button>
                                     </form>
                                 </li>
                             <?php endforeach; ?>

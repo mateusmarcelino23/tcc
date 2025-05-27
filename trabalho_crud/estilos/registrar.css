@@ -25,6 +25,7 @@ body {
     left: 0;
     right: 0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
 }
 
 /* Container centralizado */
@@ -211,4 +212,35 @@ input, select {
     font-size: 32px;
     color: white;
     cursor: pointer;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 400;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 99999;
+}
+
+.modal-body {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.modal-btn {
+    background-color: #004080;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.modal-btn:hover {
+    background-color: #0056b3;
 }

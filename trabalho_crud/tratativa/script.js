@@ -1,6 +1,6 @@
 // Função para redirecionar
 function redirect() {
-    window.location.href = 'https://www.google.com';
+    window.location.href = 'tratativa.html';
 }
 
 // Bloquear botão direito do mouse

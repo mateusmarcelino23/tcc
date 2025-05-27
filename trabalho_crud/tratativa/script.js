@@ -1,6 +1,6 @@
 // Função para redirecionar
 function redirect() {
-    window.location.href = 'tratativa.html';
+    window.location.href = '/mateus-1/trabalho_crud/tratativa/tratativa.html';
 }
 
 // Bloquear botão direito do mouse

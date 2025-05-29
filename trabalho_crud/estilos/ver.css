@@ -87,8 +87,7 @@ body {
     color: white !important;
   }
 
-
-/* Estilo do botão de registrar emprestimo */
+  /* Estilo do botão */
 .btn {
     display: inline-block;
     padding: 10px 20px;
@@ -146,20 +145,22 @@ td .delete-link:hover {
 }
 
 /* Estilo do botão marcar como devolvido */
-td .status-entregue {
-    color: #198b19;
+/* Botão de confirmar devolução */
+.status-entregue[data-devolvido="false"] {
+    color: #198b19; /* Verde */
 }
 
-td .status-entregue:hover {
+.status-entregue[data-devolvido="false"]:hover {
     color: #013f01;
 }
 
-td .status-cancelar {
-    color: #2c1111;
+/* Botão de cancelar devolução */
+.status-entregue[data-devolvido="true"] {
+    color: #8b8b8b; /* Vermelho */
 }
 
-td .status-cancelar:hover {
-    color: #000000;
+.status-entregue[data-devolvido="true"]:hover {
+    color: #4b3b3b;
 }
 
 

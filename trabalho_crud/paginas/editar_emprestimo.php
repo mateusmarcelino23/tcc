@@ -135,7 +135,7 @@ $conn->close();
 
             <!-- Datas -->
             <div class="mb-3">
-                <label for="data_emprestimo" class="form-label">Data de Empréstimo:</label>
+                <label for="data_emprestimo" class="form-label">Data de Retirada:</label>
                 <input type="text" name="data_emprestimo" id="data_emprestimo" class="form-control" value="<?php echo converterDataParaBR($emprestimo['data_emprestimo']); ?>" required>
             </div>
 
@@ -204,7 +204,7 @@ $conn->close();
 
                 if (dataDevolucao < dataEmprestimo) {
                     e.preventDefault(); // Impede o envio do formulário
-                    alert("A data de devolução não pode ser anterior à data de empréstimo.");
+                    alert("A data de devolução não pode ser anterior à data de retirada.");
                     return false;
                 }
             });

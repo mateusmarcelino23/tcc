@@ -211,7 +211,7 @@ $temNotas = $resultNotas->num_rows > 0;
           <div class="card-header">
             <strong><?php echo htmlspecialchars($nota['professor_nome']); ?></strong>
             <span class="data-anotacao">
-              <?php echo date('d/m/Y H:i', strtotime($nota['data_corrigida'])); ?>
+              <?php echo date('d/m/Y - H:i', strtotime($nota['data_corrigida'])); ?>
             </span>
           </div>
           <div class="card-body">

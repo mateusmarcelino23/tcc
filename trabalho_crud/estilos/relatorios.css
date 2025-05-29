@@ -122,7 +122,7 @@ body {
     border-radius: 5px;
     background-color: #f9f9f9;
     margin-top: 40px;
-  }
+}
   
 .card-header {
   display: flex;
@@ -132,9 +132,11 @@ body {
   color: #fff;
 }
 
-.card-header .data-anotacao {
+.data-anotacao {
   color: white;
   font-size: 0.9em;
+  padding-right: 30px; /* Espaço para o botão de excluir */
+  display: inline-block; /* garante que ocupe espaço horizontal */
 }
 
   .card-text {
@@ -144,32 +146,19 @@ body {
 
 .card-header .text-muted {
   color: white; /* Texto da data também branco */
-  font-size: 0.9em; /* Um pouco menor, se quiser suavizar */
 }
 
-
-  .observacao-container {
-    background-color: #f9f9f9;
-  }  
-
-  .btn-excluir {
-    background: none;
-    border: none;
-    color: white;
-    font-weight: bold;
-    float: right;
-    cursor: pointer;
-    font-size: 18px;
-}
+.observacao-container {
+  background-color: #f9f9f9;
+  } 
 
 .btn-excluir {
   position: absolute;
-  top: -24px;
+  top: 0px;
   right: 0px;
   background-color: #dc3545;
   color: white;
   border: none;
-  border-radius: 4px;
   width: 24px;
   height: 24px;
   font-size: 16px;

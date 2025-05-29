@@ -1,60 +1,76 @@
 <?php
 session_start();
+require '../conexao.php'; // conexão com banco
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require '../../vendor/autoload.php'; // carregando o composer e PHPMailer
 
 $erro = '';
 $sucesso = '';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    include '../conexao.php';
-
-    if ($conn->connect_error) {
-        die("Falha na conexão com o banco de dados: " . $conn->connect_error);
-    }
-
-    $email = filter_var(trim($_POST['email']), FILTER_VALIDATE_EMAIL);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $cpf = preg_replace('/\D/', '', $_POST['cpf']);
+    $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
 
     if (!$email) {
         $erro = "E-mail inválido.";
+    } elseif (strlen($cpf) != 11) {
+        $erro = "CPF inválido.";
     } else {
-        // Verifica se existe professor com esse e-mail
-        $sql = "SELECT id, nome FROM professor WHERE email = ?";
+        // Verifica se existe professor com CPF e email
+        $sql = "SELECT * FROM professor WHERE cpf = ? AND email = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $email);
+        $stmt->bind_param("ss", $cpf, $email);
         $stmt->execute();
         $result = $stmt->get_result();
 
         if ($result->num_rows === 1) {
             $professor = $result->fetch_assoc();
 
-            // Gera token e expiração (1 hora de validade)
-            $token = bin2hex(random_bytes(16));
+            // Gera token seguro
+            $token = bin2hex(random_bytes(32));
             $expiracao = date('Y-m-d H:i:s', strtotime('+1 hour'));
 
-            // Atualiza token e expiração no banco
-            $sql_update = "UPDATE professor SET token_recuperacao = ?, token_expiracao = ? WHERE id = ?";
-            $stmt_update = $conn->prepare($sql_update);
-            $stmt_update->bind_param("ssi", $token, $expiracao, $professor['id']);
-            $stmt_update->execute();
+            // Salva token no banco
+            $sqlInsert = "INSERT INTO professor_reset_senha (professor_id, token, expiracao) VALUES (?, ?, ?)";
+            $stmtInsert = $conn->prepare($sqlInsert);
+            $stmtInsert->bind_param("iss", $professor['id'], $token, $expiracao);
+            $stmtInsert->execute();
 
-            // Enviar e-mail com link de recuperação
-            $link = "http://seu_dominio.com/resetar_senha.php?token=$token";
+            // Monta link de reset
+            $url = "http://localhost/mateus-1/professor/nova_senha.php?token=$token";
 
-            $assunto = "Recuperação de Senha";
-            $mensagem = "Olá " . htmlspecialchars($professor['nome']) . ",\n\n";
-            $mensagem .= "Recebemos um pedido para redefinir sua senha. Clique no link abaixo para criar uma nova senha:\n\n";
-            $mensagem .= $link . "\n\n";
-            $mensagem .= "Esse link é válido por 1 hora.\n\n";
-            $mensagem .= "Se você não pediu essa alteração, ignore este e-mail.";
+            // Envia e-mail
+            $mail = new PHPMailer(true);
 
-            $headers = "From: sistema@seu_dominio.com\r\nReply-To: sistema@seu_dominio.com";
+            try {
+                // Configuração SMTP (exemplo Gmail, ajuste conforme seu servidor)
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+                $mail->Username = 'seu_email@gmail.com';
+                $mail->Password = 'sua_senha_de_app'; // use senha de app se for Gmail
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->Port = 587;
 
-            if (mail($email, $assunto, $mensagem, $headers)) {
-                $sucesso = "Um e-mail com instruções foi enviado para $email.";
-            } else {
-                $erro = "Falha ao enviar o e-mail. Tente novamente mais tarde.";
+                $mail->setFrom('seu_email@gmail.com', 'Sua Aplicação');
+                $mail->addAddress($professor['email'], $professor['nome']);
+
+                $mail->isHTML(true);
+                $mail->Subject = 'Recuperação de Senha';
+                $mail->Body = "Olá, <br> Clique no link abaixo para redefinir sua senha: <br><a href='$url'>$url</a><br>O link expira em 1 hora.";
+
+                $mail->send();
+
+                $sucesso = "Um e-mail para redefinição de senha foi enviado para $email.";
+            } catch (Exception $e) {
+                $erro = "Erro ao enviar e-mail: {$mail->ErrorInfo}";
             }
+
         } else {
-            $erro = "E-mail não cadastrado.";
+            $erro = "CPF ou e-mail não encontrado.";
         }
     }
 }
@@ -63,13 +79,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Recuperar Senha</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <title>Esqueci a Senha</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body class="body">
-<div class="container" style="max-width: 400px; margin-top: 50px;">
-    <h2 class="text-center mb-4">Recuperar Senha</h2>
+<div class="container mt-5">
+    <h1 class="mb-4">Recuperar Senha</h1>
 
     <?php if ($erro): ?>
         <div class="alert alert-danger"><?php echo htmlspecialchars($erro); ?></div>
@@ -79,14 +95,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="alert alert-success"><?php echo htmlspecialchars($sucesso); ?></div>
     <?php endif; ?>
 
-    <form action="esqueci_senha.php" method="POST">
+    <form method="POST" action="">
         <div class="mb-3">
-            <label for="email" class="form-label">Informe seu e-mail cadastrado</label>
-            <input type="email" id="email" name="email" class="form-control" required autofocus>
+            <label for="cpf" class="form-label">CPF</label>
+            <input
+                type="text"
+                id="cpf"
+                name="cpf"
+                class="form-control"
+                required
+                maxlength="14"
+                oninput="formatCPF(this)"
+                placeholder="000.000.000-00"
+            />
+            <script>
+                function formatCPF(input) {
+                    let value = input.value.replace(/\D/g, ''); // remove tudo que não for número
+                    if (value.length > 11) value = value.slice(0, 11);
+
+                    // Aplica máscara do CPF
+                    value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                    value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                    value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+
+                    input.value = value;
+                }
+            </script>
+
         </div>
-        <button type="submit" class="btn btn-primary w-100">Enviar Link</button>
+        <div class="mb-3">
+            <label for="email" class="form-label">E-mail</label>
+            <input type="email" id="email" name="email" class="form-control" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar link para redefinir</button>
     </form>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

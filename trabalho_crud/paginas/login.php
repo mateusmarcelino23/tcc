@@ -92,8 +92,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <span class="texto-esqueci-senha">Esqueceu a Senha?</span>
             <a href="esqueci_senha.php" class="link-esqueci-senha">Clique Aqui para Recuperar</a>
         </p> -->
-
+        
     </div>
+
+    <footer style="text-align: center; padding: 10px; color: white;">
+        <p>&copy; 2025 Mateus Marcelino.</p>
+    </footer>
+
     <script>
     document.getElementById('cpf').addEventListener('input', function (e) {
         let cpf = e.target.value.replace(/\D/g, ''); // Remove tudo que não for número

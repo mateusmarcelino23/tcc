@@ -86,34 +86,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $autor = 'Autor desconhecido';
                 }
 
-                // PEGAR ISBN — se não existir, fica vazio para impedir cadastro inválido
+                // PEGAR ISBN — pode ficar vazio
                 $isbn = '';
                 if (isset($livro['industryIdentifiers']) && count($livro['industryIdentifiers']) > 0) {
                     $isbn = $conn->real_escape_string($livro['industryIdentifiers'][0]['identifier']);
                 }
 
-                // ==== AQUI VEM A VERIFICAÇÃO E INSERÇÃO NO BANCO ==== 
+                // ==== VERIFICAÇÃO DE DUPLICIDADE E INSERÇÃO NO BANCO ==== 
 
-                if (empty($isbn)) {
-                    // Se não tem ISBN válido, não adiciona
-                    $_SESSION['mensagem'] = "<p style='color: red;'>ISBN não disponível. Não é possível adicionar este livro.</p>";
-                } else {
-                    // Verifica se já existe pelo ISBN
+                if (!empty($isbn)) {
+                    // Verifica duplicidade pelo ISBN
                     $sql_check = "SELECT * FROM livro WHERE isbn = '$isbn' LIMIT 1";
-                    $result_check = $conn->query($sql_check);
+                } else {
+                    // Sem ISBN: verifica duplicidade pelo título e autor
+                    $sql_check = "SELECT * FROM livro WHERE nome_livro = '$titulo' AND nome_autor = '$autor' LIMIT 1";
+                }
 
-                    if ($result_check->num_rows > 0) {
-                        // Já existe
-                        $_SESSION['mensagem'] = "<p style='color: orange;'>Este livro já está cadastrado.</p>";
+                $result_check = $conn->query($sql_check);
+
+                if ($result_check->num_rows > 0) {
+                    $_SESSION['mensagem'] = "<p style='color: orange;'>Este livro já está cadastrado.</p>";
+                } else {
+                    $sql_insert = "INSERT INTO livro (nome_livro, nome_autor, isbn) VALUES ('$titulo', '$autor', '$isbn')";
+
+                    if ($conn->query($sql_insert) === TRUE) {
+                        $_SESSION['mensagem'] = "<p style='color: green;'>Livro adicionado com sucesso!</p>";
                     } else {
-                        // Insere livro
-                        $sql_insert = "INSERT INTO livro (nome_livro, nome_autor, isbn) VALUES ('$titulo', '$autor', '$isbn')";
-
-                        if ($conn->query($sql_insert) === TRUE) {
-                            $_SESSION['mensagem'] = "<p style='color: green;'>Livro adicionado com sucesso!</p>";
-                        } else {
-                            $_SESSION['mensagem'] = "<p style='color: red;'>Erro ao adicionar o livro: " . $conn->error . "</p>";
-                        }
+                        $_SESSION['mensagem'] = "<p style='color: red;'>Erro ao adicionar o livro: " . $conn->error . "</p>";
                     }
                 }
 

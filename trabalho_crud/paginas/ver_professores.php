@@ -124,10 +124,10 @@ $conn->close();
                 <?php
                 while ($row = $result->fetch_assoc()) {
                     echo "<tr>";
-                    echo "<td>" . $row['nome'] . "</td>";
-                    echo "<td>" . $row['email'] . "</td>";
-                    echo "<td><a href='editar_prof.php?id=" . $row['id'] . "' class='edit-link'>Editar</a></td>";
-                    echo "<td><a href='?remover=" . $row['id'] . "' class='delete-link' onclick='return confirm(\"Tem certeza de que deseja remover este professor?\")'>Remover</a></td>";
+                    echo "<td class='scrollable-cell'>" . $row['nome'] . "</td>";
+                    echo "<td class='scrollable-cell'>" . $row['email'] . "</td>";
+                    echo "<td class='scrollable-cell'><a href='editar_prof.php?id=" . $row['id'] . "' class='edit-link'>Editar</a></td>";
+                    echo "<td class='scrollable-cell'><a href='?remover=" . $row['id'] . "' class='delete-link' onclick='return confirm(\"Tem certeza de que deseja remover este professor?\")'>Remover</a></td>";
                     echo "</tr>";
                 }
                 ?>

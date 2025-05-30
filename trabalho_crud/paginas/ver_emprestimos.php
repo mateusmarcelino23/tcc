@@ -157,16 +157,16 @@ function toggleNav() {
                 ?>
                 <tr id="linha-<?php echo $emprestimo['id']; ?>">
                     <!-- Nome do aluno -->
-                    <td><?php echo htmlspecialchars($emprestimo['aluno_nome']); ?></td>
+                    <td class="scrollable-cell"><?php echo htmlspecialchars($emprestimo['aluno_nome']); ?></td>
 
                     <!-- Nome do livro -->
-                    <td><?php echo htmlspecialchars($emprestimo['nome_livro']); ?></td>
+                    <td class="scrollable-cell"><?php echo htmlspecialchars($emprestimo['nome_livro']); ?></td>
 
                     <!-- Data de empréstimo formatada -->
-                    <td><?php echo date("d/m/Y", strtotime($emprestimo['data_emprestimo'])); ?></td>
+                    <td class="scrollable-cell"><?php echo date("d/m/Y", strtotime($emprestimo['data_emprestimo'])); ?></td>
 
                     <!-- Data de devolução formatada ou "-" se não tiver -->
-                    <td>
+                    <td class="scrollable-cell">
                         <?php
                         echo (!empty($emprestimo['data_devolucao']) && $emprestimo['data_devolucao'] != '0000-00-00') 
                             ? date("d/m/Y", strtotime($emprestimo['data_devolucao'])) 
@@ -175,13 +175,13 @@ function toggleNav() {
                     </td>
 
                     <!-- Nome do professor -->
-                    <td><?php echo htmlspecialchars($emprestimo['professor_nome']); ?></td>
+                    <td class="scrollable-cell"><?php echo htmlspecialchars($emprestimo['professor_nome']); ?></td>
 
                     <!-- Status com badge -->
-                    <td><span class="badge <?php echo $classeStatus; ?>"><?php echo $status; ?></span></td>
+                    <td class="scrollable-cell"><span class="badge <?php echo $classeStatus; ?>"><?php echo $status; ?></span></td>
 
                     <!-- Botão de devolução ou cancelar devolução, dependendo do status atual -->
-                    <td>
+                    <td class="scrollable-cell">
                         <button class="status-entregue"
                                 data-devolvido="<?php echo $estaDevolvido ? 'true' : 'false'; ?>"
                                 onclick="toggleDevolucao(this, <?php echo $emprestimo['id']; ?>)">
@@ -190,14 +190,14 @@ function toggleNav() {
                     </td>
 
                     <!-- Botão de edição -->
-                    <td>
+                    <td class="scrollable-cell">
                         <button class="edit-link" onclick="location.href='editar_emprestimo.php?id=<?php echo $emprestimo['id']; ?>'">
                             Editar
                         </button>
                     </td>
 
                     <!-- Link para remover com confirmação -->
-                    <td>
+                    <td class="scrollable-cell">
                         <a href="?remover=<?php echo $emprestimo['id']; ?>" 
                            class="delete-link" 
                            onclick="return confirm('Tem certeza de que deseja remover este empréstimo?')">

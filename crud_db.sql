@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 30/05/2025 às 17:35
+-- Tempo de geração: 30/05/2025 às 18:35
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -29,9 +29,9 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `aluno` (
   `id` int(11) NOT NULL,
-  `nome` varchar(40) NOT NULL,
+  `nome` varchar(90) NOT NULL,
   `serie` varchar(12) NOT NULL,
-  `email` varchar(50) NOT NULL
+  `email` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -64,7 +64,8 @@ CREATE TABLE `anotacoes` (
 --
 
 INSERT INTO `anotacoes` (`id`, `id_professor`, `texto`, `data`) VALUES
-(56, 11, 'bom dia lindo dia', '2025-05-29 03:24:07');
+(56, 11, 'bom dia lindo dia', '2025-05-29 03:24:07'),
+(57, 11, '34543', '2025-05-30 18:35:12');
 
 -- --------------------------------------------------------
 
@@ -98,7 +99,7 @@ INSERT INTO `emprestimo` (`id`, `id_aluno`, `id_professor`, `id_livro`, `data_em
 (289, 34, 20, 29, '2025-05-08', '2025-05-17', 1),
 (290, 35, 20, 26, '2025-05-09', '2025-05-18', 0),
 (291, 36, 20, 29, '2025-05-10', '2025-05-19', 0),
-(292, 37, 20, 26, '2025-05-11', '2025-05-20', 1),
+(292, 37, 20, 26, '2025-05-11', '2025-05-20', 2),
 (293, 77, 20, 29, '2025-05-12', '2025-05-21', 1),
 (294, 33, 20, 26, '2025-05-13', '2025-05-22', 1),
 (295, 34, 20, 29, '2025-05-14', '2025-05-23', 0),
@@ -182,7 +183,7 @@ INSERT INTO `livro` (`id`, `nome_livro`, `nome_autor`, `isbn`) VALUES
 
 CREATE TABLE `professor` (
   `id` int(11) NOT NULL,
-  `nome` varchar(40) NOT NULL,
+  `nome` varchar(90) NOT NULL,
   `cpf` varchar(11) NOT NULL,
   `email` varchar(50) NOT NULL,
   `senha` varchar(255) NOT NULL,
@@ -199,6 +200,36 @@ INSERT INTO `professor` (`id`, `nome`, `cpf`, `email`, `senha`, `token_recuperac
 (19, 'Fernando', '11111111111', 'umavezflamengo@gmail.com', '$2y$10$TIIcdDCgLOD.GUhE3AIc4eQE/0LIdsP/UQBb54zAVruMoh1AW8L.m', NULL, NULL),
 (20, 'Gabriel', '22222222222', 'gabrielhistoria@gmail.com', '$2y$10$2r4IOHUmBrhQK6cLTReere6B4jbvqf2O4.ERO75MLL7HTFY3kug2q', NULL, NULL),
 (21, 'Mateus', '99999999999', 'mateusmarcelino1023@gmail.com', '$2y$10$omg9HaFXflrenC5kPWNQSu/yqXElxBdIGPsibJ7GYlGZUpZutKpL.', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `professor_reset_senha`
+--
+
+CREATE TABLE `professor_reset_senha` (
+  `id` int(11) NOT NULL,
+  `professor_id` int(11) NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `expiracao` datetime NOT NULL,
+  `usado` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `professor_reset_senha`
+--
+
+INSERT INTO `professor_reset_senha` (`id`, `professor_id`, `token`, `expiracao`, `usado`) VALUES
+(1, 11, '848aea743ef53330ca595b0841b0fb3f8827edaa0d6ef804a36fb8cf289e8fae', '2025-05-29 14:33:24', 0),
+(2, 11, 'd4c715cbbbb8f44431d0a1e928ac03b550a20b1c5df1033167d396359f0ae3ed', '2025-05-29 14:38:07', 0),
+(3, 21, 'd4aca50fe2641f012d5361139033dfc7ba3cb275098d885d9ec3e190fea896e3', '2025-05-29 14:39:37', 0),
+(4, 21, '563533a9faaff29bd7460b04718e048c6fd25d81e026c3813ac60617f04f8e22', '2025-05-29 14:39:55', 0),
+(5, 21, 'a0a41096c838d22791f9f2885db1451f1a151b0d2249a0117a477e25ed439626', '2025-05-29 14:39:58', 0),
+(6, 21, '98efdfa9f5d13aec85905e8517f012192e6d2911380b6f3b474314dc4c9acddd', '2025-05-29 14:40:57', 0),
+(7, 21, '60422c8fd603bfa2515316329844c9bce37791ca1600858f3ae5b66260036bcb', '2025-05-29 14:47:52', 0),
+(8, 21, '8cdcee8efe70d86bdabb608c0385e02081ad4dff847dccde4195548d6f343d01', '2025-05-29 14:55:04', 0),
+(9, 21, '616b44b052dc10db6cbe7e5d3494a86e0da0a82a43d2be2ca36bb34f2d05e47d', '2025-05-29 14:57:10', 0),
+(10, 21, '5346907e686c7771c2bb09d8025f7faad6e5b5423f3f571c51ab896500d58644', '2025-05-29 15:34:48', 0);
 
 --
 -- Índices para tabelas despejadas
@@ -239,6 +270,13 @@ ALTER TABLE `professor`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Índices de tabela `professor_reset_senha`
+--
+ALTER TABLE `professor_reset_senha`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `professor_id` (`professor_id`);
+
+--
 -- AUTO_INCREMENT para tabelas despejadas
 --
 
@@ -246,13 +284,13 @@ ALTER TABLE `professor`
 -- AUTO_INCREMENT de tabela `aluno`
 --
 ALTER TABLE `aluno`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT de tabela `anotacoes`
 --
 ALTER TABLE `anotacoes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT de tabela `emprestimo`
@@ -273,6 +311,12 @@ ALTER TABLE `professor`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
+-- AUTO_INCREMENT de tabela `professor_reset_senha`
+--
+ALTER TABLE `professor_reset_senha`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
 -- Restrições para tabelas despejadas
 --
 
@@ -289,6 +333,12 @@ ALTER TABLE `emprestimo`
   ADD CONSTRAINT `fk_id_aluno` FOREIGN KEY (`id_aluno`) REFERENCES `aluno` (`id`),
   ADD CONSTRAINT `fk_id_livro` FOREIGN KEY (`id_livro`) REFERENCES `livro` (`id`),
   ADD CONSTRAINT `fk_id_professor` FOREIGN KEY (`id_professor`) REFERENCES `professor` (`id`);
+
+--
+-- Restrições para tabelas `professor_reset_senha`
+--
+ALTER TABLE `professor_reset_senha`
+  ADD CONSTRAINT `professor_reset_senha_ibfk_1` FOREIGN KEY (`professor_id`) REFERENCES `professor` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

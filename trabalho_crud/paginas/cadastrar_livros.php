@@ -183,7 +183,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <h2>Buscar Livros</h2>
         <form method="POST" action="">
             <label for="termo_busca">Digite o Nome ou ISBN do Livro:</label>
-            <input type="text" id="termo_busca" name="termo_busca" required>
+            <input type="text" id="termo_busca" name="termo_busca" autocomplete="off" required>
             <button type="submit" class="btn">Buscar</button>
         </form>
     </div>

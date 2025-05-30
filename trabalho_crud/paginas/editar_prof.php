@@ -82,12 +82,12 @@ $prof = $result->fetch_assoc();
     <form id="editarForm" method="POST" novalidate>
         <div class="mb-3">
             <label for="nome" class="form-label">Nome e Sobrenome:</label>
-            <input type="text" name="nome" id="nome" class="form-control" required value="<?= htmlspecialchars($prof['nome']) ?>">
+            <input type="text" name="nome" id="nome" class="form-control" required value="<?= htmlspecialchars($prof['nome']) ?>" autocomplete="off">
         </div>
 
         <div class="mb-3">
             <label for="cpf" class="form-label">CPF:</label>
-            <input type="text" name="cpf" id="cpf" class="form-control" required
+            <input type="text" name="cpf" id="cpf" class="form-control" autocomplete="off" required
                    pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
                    value="<?= htmlspecialchars(preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/', '$1.$2.$3-$4', $prof['cpf'])) ?>"
                    placeholder="000.000.000-00">
@@ -96,12 +96,12 @@ $prof = $result->fetch_assoc();
 
         <div class="mb-3">
             <label for="email" class="form-label">Email:</label>
-            <input type="email" name="email" id="email" class="form-control" required value="<?= htmlspecialchars($prof['email']) ?>">
+            <input type="email" name="email" id="email" class="form-control" required value="<?= htmlspecialchars($prof['email']) ?> " autocomplete="off">
         </div>
 
         <div class="mb-3">
             <label for="senha" class="form-label">Nova Senha (opcional):</label>
-            <input type="text" name="senha" id="senha" class="form-control"
+            <input type="text" name="senha" id="senha" class="form-control" autocomplete="off"
                    pattern="[a-z0-9]{8,16}" minlength="8" maxlength="16"
                    title="A senha deve conter apenas letras minúsculas e números, entre 8 e 16 caracteres.">
             <div class="invalid-feedback">Use apenas letras minúsculas e números (8-16 caracteres).</div>

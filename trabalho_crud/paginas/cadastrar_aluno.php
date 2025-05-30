@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <form action="cadastrar_aluno.php" method="POST">
             <div class="mb-3">
                 <label for="nome" class="form-label">Nome e Sobrenome:</label>
-                <input type="text" name="nome" id="nome" class="form-control" required>
+                <input type="text" name="nome" id="nome" class="form-control" autocomplete="off" required>
             </div>
 
             <div class="mb-3 d-flex">
@@ -119,13 +119,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
                 <div class="flex-shrink-1">
                     <label for="sala" class="form-label">Sala:</label>
-                    <input type="text" name="sala" id="sala" class="form-control" maxlength="1" required>
+                    <input type="text" name="sala" id="sala" class="form-control" maxlength="1" autocomplete="off" required>
                 </div>
             </div>
 
             <div class="mb-3">
                 <label for="email" class="form-label">Email:</label>
-                <input type="email" name="email" id="email" class="form-control" required>
+                <input type="email" name="email" id="email" class="form-control" autocomplete="off" required>
             </div>
 
             <button type="submit" class="btn btn-gradient w-100">Cadastrar</button>

@@ -89,12 +89,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <form id="cadastroForm" action="cadastrar_professor.php" method="POST" novalidate>
         <div class="mb-3">
             <label for="nome" class="form-label">Nome e Sobrenome:</label>
-            <input type="text" name="nome" id="nome" class="form-control" required>
+            <input type="text" name="nome" id="nome" class="form-control" autocomplete="off" required>
         </div>
 
         <div class="mb-3">
             <label for="cpf" class="form-label">CPF:</label>
-            <input type="text" name="cpf" id="cpf" class="form-control" required 
+            <input type="text" name="cpf" id="cpf" class="form-control" autocomplete="off" required 
                 pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" 
                 placeholder="000.000.000-00">
             <div class="invalid-feedback">Informe um CPF válido no formato 000.000.000-00.</div>
@@ -102,12 +102,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <div class="mb-3">
             <label for="email" class="form-label">Email:</label>
-            <input type="email" name="email" id="email" class="form-control" required>
+            <input type="email" name="email" id="email" class="form-control" autocomplete="off" required>
         </div>
 
         <div class="mb-3">
             <label for="senha" class="form-label">Senha:</label>
-            <input type="text" name="senha" id="senha" class="form-control" required
+            <input type="text" name="senha" id="senha" class="form-control" autocomplete="off" required
                 pattern="[a-z0-9]{8,16}" minlength="8" maxlength="16"
                 title="A senha deve conter apenas letras minúsculas e números, entre 8 e 16 caracteres.">
             <div class="invalid-feedback">Use apenas letras minúsculas e números (8-16 caracteres).</div>

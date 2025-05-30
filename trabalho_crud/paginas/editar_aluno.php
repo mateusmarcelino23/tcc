@@ -110,7 +110,7 @@ $em = isset($match[2]) ? 'EM' : '';
     <form action="editar_aluno.php?id=<?= $aluno_id ?>" method="POST">
         <div class="mb-3">
             <label for="nome" class="form-label">Nome e Sobrenome:</label>
-            <input type="text" name="nome" id="nome" class="form-control" value="<?= htmlspecialchars($aluno['nome']) ?>" required>
+            <input type="text" name="nome" id="nome" class="form-control" value="<?= htmlspecialchars($aluno['nome']) ?>" autocomplete="off" required>
         </div>
 
         <div class="mb-3 d-flex">
@@ -130,7 +130,7 @@ $em = isset($match[2]) ? 'EM' : '';
             </div>
             <div class="flex-shrink-1">
                 <label for="sala" class="form-label">Sala:</label>
-                <input type="text" name="sala" id="sala" class="form-control" maxlength="1" value="<?= htmlspecialchars($sala) ?>" required>
+                <input type="text" name="sala" id="sala" class="form-control" maxlength="1" value="<?= htmlspecialchars($sala) ?>" autocomplete="off" required>
             </div>
             <script>
                 document.getElementById('sala').addEventListener('input', function () {
@@ -141,7 +141,7 @@ $em = isset($match[2]) ? 'EM' : '';
 
         <div class="mb-3">
             <label for="email" class="form-label">Email:</label>
-            <input type="email" name="email" id="email" class="form-control" value="<?= htmlspecialchars($aluno['email']) ?>" required>
+            <input type="email" name="email" id="email" class="form-control" value="<?= htmlspecialchars($aluno['email']) ?>" autocomplete="off" required>
         </div>
 
         <button type="submit" class="btn btn-gradient w-100">Atualizar</button>

@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             <div class="mb-3">
                 <label for="senha" class="form-label">Senha:</label>
-                <input type="password" name="senha" id="senha" class="form-control shadow-sm" required>
+                <input type="password" name="senha" id="senha" class="form-control shadow-sm" autocomplete="off" required>
             </div>
             <button type="submit" class="login-container button">Entrar</button>
         </form>

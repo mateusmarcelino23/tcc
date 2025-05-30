@@ -23,7 +23,7 @@ $sqlAlunos = "SELECT a.nome AS aluno_nome, COUNT(e.id) AS total
               WHERE e.status = 2
               GROUP BY e.id_aluno
               ORDER BY total DESC
-              LIMIT 10";
+              LIMIT 5";
 $resultAlunos = $conn->query($sqlAlunos);
 $temAlunos = $resultAlunos->num_rows > 0;
 
@@ -34,7 +34,7 @@ $sqlLivros = "SELECT l.nome_livro, COUNT(e.id) AS total
               WHERE e.status = 2
               GROUP BY e.id_livro
               ORDER BY total DESC
-              LIMIT 10";
+              LIMIT 5";
 $resultLivros = $conn->query($sqlLivros);
 $temLivros = $resultLivros->num_rows > 0;
 
@@ -45,7 +45,7 @@ $sqlSeries = "SELECT a.serie, COUNT(e.id) AS total
               WHERE e.status = 2
               GROUP BY a.serie
               ORDER BY total DESC
-              LIMIT 10";
+              LIMIT 5";
 $resultSeries = $conn->query($sqlSeries);
 $temSeries = $resultSeries->num_rows > 0;
 
@@ -96,7 +96,7 @@ $temNotas = $resultNotas->num_rows > 0;
       ]);
 
       var options = {
-        title: 'Alunos que mais leram',
+        title: 'Top 5 Alunos que mais leram',
         legend: { position: 'none' },
         chartArea: { width: '70%' },
         height: 400,
@@ -124,7 +124,7 @@ $temNotas = $resultNotas->num_rows > 0;
       ]);
 
       var options = {
-        title: 'Livros mais lidos',
+        title: 'Top 5 Livros mais lidos',
         legend: { position: 'none' },
         chartArea: { width: '70%' },
         height: 400,
@@ -152,7 +152,7 @@ $temNotas = $resultNotas->num_rows > 0;
       ]);
 
       var options = {
-        title: 'Turmas que mais leram',
+        title: 'Top 5 Turmas que mais leram',
         legend: { position: 'none' },
         chartArea: { width: '70%' },
         height: 400,

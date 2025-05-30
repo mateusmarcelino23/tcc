@@ -129,7 +129,7 @@ $em = isset($match[2]) ? 'EM' : '';
 
             </div>
             <div class="flex-shrink-1">
-                <label for="sala" class="form-label">Sala:</label>
+                <label for="sala" class="form-label">Classe:</label>
                 <input type="text" name="sala" id="sala" class="form-control" maxlength="1" value="<?= htmlspecialchars($sala) ?>" autocomplete="off" required>
             </div>
             <script>

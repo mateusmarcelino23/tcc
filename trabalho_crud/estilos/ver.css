@@ -280,15 +280,21 @@ td .delete-link:hover {
 }
 
 .scrollable-cell {
-    max-width: 150px; /* ou a largura desejada */
-    white-space: nowrap; /* impede quebra de linha */
-    overflow: hidden; /* esconde o excesso inicialmente */
-    text-overflow: ellipsis; /* adiciona "..." ao final */
-    cursor: pointer; /* indica que é interativo */
-    transition: all 0.3s ease; /* animação suave */
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    word-break: normal;        /* quebra normal, respeitando espaços */
+    overflow-wrap: break-word; /* força quebra em palavras longas */
 }
 
 .scrollable-cell:hover {
-    overflow: auto; /* ao passar o mouse, permite rolagem */
-    white-space: normal; /* permite múltiplas linhas se quiser, ou mantenha nowrap */
+    white-space: normal;
+    overflow: visible;
+
+    word-break: normal;
+    overflow-wrap: break-word;
 }
+

@@ -118,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </select>
                 </div>
                 <div class="flex-shrink-1">
-                    <label for="sala" class="form-label">Sala:</label>
+                    <label for="sala" class="form-label">Classe:</label>
                     <input type="text" name="sala" id="sala" class="form-control" maxlength="1" autocomplete="off" required>
                 </div>
             </div>

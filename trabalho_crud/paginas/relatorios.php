@@ -173,7 +173,7 @@ $temNotas = $resultNotas->num_rows > 0;
 
   <!-- Voltar para a página de antes com $paginaAnterior -->
   <div class="mt-3 text-start">
-    <a href="../../index.php" class="link-back">&lt; Voltar</a>
+    <a href="../../" class="link-back">&lt; Voltar</a>
   </div>
 
 

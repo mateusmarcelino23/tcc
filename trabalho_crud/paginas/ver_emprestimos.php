@@ -63,7 +63,7 @@ $conn->close();
 
 <!-- Link para voltar ao painel -->
 <div class="mt-3 text-start">
-    <a href="../../index.php" class="link-back">&lt; Voltar para o painel</a>
+    <a href="../../" class="link-back">&lt; Voltar para o painel</a>
 </div>
 
 <!-- Cabeçalho -->

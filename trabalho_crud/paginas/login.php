@@ -5,7 +5,7 @@ $erro = ''; // Variável para armazenar a mensagem de erro
 
 // Verifica se o professor já está logado
 if (isset($_SESSION['professor_id'])) {
-    header("Location: ../../index.php"); // Redireciona para o painel se já estiver logado
+    header("Location: ../../"); // Redireciona para o painel se já estiver logado
     exit();
 }
 
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (password_verify($senha, $professor['senha'])) {
                 $_SESSION['professor_id'] = $professor['id'];
                 $_SESSION['professor_nome'] = $professor['nome'];
-                header("Location: ../../index.php");
+                header("Location: ../../");
                 exit();
             }
         }

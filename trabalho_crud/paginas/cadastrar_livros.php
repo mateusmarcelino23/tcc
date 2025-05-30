@@ -175,7 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <!-- Voltar -->
     <div class="mt-3 text-start">
-        <a href="../../index.php" class="link-back">< Voltar para o painel</a>
+        <a href="../../" class="link-back">< Voltar para o painel</a>
     </div>
 
     <!-- Container para o formulário -->

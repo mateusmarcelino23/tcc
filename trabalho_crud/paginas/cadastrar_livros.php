@@ -9,11 +9,20 @@ if (isset($_SESSION['mensagem'])) {
 
 // Função para buscar livros na API do Google Books
 function buscarLivros($termo) {
-    if (preg_match('/^\d{9}[\dX]{1}$/', $termo) || preg_match('/^\d{12}[\dX]{1}$/', $termo)) {
-        $url = "https://www.googleapis.com/books/v1/volumes?q=isbn:" . urlencode($termo);
+    // Limpa espaços extras
+    $termo = trim($termo);
+
+    // Limpa todos os caracteres não numéricos ou X/x
+    $termo_limpo = preg_replace('/[^0-9Xx]/', '', $termo);
+
+    // Decide se busca por ISBN ou título
+    if (preg_match('/^\d{9}[\dXx]{1}$/', $termo_limpo) || preg_match('/^\d{13}$/', $termo_limpo)) {
+        $consulta = "isbn:" . strtoupper($termo_limpo);
     } else {
-        $url = "https://www.googleapis.com/books/v1/volumes?q=intitle:" . urlencode($termo);
+        $consulta = "intitle:" . urlencode($termo);
     }
+
+    $url = "https://www.googleapis.com/books/v1/volumes?q=" . $consulta;
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -23,7 +32,7 @@ function buscarLivros($termo) {
     $resposta = curl_exec($ch);
     if ($resposta === false) {
         echo 'Curl error: ' . curl_error($ch);
-        return null; // Retorna null em caso de erro
+        return null;
     }
 
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -46,9 +55,8 @@ function buscarLivros($termo) {
 // Verifica se o formulário foi enviado
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    // Se veio termo para buscar
     if (isset($_POST['termo_busca'])) {
-        $termo = isset($_POST['termo_busca']) ? $_POST['termo_busca'] : '';
+        $termo = $_POST['termo_busca'];
         $resultados = buscarLivros($termo);
 
         if ($resultados !== null) {
@@ -56,11 +64,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['modalAberto'] = true;
         }
 
-        // Redireciona para evitar reenvio do formulário
         header("Location: " . $_SERVER['PHP_SELF']);
         exit();
 
-    // Se veio pedido para adicionar livro
     } elseif (isset($_POST['adicionar_livro_id'])) {
 
         if (isset($_SESSION['resultados']) && isset($_SESSION['resultados']['items'])) {
@@ -77,28 +83,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     die("Falha na conexão com o banco de dados: " . $conn->connect_error);
                 }
 
-                // PEGAR DADOS DO LIVRO (E ESCAPAR PARA SQL)
                 $titulo = isset($livro['title']) ? $conn->real_escape_string($livro['title']) : 'Título não disponível';
 
                 if (isset($livro['authors'])) {
-                    $autor = implode(', ', array_map(array($conn, 'real_escape_string'), $livro['authors']));
+                    $autor = implode(', ', array_map([$conn, 'real_escape_string'], $livro['authors']));
                 } else {
                     $autor = 'Autor desconhecido';
                 }
 
-                // PEGAR ISBN — pode ficar vazio
                 $isbn = '';
                 if (isset($livro['industryIdentifiers']) && count($livro['industryIdentifiers']) > 0) {
                     $isbn = $conn->real_escape_string($livro['industryIdentifiers'][0]['identifier']);
                 }
 
-                // ==== VERIFICAÇÃO DE DUPLICIDADE E INSERÇÃO NO BANCO ==== 
-
                 if (!empty($isbn)) {
-                    // Verifica duplicidade pelo ISBN
                     $sql_check = "SELECT * FROM livro WHERE isbn = '$isbn' LIMIT 1";
                 } else {
-                    // Sem ISBN: verifica duplicidade pelo título e autor
                     $sql_check = "SELECT * FROM livro WHERE nome_livro = '$titulo' AND nome_autor = '$autor' LIMIT 1";
                 }
 
@@ -126,7 +126,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['mensagem'] = "<p style='color: red;'>Resultados da busca não estão disponíveis.</p>";
         }
 
-        // Redireciona para evitar reenvio
         header("Location: " . $_SERVER['PHP_SELF']);
         exit();
     }

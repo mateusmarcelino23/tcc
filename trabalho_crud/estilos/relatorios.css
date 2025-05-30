@@ -178,3 +178,40 @@ body {
     margin-top: 20px;
     text-align: center;
 }
+
+.btn-group-center {
+  display: flex;
+  justify-content: center; /* centraliza */
+  align-items: center;     /* alinha verticalmente */
+  gap: 10px;               /* espaço entre os botões */
+}
+
+
+.btn-sal {
+    background-color: #004080;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 16px;
+    right: 200px;
+}
+
+.btn-sal:hover {
+    background-color: #002b5c;
+}
+
+.btn-can {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-can:hover {
+    background-color: #c82333;
+}

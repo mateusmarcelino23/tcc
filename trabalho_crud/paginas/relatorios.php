@@ -229,9 +229,9 @@ $temNotas = $resultNotas->num_rows > 0;
   <div id="novaAnotacao" class="nova-anotacao" style="display: none;">
     <form method="POST" action="salvar_anotacao.php">
       <textarea name="texto" class="form-control mb-2" rows="4" placeholder="Escreva sua observação..." required></textarea>
-      <div class="d-flex justify-content-between">
-        <button type="submit" class="btn btn-success">Salvar</button>
-        <button type="button" id="btnCancelar" class="btn btn-secondary">Cancelar</button>
+      <div class="btn-group-center">
+        <button type="submit" class="btn-sal">Salvar</button>
+        <button type="button" id="btnCancelar" class="btn-can">Cancelar</button>
       </div>
     </form>
   </div>

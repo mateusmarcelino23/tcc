@@ -109,7 +109,7 @@ $em = isset($match[2]) ? 'EM' : '';
 
     <form action="editar_aluno.php?id=<?= $aluno_id ?>" method="POST">
         <div class="mb-3">
-            <label for="nome" class="form-label">Nome e Sobrenome:</label>
+            <label for="nome" class="form-label">Nome completo:</label>
             <input type="text" name="nome" id="nome" class="form-control" value="<?= htmlspecialchars($aluno['nome']) ?>" autocomplete="off" required>
         </div>
 

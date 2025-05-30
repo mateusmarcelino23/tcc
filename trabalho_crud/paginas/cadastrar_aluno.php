@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <form action="cadastrar_aluno.php" method="POST">
             <div class="mb-3">
-                <label for="nome" class="form-label">Nome e Sobrenome:</label>
+                <label for="nome" class="form-label">Nome completo:</label>
                 <input type="text" name="nome" id="nome" class="form-control" autocomplete="off" required>
             </div>
 

@@ -181,9 +181,9 @@ body {
 
 .btn-group-center {
   display: flex;
-  justify-content: center; /* centraliza */
-  align-items: center;     /* alinha verticalmente */
-  gap: 10px;               /* espaço entre os botões */
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 
 

@@ -1,6 +1,13 @@
 <?php
 session_start(); // Inicia a sessão
 
+// Verifica se o professor está logado
+if (!isset($_SESSION['professor_id'])) {
+    // Redireciona para a página de login se não estiver logado
+    header("Location: login.php");
+    exit();
+}
+
 // Exibir mensagens de feedback armazenadas na sessão
 if (isset($_SESSION['mensagem'])) {
     echo $_SESSION['mensagem'];
@@ -129,6 +136,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header("Location: " . $_SERVER['PHP_SELF']);
         exit();
     }
+
+    elseif (isset($_POST['manual_titulo']) && isset($_POST['manual_autor'])) {
+
+        include '../conexao.php';
+
+        if ($conn->connect_error) {
+            die("Falha na conexão com o banco de dados: " . $conn->connect_error);
+        }
+
+        $titulo = $conn->real_escape_string(trim($_POST['manual_titulo']));
+        $autor = $conn->real_escape_string(trim($_POST['manual_autor']));
+        $isbn = ''; // ISBN não é obrigatório no manual
+
+        // Verifica se já existe esse livro
+        $sql_check = "SELECT * FROM livro WHERE nome_livro = '$titulo' AND nome_autor = '$autor' LIMIT 1";
+        $result_check = $conn->query($sql_check);
+
+        if ($result_check->num_rows > 0) {
+            $_SESSION['mensagem'] = "<p style='color: orange;'>Este livro já está cadastrado.</p>";
+        } else {
+            $sql_insert = "INSERT INTO livro (nome_livro, nome_autor, isbn) VALUES ('$titulo', '$autor', '$isbn')";
+
+            if ($conn->query($sql_insert) === TRUE) {
+                $_SESSION['mensagem'] = "<p style='color: green;'>Livro adicionado com sucesso!</p>";
+            } else {
+                $_SESSION['mensagem'] = "<p style='color: red;'>Erro ao adicionar o livro: " . $conn->error . "</p>";
+            }
+        }
+
+        $conn->close();
+
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
+    }
+
 }
 ?>
 
@@ -178,11 +220,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <a href="../../" class="link-back">< Voltar para o painel</a>
     </div>
 
+    <!-- Mensagem de feedback -->
+    <div class="mensagem" style="margin-top: 20px;">
+        <?php
+        if (isset($_SESSION['mensagem'])) {
+            echo $_SESSION['mensagem'];
+            unset($_SESSION['mensagem']);
+        }
+        ?>
+    </div>
+
     <!-- Container para o formulário -->
     <div class="container">
         <h2>Buscar Livros</h2>
         <form method="POST" action="">
-            <label for="termo_busca">Digite o Nome ou ISBN do Livro:</label>
+            <label for="termo_busca">Digite o Título ou ISBN do Livro:</label>
             <input type="text" id="termo_busca" name="termo_busca" autocomplete="off" required>
             <button type="submit" class="btn">Buscar</button>
         </form>
@@ -204,7 +256,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <img src="<?php echo isset($item['volumeInfo']['imageLinks']['thumbnail']) ? $item['volumeInfo']['imageLinks']['thumbnail'] : 'Imagem não disponível'; ?>" alt="Capa do Livro">
                                 <div>
                                     <strong><?php echo $item['volumeInfo']['title']; ?></strong>
-                                    <p>Autor: <?php echo isset($item['volumeInfo']['authors']) ? implode(', ', $item['volumeInfo']['authors']) : 'Autor desconhecido'; ?></p>
+                                    <p>Autor(a): <?php echo isset($item['volumeInfo']['authors']) ? implode(', ', $item['volumeInfo']['authors']) : 'Autor desconhecido'; ?></p>
                                     <p>ISBN: <?php echo isset($item['volumeInfo']['industryIdentifiers'][0]['identifier']) ? $item['volumeInfo']['industryIdentifiers'][0]['identifier'] : 'ISBN não disponível'; ?></p>
                                     <form method="POST" action="">
                                         <input type="hidden" name="adicionar_livro_id" value="<?php echo $index; ?>">
@@ -223,6 +275,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </div>
 </div>
+
+<!-- Div para inserir livro manualmente -->
+<div class="container" style="margin-top: 50px;">
+    <h3>Não encontrou o livro? Insira os dados manualmente:</h3>
+    <form method="POST" action="">
+        <label for="manual_titulo">Título do Livro:</label>
+        <input type="text" id="manual_titulo" name="manual_titulo" autocomplete="off" required>
+        
+        <label for="manual_autor">Nome do(a) Autor(a):</label>
+        <input type="text" id="manual_autor" name="manual_autor" autocomplete="off" required>
+        
+        <button type="submit" name="adicionar_manual" class="btn">Adicionar Manualmente</button>
+    </form>
+</div>
+
 
 
     <script>

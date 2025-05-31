@@ -3,6 +3,13 @@ session_start();
 // Conecta ao banco de dados
 include '../conexao.php';
 
+// Verifica se o professor está logado
+if (!isset($_SESSION['professor_id'])) {
+    // Redireciona para a página de login se não estiver logado
+    header("Location: login.php");
+    exit();
+}
+
 // Verifica a conexão
 if ($conn->connect_error) {
     die("Falha na conexão com o banco de dados: " . $conn->connect_error);

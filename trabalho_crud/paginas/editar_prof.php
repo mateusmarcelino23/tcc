@@ -2,6 +2,12 @@
 session_start();
 include '../conexao.php';
 
+// Verifica se o professor está logado
+if (!isset($_SESSION['professor_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
 if ($conn->connect_error) {
     die("Falha na conexão com o banco de dados: " . $conn->connect_error);
 }

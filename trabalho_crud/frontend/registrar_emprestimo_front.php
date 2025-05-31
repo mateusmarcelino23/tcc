@@ -1,42 +1,5 @@
 <?php
-
-session_start();
-if (!isset($_SESSION['professor_id'])) {
-    header("Location: login.php");
-    exit();
-}
-
-include '../conexao.php';
-$conn->set_charset("utf8");
-
-if ($conn->connect_error) {
-    die("Falha na conexão com o banco de dados: " . $conn->connect_error);
-}
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $id_aluno = $_POST['id_aluno'];
-    $id_professor = $_SESSION['professor_id'];
-    $id_livro = $_POST['id_livro'];
-    $data_emprestimo = DateTime::createFromFormat('d/m/Y', $_POST['data_emprestimo'])->format('Y-m-d');
-    $data_devolucao = DateTime::createFromFormat('d/m/Y', $_POST['data_devolucao'])->format('Y-m-d');
-
-    if ($data_devolucao < $data_emprestimo) {
-        echo "<p style='color: red;'>A data de devolução não pode ser anterior à data de empréstimo.</p>";
-        exit();
-    }
-
-    $sql = "INSERT INTO emprestimo (id_aluno, id_professor, id_livro, data_emprestimo, data_devolucao)
-            VALUES ('$id_aluno', '$id_professor', '$id_livro', '$data_emprestimo', '$data_devolucao')";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "<p style='color: green;'>Empréstimo registrado com sucesso!</p>";
-    } else {
-        echo "<p style='color: red;'>Erro ao registrar o empréstimo: " . $conn->error . "</p>";
-    }
-}
-
-$conn->close();
-
+include '../backend/registrar_emprestimo.php';
 ?>
 
 <!DOCTYPE html>
@@ -75,31 +38,41 @@ $conn->close();
     <!-- Menu lateral -->
     <div class="sidebar" id="mySidebar">
         <ul>
-            <li><a href="relatorios.php">Relatórios</a></li>
-            <li><a href="logout.php">Logout</a></li>
+            <li><a href="relatorios_front.php">Relatórios</a></li>
+            <li><a href="../backend/logout.php">Logout</a></li>
         </ul>
     </div>
 
     <div class="mt-3 text-start">
-        <a href="ver_emprestimos.php" class="link-back">&lt; Voltar</a>
+        <a href="ver_emprestimos_front.php" class="link-back">&lt; Voltar</a>
+    </div>
+
+    <!-- Mensagem de feedback -->
+    <div class="mensagem">
+        <?php
+        if (isset($_SESSION['mensagem_emprestimo'])) {
+            echo $_SESSION['mensagem_emprestimo'];
+            unset($_SESSION['mensagem_emprestimo']);
+        }
+        ?>
     </div>
 
     <div class="container">
         <h2 class="text-center">Registrar Empréstimo</h2>
-        <form action="registrar_emprestimo.php" method="POST">
-            <!-- Campo Aluno -->
+        <form action="../backend/registrar_emprestimo.php" method="POST">
+        
             <div class="mb-3">
                 <label for="id_aluno" class="form-label">Aluno:</label>
                 <select name="id_aluno" id="id_aluno" class="form-select" required style="width: 100%;"></select>
             </div>
 
-            <!-- Campo Livro -->
+
             <div class="mb-3">
                 <label for="id_livro" class="form-label">Livro:</label>
                 <select name="id_livro" id="id_livro" class="form-select" required style="width: 100%;"></select>
             </div>
 
-            <!-- Datas -->
+          
             <div class="mb-3">
                 <label for="data_emprestimo" class="form-label">Data de Retirada:</label>
                 <input type="text" name="data_emprestimo" id="data_emprestimo" class="form-control" required>
@@ -110,7 +83,7 @@ $conn->close();
                 <input type="text" name="data_devolucao" id="data_devolucao" class="form-control" required>
             </div>
 
-            <!-- Botão -->
+ 
             <button type="submit" class="btn btn-gradient w-100">Registrar Empréstimo</button>
         </form>
     </div>
@@ -148,8 +121,8 @@ $conn->close();
             }
 
             // Inicializar o Select2 nos campos
-            initSelect2('#id_aluno', 'buscar_alunos.php', 'Digite o nome do aluno');
-            initSelect2('#id_livro', 'buscar_livros.php', 'Digite o nome do livro');
+            initSelect2('#id_aluno', '../backend/buscar_alunos.php', 'Digite o nome do aluno');
+            initSelect2('#id_livro', '../backend/buscar_livros.php', 'Digite o nome do livro');
 
             // Inicializar o flatpickr nos campos de data com formato brasileiro (DD/MM/YYYY) e idioma PT-BR
             flatpickr("#data_emprestimo", {

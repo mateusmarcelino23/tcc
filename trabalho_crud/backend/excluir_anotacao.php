@@ -13,7 +13,7 @@ if (isset($_POST['id'])) {
     $sql = "DELETE FROM anotacoes WHERE id = $id";
     if ($conn->query($sql) === TRUE) {
         // Recebe a página anterior enviada no POST
-        $paginaAnterior = isset($_POST['paginaAnterior']) ? $_POST['paginaAnterior'] : 'relatorios.php';
+        $paginaAnterior = isset($_POST['paginaAnterior']) ? $_POST['paginaAnterior'] : '../frontend/relatorios_front.php';
 
         // Redireciona para a página anterior
         header('Location: ' . $paginaAnterior);

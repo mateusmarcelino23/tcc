@@ -1,36 +1,5 @@
 <?php
-session_start();
-
-// Verifica se o professor está logado
-if (!isset($_SESSION['professor_id'])) {
-    header("Location: trabalho_crud/paginas/login.php");
-    exit();
-}
-
-// Conectar com o banco de dados
-include 'trabalho_crud/conexao.php';
-
-// Verifica a conexão
-if ($conn->connect_error) {
-    die("Falha na conexão com o banco de dados: " . $conn->connect_error);
-}
-
-// Remover empréstimo se o ID for passado via GET
-if (isset($_GET['remover_id'])) {
-    $id = intval($_GET['remover_id']);
-    $conn->query("DELETE FROM emprestimo WHERE id = $id");
-    header("Location: painel.php");
-    exit();
-}
-
-// Consulta para buscar todos os empréstimos
-$sql = "SELECT e.id, e.data_emprestimo, e.data_devolucao, a.nome AS aluno_nome, l.nome_livro, l.nome_autor 
-        FROM emprestimo e
-        JOIN aluno a ON e.id_aluno = a.id
-        JOIN livro l ON e.id_livro = l.id";
-$result = $conn->query($sql);
-
-$conn->close();
+include 'trabalho_crud/backend/painel.php';
 ?>
 
 <!DOCTYPE html>
@@ -70,8 +39,8 @@ $conn->close();
     <!-- Menu lateral -->
     <div class="sidebar" id="mySidebar">
         <ul>
-            <li><a href="trabalho_crud/paginas/relatorios.php">Relatórios</a></li>
-            <li><a href="trabalho_crud/paginas/logout.php">Logout</a></li>
+            <li><a href="trabalho_crud/frontend/relatorios_front.php">Relatórios</a></li>
+            <li><a href="trabalho_crud/backend/logout.php">Logout</a></li>
         </ul>
     </div>
 
@@ -89,16 +58,16 @@ $conn->close();
     <div class="container">
         <table class="table table-bordered">
             <tr>
-                <td><a href="trabalho_crud/paginas/ver_emprestimos.php" class="btn btn-primary">Empréstimos</a></td>
+                <td><a href="trabalho_crud/frontend/ver_emprestimos_front.php" class="btn btn-primary">Empréstimos</a></td>
             </tr>
             <tr>
-                <td><a href="trabalho_crud/paginas/cadastrar_livros.php" class="btn btn-primary">Cadastrar Livros</a></td>
+                <td><a href="trabalho_crud/frontend/cadastrar_livros_front.php" class="btn btn-primary">Cadastrar Livros</a></td>
             </tr>
             <tr>
-                <td><a href="trabalho_crud/paginas/ver_alunos.php" class="btn btn-primary">Alunos</a></td>
+                <td><a href="trabalho_crud/frontend/ver_alunos_front.php" class="btn btn-primary">Alunos</a></td>
             </tr>
             <tr>
-                <td><a href="trabalho_crud/paginas/ver_professores.php" class="btn btn-primary">Professores</a></td>
+                <td><a href="trabalho_crud/frontend/ver_professores_front.php" class="btn btn-primary">Professores</a></td>
             </tr>
         </table>
     </div>

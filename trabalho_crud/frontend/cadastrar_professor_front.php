@@ -1,42 +1,5 @@
 <?php
-session_start();
-// Conecta ao banco de dados
-include '../conexao.php';
-
-// Verifica se o professor está logado
-if (!isset($_SESSION['professor_id'])) {
-    // Redireciona para a página de login se não estiver logado
-    header("Location: login.php");
-    exit();
-}
-
-// Verifica a conexão
-if ($conn->connect_error) {
-    die("Falha na conexão com o banco de dados: " . $conn->connect_error);
-}
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Recebe os dados do formulário
-    $nome = $_POST['nome'];
-    $cpf = preg_replace('/\D/', '', $_POST['cpf']);
-    $email = $_POST['email'];
-    $senha = $_POST['senha'];
-
-    // Criptografa a senha
-    $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
-
-    // Consulta para inserir o professor no banco de dados
-    $sql = "INSERT INTO professor (nome, cpf, email, senha) VALUES ('$nome', '$cpf', '$email', '$senha_hash')";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "<p style='color: green;'>Professor cadastrado com sucesso!</p>";
-    } else {
-        echo "<p style='color: red;'>Erro ao cadastrar professor: " . $conn->error . "</p>";
-    }
-
-    // Fecha a conexão
-    $conn->close();
-}
+include '../backend/cadastrar_professor.php';
 ?>
 
 <!DOCTYPE html>
@@ -80,20 +43,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <!-- Menu lateral -->
     <div class="sidebar" id="mySidebar">
         <ul>
-            <li><a href="relatorios.php">Relatórios</a></li>
-            <li><a href="logout.php">Logout</a></li>
+            <li><a href="relatorios_front.php">Relatórios</a></li>
+            <li><a href="../backend/logout.php">Logout</a></li>
         </ul>
     </div>
 
     <!-- Voltar -->
     <div class="mt-3 text-start">
-        <a href="ver_professores.php" class="link-back">< Voltar</a>
+        <a href="ver_professores_front.php" class="link-back">< Voltar</a>
+    </div>
+
+    <!-- Mensagem de feedback -->
+    <div class="mensagem">
+        <?php
+        if (isset($_SESSION['mensagem_professor'])) {
+            echo $_SESSION['mensagem_professor'];
+            unset($_SESSION['mensagem_professor']);
+        }
+        ?>
     </div>
 
     <div class="container">
     <h2 class="text-center">Cadastrar Professor</h2>
 
-    <form id="cadastroForm" action="cadastrar_professor.php" method="POST" novalidate>
+    <form id="cadastroForm" action="../backend/cadastrar_professor.php" method="POST" novalidate>
         <div class="mb-3">
             <label for="nome" class="form-label">Nome e Sobrenome:</label>
             <input type="text" name="nome" id="nome" class="form-control" autocomplete="off" required>

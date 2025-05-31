@@ -1,48 +1,5 @@
 <?php
-session_start();
-
-// Verifica se o professor está logado
-if (!isset($_SESSION['professor_id'])) {
-    // Redireciona para a página de login se não estiver logado
-    header("Location: login.php");
-    exit();
-}
-
-// Conexão com o banco de dados
-include '../conexao.php';
-
-// Verifica se ocorreu erro na conexão
-if ($conn->connect_error) {
-    die("Falha na conexão com o banco de dados: " . $conn->connect_error);
-}
-
-// Consulta SQL para buscar todos os empréstimos com dados relacionados
-$sql = "SELECT e.id, e.data_emprestimo, e.data_devolucao, e.status, 
-               a.nome AS aluno_nome, l.nome_livro, l.nome_autor, 
-               p.nome AS professor_nome
-        FROM emprestimo e
-        JOIN aluno a ON e.id_aluno = a.id
-        JOIN livro l ON e.id_livro = l.id
-        JOIN professor p ON e.id_professor = p.id";
-
-$result = $conn->query($sql);
-
-// Verifica se foi solicitada remoção de um empréstimo
-if (isset($_GET['remover'])) {
-    $id_emprestimo = intval($_GET['remover']); // Garante que seja um número inteiro
-    $sql_remover = "DELETE FROM emprestimo WHERE id = $id_emprestimo";
-
-    if ($conn->query($sql_remover) === TRUE) {
-        // Redireciona após remoção
-        header("Location: ver_emprestimos.php");
-        exit();
-    } else {
-        echo "Erro ao remover o empréstimo: " . $conn->error;
-    }
-}
-
-// Fecha a conexão
-$conn->close();
+include '../backend/ver_emprestimos.php'; // Inclui o script de backend para buscar empréstimos
 ?>
 
 <!DOCTYPE html>
@@ -72,14 +29,13 @@ $conn->close();
     <span id="toggleSidebar" class="openbtn" onclick="toggleNav()">&#9776;</span>
 </nav>
 
-<!-- Menu lateral -->
-<div class="sidebar" id="mySidebar">
-    <ul>
-        <li><a href="relatorios.php">Relatórios</a></li>
-        <li><a href="logout.php">Logout</a></li>
-    </ul>
-</div>
-
+    <!-- Menu lateral -->
+    <div class="sidebar" id="mySidebar">
+        <ul>
+            <li><a href="relatorios_front.php">Relatórios</a></li>
+            <li><a href="../backend/logout.php">Logout</a></li>
+        </ul>
+    </div>
 <!-- Script para abrir/fechar menu lateral -->
 <script>
 function toggleNav() {
@@ -103,7 +59,7 @@ function toggleNav() {
     <h2 class="text-center">Lista de Empréstimos</h2>
 
     <div class="text-end mb-3">
-        <a href="registrar_emprestimo.php" class="link-registrar">Registrar Empréstimo</a>
+        <a href="registrar_emprestimo_front.php" class="link-registrar">Registrar Empréstimo</a>
     </div>
 
     <div class="table-container">

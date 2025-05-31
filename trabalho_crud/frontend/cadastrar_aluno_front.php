@@ -1,48 +1,5 @@
 <?php
-session_start();
-
-// Verifica se o professor está logado
-if (!isset($_SESSION['professor_id'])) {
-    header("Location: login.php"); // Redireciona para o login se não estiver logado
-    exit();
-}
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Conecta com o banco de dados
-    include '../conexao.php';
-
-    // Verifica a conexão
-    if ($conn->connect_error) {
-        die("Falha na conexão com o banco de dados: " . $conn->connect_error);
-    }
-
-    // Recebe os dados do formulário
-    $nome = $_POST['nome'];
-    $ano = $_POST['ano']; // Alterado para 'ano'
-    $sala = $_POST['sala']; // Alterado para 'sala'
-    $email = $_POST['email'];
-
-    // Concatenar ano e sala para formar a série
-    // Verifica se é Ensino Médio
-    if (in_array($ano, ['1', '2', '3'])) {
-        $serie = $ano . 'º Ano EM ' . $sala;
-    } else {
-        $serie = $ano . 'º Ano ' . $sala;
-    }
-
-
-    // Consulta para inserir o aluno no banco de dados
-    $sql = "INSERT INTO aluno (nome, serie, email) VALUES ('$nome', '$serie', '$email')";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "<p style='color: green;'>Aluno cadastrado com sucesso!</p>";
-    } else {
-        echo "<p style='color: red;'>Erro ao cadastrar aluno: " . $conn->error . "</p>";
-    }
-
-    // Fecha a conexão
-    $conn->close();
-}
+include '../backend/cadastrar_aluno.php';
 ?>
 
 <!DOCTYPE html>
@@ -84,20 +41,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <!-- Menu lateral -->
     <div class="sidebar" id="mySidebar">
         <ul>
-            <li><a href="relatorios.php">Relatórios</a></li>
-            <li><a href="logout.php">Logout</a></li>
+            <li><a href="relatorios_front.php">Relatórios</a></li>
+            <li><a href="../backend/logout.php">Logout</a></li>
         </ul>
     </div>
 
     <!-- Voltar -->
     <div class="mt-3 text-start">
-        <a href="ver_alunos.php" class="link-back">< Voltar</a>
+        <a href="ver_alunos_front.php" class="link-back">< Voltar</a>
+    </div>
+
+    <!-- Mensagem de feedback -->
+    <div class="mensagem">
+        <?php
+        if (isset($_SESSION['mensagem_aluno'])) {
+            echo $_SESSION['mensagem_aluno'];
+            unset($_SESSION['mensagem_aluno']);
+        }
+        ?>
     </div>
 
     <div class="container">
         <h2 class="text-center">Cadastrar Aluno</h2>
 
-        <form action="cadastrar_aluno.php" method="POST">
+        <form action="../backend/cadastrar_aluno.php" method="POST">
             <div class="mb-3">
                 <label for="nome" class="form-label">Nome completo:</label>
                 <input type="text" name="nome" id="nome" class="form-control" autocomplete="off" required>

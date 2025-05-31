@@ -1,53 +1,5 @@
 <?php
-session_start();
-include '../conexao.php';
-
-// Verifica se o professor está logado
-if (!isset($_SESSION['professor_id'])) {
-    header("Location: login.php");
-    exit();
-}
-
-if ($conn->connect_error) {
-    die("Falha na conexão com o banco de dados: " . $conn->connect_error);
-}
-
-// Verifica se o ID do professor foi passado
-if (!isset($_GET['id'])) {
-    echo "<p style='color: red;'>ID do professor não especificado.</p>";
-    exit;
-}
-
-$id = intval($_GET['id']);
-
-// Atualização (POST)
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $nome = $_POST['nome'];
-    $cpf = preg_replace('/\D/', '', $_POST['cpf']); // Remove pontos e traços
-    $email = $_POST['email'];
-    $senha = $_POST['senha'];
-
-    if (!empty($senha)) {
-        $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
-        $sql = "UPDATE professor SET nome='$nome', cpf='$cpf', email='$email', senha='$senha_hash' WHERE id=$id";
-    } else {
-        $sql = "UPDATE professor SET nome='$nome', cpf='$cpf', email='$email' WHERE id=$id";
-    }
-
-    if ($conn->query($sql) === TRUE) {
-        echo "<p style='color: green;'>Dados atualizados com sucesso!</p>";
-    } else {
-        echo "<p style='color: red;'>Erro ao atualizar: " . $conn->error . "</p>";
-    }
-}
-
-// Recupera dados do professor
-$result = $conn->query("SELECT * FROM professor WHERE id = $id");
-if ($result->num_rows != 1) {
-    echo "<p style='color: red;'>Professor não encontrado.</p>";
-    exit;
-}
-$prof = $result->fetch_assoc();
+include '../backend/editar_prof.php';
 ?>
 
 <!DOCTYPE html>
@@ -71,21 +23,22 @@ $prof = $result->fetch_assoc();
     </script>
 </nav>
 
+    <!-- Menu lateral -->
     <div class="sidebar" id="mySidebar">
         <ul>
-            <li><a href="relatorios.php">Relatórios</a></li>
-            <li><a href="logout.php">Logout</a></li>
+            <li><a href="relatorios_front.php">Relatórios</a></li>
+            <li><a href="../backend/logout.php">Logout</a></li>
         </ul>
     </div>
 
 <div class="mt-3 text-start">
-    <a href="ver_professores.php" class="link-back">< Voltar</a>
+    <a href="ver_professores.php_front" class="link-back">< Voltar</a>
 </div>
 
 <div class="container">
     <h2 class="text-center">Editar Professor</h2>
 
-    <form id="editarForm" method="POST" novalidate>
+    <form action="../backend/editar_prof.php?id=<?= $prof_id ?>" id="editarForm" method="POST" novalidate>
         <div class="mb-3">
             <label for="nome" class="form-label">Nome e Sobrenome:</label>
             <input type="text" name="nome" id="nome" class="form-control" required value="<?= htmlspecialchars($prof['nome']) ?>" autocomplete="off">

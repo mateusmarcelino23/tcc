@@ -4,7 +4,7 @@ session_start();
 include '../conexao.php';
 
 if (!isset($_SESSION['professor_id'])) {
-    header('Location: login.php');
+    header("Location: ../frontend/login_front.php");
     exit();
 }
 
@@ -16,7 +16,7 @@ $sql = "INSERT INTO anotacoes (texto, data, id_professor) VALUES ('$texto', '$da
 
 if ($conn->query($sql) === TRUE) {
     // Recebe a página anterior enviada no POST
-    $paginaAnterior = isset($_POST['paginaAnterior']) ? $_POST['paginaAnterior'] : 'relatorios.php';
+    $paginaAnterior = isset($_POST['paginaAnterior']) ? $_POST['paginaAnterior'] : '../frontend/relatorios_front.php';
 
     // Evita redirecionamento para locais inválidos, opcionalmente
     // por segurança, você pode validar que $paginaAnterior seja local e dentro do seu domínio

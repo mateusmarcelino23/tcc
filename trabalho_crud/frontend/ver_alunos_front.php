@@ -1,47 +1,5 @@
 <?php
-session_start();
-
-// Verifica se o professor está logado
-if (!isset($_SESSION['professor_id'])) {
-    header("Location: login.php"); // Redireciona para o login se não estiver logado
-    exit();
-}
-
-// Conectar com o banco de dados
-include '../conexao.php';
-
-// Verifica a conexão
-if ($conn->connect_error) {
-    die("Falha na conexão com o banco de dados: " . $conn->connect_error);
-}
-
-// Verifica se foi solicitado remover um aluno
-if (isset($_GET['remover'])) {
-    $aluno_id = $_GET['remover'];
-
-    // Verifica se o aluno está em algum empréstimo
-    $check_emprestimo = "SELECT * FROM emprestimo WHERE id_aluno = $aluno_id";
-    $result_check = $conn->query($check_emprestimo);
-
-    if ($result_check->num_rows > 0) {
-        echo "<script>alert('O aluno está registrado em um empréstimo. Primeiro remova o empréstimo para depois excluir o aluno.');</script>";
-    } else {
-        // Remove o aluno
-        $sql_remover = "DELETE FROM aluno WHERE id = $aluno_id";
-        $conn->query($sql_remover);
-
-        // Redireciona silenciosamente após exclusão
-        header("Location: ver_alunos.php");
-        exit();
-    }
-}
-
-// Consulta para buscar todos os alunos
-$sql = "SELECT * FROM aluno";
-$result = $conn->query($sql);
-
-// Fechar a conexão
-$conn->close();
+include '../backend/ver_alunos.php'; // Inclui o script de backend para ver alunos
 ?>
 
 <!DOCTYPE html>
@@ -88,8 +46,8 @@ $conn->close();
     <!-- Menu lateral -->
     <div class="sidebar" id="mySidebar">
         <ul>
-            <li><a href="relatorios.php">Relatórios</a></li>
-            <li><a href="logout.php">Logout</a></li>
+            <li><a href="relatorios_front.php">Relatórios</a></li>
+            <li><a href="../backend/logout.php">Logout</a></li>
         </ul>
     </div>
 
@@ -99,9 +57,11 @@ $conn->close();
 
         <div class="container mt-5">
             <h2 class="text-center">Lista de Alunos</h2>
+
             <div class="text-end mb-2">
-                <a href="cadastrar_aluno.php" class="link-registrar">Cadastrar Aluno</a>
+                <a href="cadastrar_aluno_front.php" class="link-registrar">Cadastrar Aluno</a>
             </div>
+
             <div class="table-container">
             <table id="emprestimosTable" class="table table-striped">
                 <thead>

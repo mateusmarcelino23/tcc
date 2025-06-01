@@ -13,7 +13,7 @@ document.addEventListener('keydown', function(e) {
     if (
         e.key === 'F12' ||
         (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
-        (e.ctrlKey && e.key === 'U')
+        (e.ctrlKey && e.key.toLowerCase() === 'u')
     ) {
         e.preventDefault();
         redirect();
@@ -37,3 +37,18 @@ setInterval(function() {
         devtoolsOpen = false;
     }
 }, 1000);
+
+// função de tratamento de erro
+function tratarErro(error, mensagemUsuario = "Algo deu errado. Por favor, tente novamente.") {
+    console.error("Erro:", error);
+    alert(mensagemUsuario);
+  }
+  
+  // tratamento global de erros JS
+  window.addEventListener('error', function(event) {
+    tratarErro(event.error || event.message);
+  });
+  
+  window.addEventListener('unhandledrejection', function(event) {
+    tratarErro(event.reason);
+  });

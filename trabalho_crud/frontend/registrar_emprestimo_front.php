@@ -4,6 +4,7 @@ include '../backend/registrar_emprestimo.php';
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <title>Registrar Empréstimo</title>
@@ -16,24 +17,18 @@ include '../backend/registrar_emprestimo.php';
 <body>
     <!-- Cabeçalho -->
     <nav class="header">
-        Biblioteca M.V.C
+        <a href="../../" class="header-link">Biblioteca M.V.C</a>
         <span id="toggleSidebar" class="openbtn" onclick="toggleNav()">&#9776;</span>
-
         <script>
             function toggleNav() {
                 const sidebar = document.getElementById("mySidebar");
                 const toggleBtn = document.getElementById("toggleSidebar");
-
-                if (sidebar.classList.contains("open")) {
-                    sidebar.classList.remove("open");
-                    toggleBtn.innerHTML = "&#9776;"; // ícone de abrir
-                } else {
-                    sidebar.classList.add("open");
-                    toggleBtn.innerHTML = "&times;"; // ícone de fechar
-                }
+                sidebar.classList.toggle("open");
+                toggleBtn.innerHTML = sidebar.classList.contains("open") ? "&times;" : "&#9776;";
             }
         </script>
     </nav>
+
 
     <!-- Menu lateral -->
     <div class="sidebar" id="mySidebar">
@@ -60,7 +55,7 @@ include '../backend/registrar_emprestimo.php';
     <div class="container">
         <h2 class="text-center">Registrar Empréstimo</h2>
         <form action="../backend/registrar_emprestimo.php" method="POST">
-        
+
             <div class="mb-3">
                 <label for="id_aluno" class="form-label">Aluno:</label>
                 <select name="id_aluno" id="id_aluno" class="form-select" required style="width: 100%;"></select>
@@ -72,7 +67,7 @@ include '../backend/registrar_emprestimo.php';
                 <select name="id_livro" id="id_livro" class="form-select" required style="width: 100%;"></select>
             </div>
 
-          
+
             <div class="mb-3">
                 <label for="data_emprestimo" class="form-label">Data de Retirada:</label>
                 <input type="text" name="data_emprestimo" id="data_emprestimo" class="form-control" required>
@@ -83,7 +78,7 @@ include '../backend/registrar_emprestimo.php';
                 <input type="text" name="data_devolucao" id="data_devolucao" class="form-control" required>
             </div>
 
- 
+
             <button type="submit" class="btn btn-gradient w-100">Registrar Empréstimo</button>
         </form>
     </div>
@@ -95,7 +90,7 @@ include '../backend/registrar_emprestimo.php';
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             function initSelect2(selector, url, placeholderText) {
                 $(selector).select2({
                     placeholder: placeholderText,
@@ -103,17 +98,21 @@ include '../backend/registrar_emprestimo.php';
                         url: url,
                         dataType: 'json',
                         delay: 250,
-                        data: function (params) {
-                            return { term: params.term };
+                        data: function(params) {
+                            return {
+                                term: params.term
+                            };
                         },
-                        processResults: function (data) {
-                            return { results: data };
+                        processResults: function(data) {
+                            return {
+                                results: data
+                            };
                         },
                         cache: true
                     },
                     minimumInputLength: 1,
                     language: {
-                        noResults: function () {
+                        noResults: function() {
                             return "Nenhum resultado encontrado";
                         }
                     }
@@ -127,18 +126,18 @@ include '../backend/registrar_emprestimo.php';
             // Inicializar o flatpickr nos campos de data com formato brasileiro (DD/MM/YYYY) e idioma PT-BR
             flatpickr("#data_emprestimo", {
                 allowInput: false, // Impede a digitação manual
-                locale: 'pt',      // Idioma PT-BR
+                locale: 'pt', // Idioma PT-BR
                 dateFormat: 'd/m/Y' // Formato de data brasileiro
             });
 
             flatpickr("#data_devolucao", {
                 allowInput: false, // Impede a digitação manual
-                locale: 'pt',      // Idioma PT-BR
+                locale: 'pt', // Idioma PT-BR
                 dateFormat: 'd/m/Y' // Formato de data brasileiro
             });
 
             // Verificação antes de enviar o formulário
-            $('form').on('submit', function (e) {
+            $('form').on('submit', function(e) {
                 const dataEmprestimoStr = $('#data_emprestimo').val();
                 const dataDevolucaoStr = $('#data_devolucao').val();
 
@@ -160,4 +159,5 @@ include '../backend/registrar_emprestimo.php';
     <!-- Link para a tratativa do JS -->
     <script src="../tratativa/script.js"></script>
 </body>
+
 </html>

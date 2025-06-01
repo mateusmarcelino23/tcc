@@ -4,6 +4,7 @@ include '../backend/editar_emprestimo.php';
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <title>Editar Empréstimo</title>
@@ -14,7 +15,9 @@ include '../backend/editar_emprestimo.php';
 </head>
 
 <body>
-    <nav class="header">Biblioteca M.V.C
+    <!-- Cabeçalho -->
+    <nav class="header">
+        <a href="../../" class="header-link">Biblioteca M.V.C</a>
         <span id="toggleSidebar" class="openbtn" onclick="toggleNav()">&#9776;</span>
         <script>
             function toggleNav() {
@@ -25,6 +28,7 @@ include '../backend/editar_emprestimo.php';
             }
         </script>
     </nav>
+
 
     <!-- Menu lateral -->
     <div class="sidebar" id="mySidebar">
@@ -79,7 +83,7 @@ include '../backend/editar_emprestimo.php';
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             function initSelect2(selector, url, placeholderText) {
                 $(selector).select2({
                     placeholder: placeholderText,
@@ -87,11 +91,15 @@ include '../backend/editar_emprestimo.php';
                         url: url,
                         dataType: 'json',
                         delay: 250,
-                        data: function (params) {
-                            return { term: params.term };
+                        data: function(params) {
+                            return {
+                                term: params.term
+                            };
                         },
-                        processResults: function (data) {
-                            return { results: data };
+                        processResults: function(data) {
+                            return {
+                                results: data
+                            };
                         },
                         cache: true
                     },
@@ -116,7 +124,7 @@ include '../backend/editar_emprestimo.php';
             });
 
             // Verificação antes de enviar o formulário
-            $('form').on('submit', function (e) {
+            $('form').on('submit', function(e) {
                 const dataEmprestimoStr = $('#data_emprestimo').val();
                 const dataDevolucaoStr = $('#data_devolucao').val();
 
@@ -137,6 +145,7 @@ include '../backend/editar_emprestimo.php';
 
     <!-- Link para a tratativa do JS -->
     <script src="../tratativa/script.js"></script>
-    
+
 </body>
+
 </html>

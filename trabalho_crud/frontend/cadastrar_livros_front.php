@@ -4,6 +4,7 @@ include '../backend/cadastrar_livros.php';
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,22 +16,15 @@ include '../backend/cadastrar_livros.php';
 
 <body>
     <!-- Cabeçalho -->
-    <nav class="header">Biblioteca M.V.C
-        <!-- Botão para abrir/fechar o menu lateral -->
+    <nav class="header">
+        <a href="../../" class="header-link">Biblioteca M.V.C</a>
         <span id="toggleSidebar" class="openbtn" onclick="toggleNav()">&#9776;</span>
-
         <script>
             function toggleNav() {
                 const sidebar = document.getElementById("mySidebar");
                 const toggleBtn = document.getElementById("toggleSidebar");
-
-                if (sidebar.classList.contains("open")) {
-                    sidebar.classList.remove("open");
-                    toggleBtn.innerHTML = "&#9776;"; // ícone de abrir
-                } else {
-                    sidebar.classList.add("open");
-                    toggleBtn.innerHTML = "&times;"; // ícone de fechar
-                }
+                sidebar.classList.toggle("open");
+                toggleBtn.innerHTML = sidebar.classList.contains("open") ? "&times;" : "&#9776;";
             }
         </script>
     </nav>
@@ -45,7 +39,8 @@ include '../backend/cadastrar_livros.php';
 
     <!-- Voltar -->
     <div class="mt-3 text-start">
-        <a href="../../" class="link-back">< Voltar para o painel</a>
+        <a href="../../" class="link-back">
+            < Voltar para o painel</a>
     </div>
 
     <!-- Mensagem de feedback -->
@@ -68,55 +63,55 @@ include '../backend/cadastrar_livros.php';
         </form>
     </div>
 
-<!-- Modal -->
-<div class="modal" id="resultadosModal" tabindex="-1" aria-labelledby="resultadosModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="resultadosModalLabel">Resultados da Busca</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <ul>
-                    <?php if (isset($_SESSION['resultados']) && !empty($_SESSION['resultados']['items'])): ?>
-                        <?php foreach ($_SESSION['resultados']['items'] as $index => $item): ?>
+    <!-- Modal -->
+    <div class="modal" id="resultadosModal" tabindex="-1" aria-labelledby="resultadosModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="resultadosModalLabel">Resultados da Busca</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <?php if (isset($_SESSION['resultados']) && !empty($_SESSION['resultados']['items'])): ?>
+                            <?php foreach ($_SESSION['resultados']['items'] as $index => $item): ?>
+                                <li>
+                                    <img src="<?php echo isset($item['volumeInfo']['imageLinks']['thumbnail']) ? $item['volumeInfo']['imageLinks']['thumbnail'] : 'Imagem não disponível'; ?>" alt="Capa do Livro">
+                                    <div>
+                                        <strong><?php echo $item['volumeInfo']['title']; ?></strong>
+                                        <p>Autor(a): <?php echo isset($item['volumeInfo']['authors']) ? implode(', ', $item['volumeInfo']['authors']) : 'Autor desconhecido'; ?></p>
+                                        <p>ISBN: <?php echo isset($item['volumeInfo']['industryIdentifiers'][0]['identifier']) ? $item['volumeInfo']['industryIdentifiers'][0]['identifier'] : 'ISBN não disponível'; ?></p>
+                                        <form method="POST" action="">
+                                            <input type="hidden" name="adicionar_livro_id" value="<?php echo $index; ?>">
+                                            <button type="submit" class="modal-btn">Adicionar Livro</button>
+                                        </form>
+                                    </div>
+                                </li>
+                            <?php endforeach; ?>
+                        <?php else: ?>
                             <li>
-                                <img src="<?php echo isset($item['volumeInfo']['imageLinks']['thumbnail']) ? $item['volumeInfo']['imageLinks']['thumbnail'] : 'Imagem não disponível'; ?>" alt="Capa do Livro">
-                                <div>
-                                    <strong><?php echo $item['volumeInfo']['title']; ?></strong>
-                                    <p>Autor(a): <?php echo isset($item['volumeInfo']['authors']) ? implode(', ', $item['volumeInfo']['authors']) : 'Autor desconhecido'; ?></p>
-                                    <p>ISBN: <?php echo isset($item['volumeInfo']['industryIdentifiers'][0]['identifier']) ? $item['volumeInfo']['industryIdentifiers'][0]['identifier'] : 'ISBN não disponível'; ?></p>
-                                    <form method="POST" action="">
-                                        <input type="hidden" name="adicionar_livro_id" value="<?php echo $index; ?>">
-                                        <button type="submit" class="modal-btn">Adicionar Livro</button>
-                                    </form>
-                                </div>
+                                <p>Nenhum resultado encontrado.</p>
                             </li>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <li>
-                            <p>Nenhum resultado encontrado.</p>
-                        </li>
-                    <?php endif; ?>
-                </ul>
+                        <?php endif; ?>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Div para inserir livro manualmente -->
-<div class="container" style="margin-top: 50px;">
-    <h3>Não encontrou o livro? Insira os dados manualmente:</h3>
-    <form method="POST" action="">
-        <label for="manual_titulo">Título do Livro:</label>
-        <input type="text" id="manual_titulo" name="manual_titulo" autocomplete="off" required>
-        
-        <label for="manual_autor">Nome do(a) Autor(a):</label>
-        <input type="text" id="manual_autor" name="manual_autor" autocomplete="off" required>
-        
-        <button type="submit" name="adicionar_manual" class="btn">Adicionar Manualmente</button>
-    </form>
-</div>
+    <!-- Div para inserir livro manualmente -->
+    <div class="container" style="margin-top: 50px;">
+        <h3>Não encontrou o livro? Insira os dados manualmente:</h3>
+        <form method="POST" action="">
+            <label for="manual_titulo">Título do Livro:</label>
+            <input type="text" id="manual_titulo" name="manual_titulo" autocomplete="off" required>
+
+            <label for="manual_autor">Nome do(a) Autor(a):</label>
+            <input type="text" id="manual_autor" name="manual_autor" autocomplete="off" required>
+
+            <button type="submit" name="adicionar_manual" class="btn">Adicionar Manualmente</button>
+        </form>
+    </div>
 
 
 
@@ -134,4 +129,5 @@ include '../backend/cadastrar_livros.php';
     <script src="../tratativa/script.js"></script>
 
 </body>
+
 </html>

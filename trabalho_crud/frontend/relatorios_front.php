@@ -4,6 +4,7 @@ include '../backend/relatorios.php';
 
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <title>Relatórios</title>
@@ -12,7 +13,9 @@ include '../backend/relatorios.php';
   <script src="https://www.gstatic.com/charts/loader.js"></script>
 
   <script>
-    google.charts.load('current', {packages: ['corechart']});
+    google.charts.load('current', {
+      packages: ['corechart']
+    });
     google.charts.setOnLoadCallback(drawCharts);
 
     const temAlunos = <?php echo $temAlunos ? 'true' : 'false'; ?>;
@@ -29,23 +32,31 @@ include '../backend/relatorios.php';
       var data = google.visualization.arrayToDataTable([
         ['Aluno', 'Livros Lidos'],
         <?php
-          if ($resultAlunos->num_rows > 0) {
-            while ($row = $resultAlunos->fetch_assoc()) {
-              echo "['" . addslashes($row['aluno_nome']) . "', " . (int)$row['total'] . "],";
-            }
+        if ($resultAlunos->num_rows > 0) {
+          while ($row = $resultAlunos->fetch_assoc()) {
+            echo "['" . addslashes($row['aluno_nome']) . "', " . (int)$row['total'] . "],";
           }
+        }
         ?>
       ]);
 
       var options = {
         title: 'Top 5 Alunos que mais leram',
-        legend: { position: 'none' },
-        chartArea: { width: '70%' },
+        legend: {
+          position: 'none'
+        },
+        chartArea: {
+          width: '70%'
+        },
         height: 400,
         hAxis: {
           minValue: 0,
-          textStyle: { color: 'transparent' }, // oculta os números
-          gridlines: { color: 'transparent' }  // oculta as linhas de grade
+          textStyle: {
+            color: 'transparent'
+          }, // oculta os números
+          gridlines: {
+            color: 'transparent'
+          } // oculta as linhas de grade
         }
       };
 
@@ -57,23 +68,31 @@ include '../backend/relatorios.php';
       var data = google.visualization.arrayToDataTable([
         ['Livro', 'Leituras'],
         <?php
-          if ($resultLivros->num_rows > 0) {
-            while ($row = $resultLivros->fetch_assoc()) {
-              echo "['" . addslashes($row['nome_livro']) . "', " . (int)$row['total'] . "],";
-            }
+        if ($resultLivros->num_rows > 0) {
+          while ($row = $resultLivros->fetch_assoc()) {
+            echo "['" . addslashes($row['nome_livro']) . "', " . (int)$row['total'] . "],";
           }
+        }
         ?>
       ]);
 
       var options = {
         title: 'Top 5 Livros mais lidos',
-        legend: { position: 'none' },
-        chartArea: { width: '70%' },
+        legend: {
+          position: 'none'
+        },
+        chartArea: {
+          width: '70%'
+        },
         height: 400,
         hAxis: {
           minValue: 0,
-          textStyle: { color: 'transparent' }, // oculta os números
-          gridlines: { color: 'transparent' }  // oculta as linhas de grade
+          textStyle: {
+            color: 'transparent'
+          }, // oculta os números
+          gridlines: {
+            color: 'transparent'
+          } // oculta as linhas de grade
         }
       };
 
@@ -85,23 +104,31 @@ include '../backend/relatorios.php';
       var data = google.visualization.arrayToDataTable([
         ['Série', 'Leituras'],
         <?php
-          if ($resultSeries->num_rows > 0) {
-            while ($row = $resultSeries->fetch_assoc()) {
-              echo "['" . addslashes($row['serie']) . "', " . (int)$row['total'] . "],";
-            }
+        if ($resultSeries->num_rows > 0) {
+          while ($row = $resultSeries->fetch_assoc()) {
+            echo "['" . addslashes($row['serie']) . "', " . (int)$row['total'] . "],";
           }
+        }
         ?>
       ]);
 
       var options = {
         title: 'Top 5 Turmas que mais leram',
-        legend: { position: 'none' },
-        chartArea: { width: '70%' },
+        legend: {
+          position: 'none'
+        },
+        chartArea: {
+          width: '70%'
+        },
         height: 400,
         hAxis: {
           minValue: 0,
-          textStyle: { color: 'transparent' }, // oculta os números
-          gridlines: { color: 'transparent' }  // oculta as linhas de grade
+          textStyle: {
+            color: 'transparent'
+          }, // oculta os números
+          gridlines: {
+            color: 'transparent'
+          } // oculta as linhas de grade
         }
       };
 
@@ -110,75 +137,79 @@ include '../backend/relatorios.php';
     }
   </script>
 </head>
+
 <body>
-  <nav class="header">Biblioteca M.V.C</nav>
+  <!-- Cabeçalho -->
+  <nav class="header">
+    <a href="../../" class="header-link">Biblioteca M.V.C</a>
+  </nav>
 
-  <!-- Voltar para a página de antes com $paginaAnterior -->
-  <div class="mt-3 text-start">
-    <a href="../../" class="link-back">&lt; Voltar</a>
-  </div>
-
-
-  <div class="d-flex">
-    <div class="relatorios-container flex-grow-1">
-      <div id="graficoAlunos-container">
-        <div id="graficoAlunos" class="grafico"></div>
-        <?php if (!$temAlunos): ?>
-          <div id="semDadosAlunos" class="alert alert-warning">Nenhum dado de empréstimo devolvido encontrado para alunos.</div>
-        <?php endif; ?>
-      </div>
-
-      <div id="graficoLivros-container">
-        <div id="graficoLivros" class="grafico"></div>
-        <?php if (!$temLivros): ?>
-          <div id="semDadosLivros" class="alert alert-warning">Nenhum dado de empréstimo devolvido encontrado para livros.</div>
-        <?php endif; ?>
-      </div>
-
-      <div id="graficoSeries-container">
-        <div id="graficoSeries" class="grafico"></div>
-        <?php if (!$temSeries): ?>
-          <div id="semDadosSeries" class="alert alert-warning">Nenhum dado de empréstimo devolvido encontrado para séries.</div>
-        <?php endif; ?>
-      </div>
+    <!-- Voltar para a página de antes com $paginaAnterior -->
+    <div class="mt-3 text-start">
+      <a href="../../" class="link-back">&lt; Voltar</a>
     </div>
 
-<!-- BARRA LATERAL -->
-<div class="sidebar">
-  <div class="lista-observacoes">
-    <?php if ($resultNotas->num_rows > 0): ?>
-      <?php while ($nota = $resultNotas->fetch_assoc()): ?>
-        <div class="card">
-          <button class="btn-excluir" data-id="<?php echo $nota['id']; ?>">x</button>
-          <div class="card-header">
-            <strong><?php echo htmlspecialchars($nota['professor_nome']); ?></strong>
-            <span class="data-anotacao">
-              <?php echo date('d/m/Y - H:i', strtotime($nota['data_corrigida'])); ?>
-            </span>
-          </div>
-          <div class="card-body">
-            <p class="card-text"><?php echo nl2br(htmlspecialchars($nota['texto'])); ?></p>
-          </div>
+
+    <div class="d-flex">
+      <div class="relatorios-container flex-grow-1">
+        <div id="graficoAlunos-container">
+          <div id="graficoAlunos" class="grafico"></div>
+          <?php if (!$temAlunos): ?>
+            <div id="semDadosAlunos" class="alert alert-warning">Nenhum dado de empréstimo devolvido encontrado para alunos.</div>
+          <?php endif; ?>
         </div>
-      <?php endwhile; ?>
-    <?php else: ?>
-      <div class="alert alert-warning">Nenhuma anotação encontrada.</div>
-    <?php endif; ?>
-  </div>
 
-  <button id="btnNovaAnotacao" class="btn">Nova Anotação</button>
+        <div id="graficoLivros-container">
+          <div id="graficoLivros" class="grafico"></div>
+          <?php if (!$temLivros): ?>
+            <div id="semDadosLivros" class="alert alert-warning">Nenhum dado de empréstimo devolvido encontrado para livros.</div>
+          <?php endif; ?>
+        </div>
 
-  <div id="novaAnotacao" class="nova-anotacao" style="display: none;">
-    <form method="POST" action="../backend/salvar_anotacao.php">
-      <textarea name="texto" class="form-control mb-2" rows="4" placeholder="Escreva sua observação..." required></textarea>
-      <div class="btn-group-center">
-        <button type="submit" class="btn-sal">Salvar</button>
-        <button type="button" id="btnCancelar" class="btn-can">Cancelar</button>
+        <div id="graficoSeries-container">
+          <div id="graficoSeries" class="grafico"></div>
+          <?php if (!$temSeries): ?>
+            <div id="semDadosSeries" class="alert alert-warning">Nenhum dado de empréstimo devolvido encontrado para séries.</div>
+          <?php endif; ?>
+        </div>
       </div>
-    </form>
-  </div>
 
-</div>
+      <!-- BARRA LATERAL -->
+      <div class="sidebar">
+        <div class="lista-observacoes">
+          <?php if ($resultNotas->num_rows > 0): ?>
+            <?php while ($nota = $resultNotas->fetch_assoc()): ?>
+              <div class="card">
+                <button class="btn-excluir" data-id="<?php echo $nota['id']; ?>">x</button>
+                <div class="card-header">
+                  <strong><?php echo htmlspecialchars($nota['professor_nome']); ?></strong>
+                  <span class="data-anotacao">
+                    <?php echo date('d/m/Y - H:i', strtotime($nota['data_corrigida'])); ?>
+                  </span>
+                </div>
+                <div class="card-body">
+                  <p class="card-text"><?php echo nl2br(htmlspecialchars($nota['texto'])); ?></p>
+                </div>
+              </div>
+            <?php endwhile; ?>
+          <?php else: ?>
+            <div class="alert alert-warning">Nenhuma anotação encontrada.</div>
+          <?php endif; ?>
+        </div>
+
+        <button id="btnNovaAnotacao" class="btn">Nova Anotação</button>
+
+        <div id="novaAnotacao" class="nova-anotacao" style="display: none;">
+          <form method="POST" action="../backend/salvar_anotacao.php">
+            <textarea name="texto" class="form-control mb-2" rows="4" placeholder="Escreva sua observação..." required></textarea>
+            <div class="btn-group-center">
+              <button type="submit" class="btn-sal">Salvar</button>
+              <button type="button" id="btnCancelar" class="btn-can">Cancelar</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -194,25 +225,27 @@ include '../backend/relatorios.php';
     document.getElementById('btnNovaAnotacao').style.display = 'inline-block';
   });
 
-    document.querySelectorAll('.btn-excluir').forEach(btn => {
+  document.querySelectorAll('.btn-excluir').forEach(btn => {
     btn.addEventListener('click', function() {
       const id = this.dataset.id;
-      console.log('Tentando excluir anotação ID:', id);  // Debug no console
+      console.log('Tentando excluir anotação ID:', id); // Debug no console
       if (confirm('Tem certeza que deseja excluir esta anotação?')) {
         fetch('../backend/excluir_anotacao.php', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-          body: 'id=' + encodeURIComponent(id)
-        })
-        .then(response => response.text())
-        .then(result => {
-          console.log('Resposta do servidor:', result); // Debug resposta
-          location.reload();
-        })
-        .catch(err => {
-          alert('Erro ao excluir anotação.');
-          console.error(err);
-        });
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'id=' + encodeURIComponent(id)
+          })
+          .then(response => response.text())
+          .then(result => {
+            console.log('Resposta do servidor:', result); // Debug resposta
+            location.reload();
+          })
+          .catch(err => {
+            alert('Erro ao excluir anotação.');
+            console.error(err);
+          });
       }
     });
   });

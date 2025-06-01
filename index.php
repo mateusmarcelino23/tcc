@@ -4,6 +4,7 @@ include 'trabalho_crud/backend/painel.php';
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,25 +17,22 @@ include 'trabalho_crud/backend/painel.php';
     <link rel="stylesheet" type="text/css" href="trabalho_crud/estilos/painel.css">
 
 </head>
+
 <body>
     <!-- Cabeçalho -->
-    <nav class="header">Biblioteca M.V.C
+    <nav class="header">
+        <a href="" class="header-link">Biblioteca M.V.C</a>
         <span id="toggleSidebar" class="openbtn" onclick="toggleNav()">&#9776;</span>
         <script>
             function toggleNav() {
                 const sidebar = document.getElementById("mySidebar");
                 const toggleBtn = document.getElementById("toggleSidebar");
-
-                if (sidebar.classList.contains("open")) {
-                    sidebar.classList.remove("open");
-                    toggleBtn.innerHTML = "&#9776;"; // ícone de abrir
-                } else {
-                    sidebar.classList.add("open");
-                    toggleBtn.innerHTML = "&times;"; // ícone de fechar
-                }
+                sidebar.classList.toggle("open");
+                toggleBtn.innerHTML = sidebar.classList.contains("open") ? "&times;" : "&#9776;";
             }
         </script>
     </nav>
+
 
     <!-- Menu lateral -->
     <div class="sidebar" id="mySidebar">
@@ -79,4 +77,5 @@ include 'trabalho_crud/backend/painel.php';
     <script src="trabalho_crud/tratativa/script.js"></script>
 
 </body>
+
 </html>

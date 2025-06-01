@@ -4,6 +4,7 @@ include '../backend/cadastrar_aluno.php';
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <title>Cadastrar Aluno</title>
@@ -15,28 +16,22 @@ include '../backend/cadastrar_aluno.php';
     <link rel="stylesheet" type="text/css" href="../estilos/registrar.css">
 
 </head>
+
 <body>
     <!-- Cabeçalho -->
-    <nav class="header">Biblioteca M.V.C
-            <!-- Botão para abrir/fechar o menu lateral -->
-            <span id="toggleSidebar" class="openbtn" onclick="toggleNav()">&#9776;</span>
-
-            <script>
-                function toggleNav() {
-                    const sidebar = document.getElementById("mySidebar");
-                    const toggleBtn = document.getElementById("toggleSidebar");
-
-                    if (sidebar.classList.contains("open")) {
-                        sidebar.classList.remove("open");
-                        toggleBtn.innerHTML = "&#9776;"; // ícone de abrir
-                    } else {
-                        sidebar.classList.add("open");
-                        toggleBtn.innerHTML = "&times;"; // ícone de fechar
-                    }
-                }
-            </script>
-
+    <nav class="header">
+        <a href="../../" class="header-link">Biblioteca M.V.C</a>
+        <span id="toggleSidebar" class="openbtn" onclick="toggleNav()">&#9776;</span>
+        <script>
+            function toggleNav() {
+                const sidebar = document.getElementById("mySidebar");
+                const toggleBtn = document.getElementById("toggleSidebar");
+                sidebar.classList.toggle("open");
+                toggleBtn.innerHTML = sidebar.classList.contains("open") ? "&times;" : "&#9776;";
+            }
+        </script>
     </nav>
+
 
     <!-- Menu lateral -->
     <div class="sidebar" id="mySidebar">
@@ -48,7 +43,8 @@ include '../backend/cadastrar_aluno.php';
 
     <!-- Voltar -->
     <div class="mt-3 text-start">
-        <a href="ver_alunos_front.php" class="link-back">< Voltar</a>
+        <a href="ver_alunos_front.php" class="link-back">
+            < Voltar</a>
     </div>
 
     <!-- Mensagem de feedback -->
@@ -100,17 +96,18 @@ include '../backend/cadastrar_aluno.php';
     </div>
 
     <script>
-        document.getElementById('sala').addEventListener('input', function () {
+        document.getElementById('sala').addEventListener('input', function() {
             this.value = this.value.toUpperCase();
         });
     </script>
 
 
-<!-- Link para o JavaScript do Bootstrap -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <!-- Link para o JavaScript do Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
-<!-- Link para a tratativa do JS -->
-<script src="../tratativa/script.js"></script>
+    <!-- Link para a tratativa do JS -->
+    <script src="../tratativa/script.js"></script>
 
 </body>
+
 </html>

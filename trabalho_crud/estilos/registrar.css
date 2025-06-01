@@ -23,9 +23,22 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
+    z-index: 900;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Se quiser permitir que o link seja selecionável (opcional) */
+.header a {
+    user-select: text;
+}
+
+.header-link {
+    color: white;
+    text-decoration: none;
 }
 
 /* Container centralizado */

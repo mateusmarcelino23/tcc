@@ -194,22 +194,6 @@ td .delete-link:hover {
     text-decoration: underline;
 }
 
-/* Link para voltar ao painel */
-.link-back {
-    color: black;
-    font-size: 20px;
-    text-decoration: none;
-    position: fixed;
-    top: 100px;
-    left: 20px;
-    transition: color 0.3s ease;
-    cursor: pointer;
-}
-
-.link-back:hover {
-    text-decoration: underline;
-}
-
 .scrollable-cell {
     max-width: 150px;
     white-space: nowrap;

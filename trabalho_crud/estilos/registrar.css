@@ -49,19 +49,6 @@ input, select {
     border-radius: 4px;
 }
 
-/* Link para voltar ao painel */
-.link-back {
-    color: black;
-    font-size: 20px;
-    text-decoration: none;
-    position: fixed;
-    top: 100px;
-    left: 20px;
-    transition: color 0.3s ease;
-    cursor: pointer;
-}
-
-
 /* Apenas para registrar alunos no empréstimo */
 .suggestions {
     position: absolute;

@@ -1,31 +1,30 @@
 <?php
-include '../conexao.php';
 session_start();
+include '../conexao.php';
+
+header('Content-Type: application/json');
 
 if (!isset($_SESSION['professor_id'])) {
     http_response_code(403);
-    echo "Não autorizado";
+    echo json_encode(['success' => false, 'message' => 'Não autorizado']);
     exit();
 }
 
-if (isset($_POST['id'])) {
-    $id = intval($_POST['id']);
-    $sql = "DELETE FROM anotacoes WHERE id = $id";
-    if ($conn->query($sql) === TRUE) {
-        // Recebe a página anterior enviada no POST
-        $paginaAnterior = isset($_POST['paginaAnterior']) ? $_POST['paginaAnterior'] : '../frontend/relatorios_front.php';
-
-        // Redireciona para a página anterior
-        header('Location: ' . $paginaAnterior);
-        exit();
-
-    } else {
-        http_response_code(500);
-        echo "Erro ao excluir anotação: " . $conn->error;
-    }
-} else {
+if (!isset($_POST['id'])) {
     http_response_code(400);
-    echo "ID não fornecido.";
+    echo json_encode(['success' => false, 'message' => 'ID não enviado']);
+    exit();
 }
+
+$id = intval($_POST['id']);
+$sql = "DELETE FROM anotacoes WHERE id = $id";
+
+if ($conn->query($sql) === TRUE) {
+    echo json_encode(['success' => true, 'message' => 'Anotação excluída com sucesso']);
+} else {
+    http_response_code(500);
+    echo json_encode(['success' => false, 'message' => 'Erro: ' . $conn->error]);
+}
+
 $conn->close();
 ?>

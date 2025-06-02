@@ -223,7 +223,7 @@ include '../backend/relatorios.php';
       <button id="btnNovaAnotacao" class="btn">Nova Anotação</button>
 
       <div id="novaAnotacao" class="nova-anotacao" style="display: none;">
-        <form method="POST" action="../backend/salvar_anotacao.php">
+        <form id="formNovaAnotacao">
           <textarea name="texto" class="form-control mb-2" rows="4" placeholder="Escreva sua observação..." required></textarea>
           <div class="btn-group-center">
             <button type="submit" class="btn-sal">Salvar</button>
@@ -231,6 +231,7 @@ include '../backend/relatorios.php';
           </div>
         </form>
       </div>
+
 
     </div>
 </body>
@@ -247,35 +248,11 @@ include '../backend/relatorios.php';
     document.getElementById('novaAnotacao').style.display = 'none';
     document.getElementById('btnNovaAnotacao').style.display = 'inline-block';
   });
-
-  document.querySelectorAll('.btn-excluir').forEach(btn => {
-    btn.addEventListener('click', function() {
-      const id = this.dataset.id;
-      console.log('Tentando excluir anotação ID:', id); // Debug no console
-      if (confirm('Tem certeza que deseja excluir esta anotação?')) {
-        fetch('../backend/excluir_anotacao.php', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: 'id=' + encodeURIComponent(id)
-          })
-          .then(response => response.text())
-          .then(result => {
-            console.log('Resposta do servidor:', result); // Debug resposta
-            location.reload();
-          })
-          .catch(err => {
-            alert('Erro ao excluir anotação.');
-            console.error(err);
-          });
-      }
-    });
-  });
 </script>
 
 <!-- Link para arquivos JS -->
 <script src="../interatividade/devtools_block.js"></script>
+<script src="../interatividade/anotacoes.js"></script>
 
 </html>
 

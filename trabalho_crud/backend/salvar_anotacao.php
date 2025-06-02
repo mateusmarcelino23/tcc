@@ -1,10 +1,18 @@
 <?php
-
 session_start();
 include '../conexao.php';
 
+header('Content-Type: application/json');
+
 if (!isset($_SESSION['professor_id'])) {
-    header("Location: ../frontend/login_front.php");
+    http_response_code(403);
+    echo json_encode(['success' => false, 'message' => 'Não autorizado']);
+    exit();
+}
+
+if (!isset($_POST['texto'])) {
+    http_response_code(400);
+    echo json_encode(['success' => false, 'message' => 'Texto não enviado']);
     exit();
 }
 
@@ -15,16 +23,10 @@ $data_atual = date('Y-m-d H:i:s');
 $sql = "INSERT INTO anotacoes (texto, data, id_professor) VALUES ('$texto', '$data_atual', $id_professor)";
 
 if ($conn->query($sql) === TRUE) {
-    // Recebe a página anterior enviada no POST
-    $paginaAnterior = isset($_POST['paginaAnterior']) ? $_POST['paginaAnterior'] : '../frontend/relatorios_front.php';
-
-    // Evita redirecionamento para locais inválidos, opcionalmente
-    // por segurança, você pode validar que $paginaAnterior seja local e dentro do seu domínio
-
-    header('Location: ' . $paginaAnterior);
-    exit();
+    echo json_encode(['success' => true, 'message' => 'Anotação salva com sucesso']);
 } else {
-    echo "Erro: " . $conn->error;
+    http_response_code(500);
+    echo json_encode(['success' => false, 'message' => 'Erro: ' . $conn->error]);
 }
 
 $conn->close();

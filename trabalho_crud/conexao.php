@@ -1,11 +1,18 @@
 <?php
+
+# Requer o arquivo load_env.php para carregar as variáveis de ambiente
+require_once 'load_env.php';
+
+#local do arquivo .env
+loadEnv(__DIR__ . '/.env');
+
 // Habilitar relatórios de erro do MySQLi para facilitar a depuração
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-$host = 'localhost';
-$usuario = 'root';
+$host = $_ENV['HOST'];
+$usuario = $_ENV['USUARIO'];
 $senha = '';
-$banco = 'crud_db';
+$banco = $_ENV['BANCO'];
 
 try {
     // Criando a conexão

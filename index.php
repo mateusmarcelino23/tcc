@@ -31,7 +31,7 @@ include 'trabalho_crud/backend/painel.php';
     <div class="sidebar" id="mySidebar">
         <ul>
             <li><a href="trabalho_crud/frontend/relatorios_front.php">Relatórios</a></li>
-            <li><a href="trabalho_crud/backend/logout.php">Logout</a></li>
+            <li><a href="trabalho_crud/backend/logout.php" id="logoutLink">Logout</a></li>
         </ul>
     </div>
 
@@ -69,6 +69,7 @@ include 'trabalho_crud/backend/painel.php';
     <!-- Link para arquivos JS -->
     <script src="trabalho_crud/interatividade/script.js"></script>
     <script src="trabalho_crud/interatividade/devtools_block.js"></script>
+    <script src="trabalho_crud/interatividade/logout.js"></script>
 
 </body>
 

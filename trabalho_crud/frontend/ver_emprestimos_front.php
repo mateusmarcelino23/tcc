@@ -35,7 +35,7 @@ include '../backend/ver_emprestimos.php'; // Inclui o script de backend para bus
     <div class="sidebar" id="mySidebar">
         <ul>
             <li><a href="relatorios_front.php">Relatórios</a></li>
-            <li><a href="../backend/logout.php">Logout</a></li>
+            <li><a href="../backend/logout.php" id="logoutLink">Logout</a></li>
         </ul>
     </div>
 
@@ -247,6 +247,7 @@ include '../backend/ver_emprestimos.php'; // Inclui o script de backend para bus
     <!-- Link para arquivos JS -->
     <script src="../interatividade/script.js"></script>
     <script src="../interatividade/devtools_block.js"></script>
+    <script src="../interatividade/logout.js"></script>
 
 </body>
 

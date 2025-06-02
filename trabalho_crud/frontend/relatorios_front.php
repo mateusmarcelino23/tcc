@@ -157,10 +157,20 @@ include '../backend/relatorios.php';
     <a href="../../" class="header-link">Biblioteca M.V.C</a>
   </nav>
 
-  <!-- Voltar para a página de antes com $paginaAnterior -->
+  <!-- Voltar à página anterior -->
   <div class="mt-3 text-start">
-    <a href="../../" class="link-back">&lt; Voltar</a>
+    <a href="#" onclick="goBack()" class="link-back">&lt; Voltar</a>
   </div>
+
+  <script>
+    function goBack() {
+      if (document.referrer) {
+        history.back();
+      } else {
+        window.location.href = '../../';
+      }
+    }
+  </script>
 
 
   <div class="d-flex">
@@ -264,8 +274,8 @@ include '../backend/relatorios.php';
   });
 </script>
 
-<!-- Link para a tratativa do JS -->
-<script src="../tratativa/script.js"></script>
+<!-- Link para arquivos JS -->
+<script src="../interatividade/devtools_block.js"></script>
 
 </html>
 

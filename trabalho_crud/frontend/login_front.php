@@ -4,6 +4,7 @@ include '../backend/login.php';
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <meta charset="UTF-8">
@@ -11,6 +12,7 @@ include '../backend/login.php';
     <title>Login</title>
     <link rel="stylesheet" href="../estilos/login.css">
 </head>
+
 <body class="body">
     <div class="container">
         <div class="text-center">
@@ -39,7 +41,7 @@ include '../backend/login.php';
             <span class="texto-esqueci-senha">Esqueceu a Senha?</span>
             <a href="esqueci_senha.php" class="link-esqueci-senha">Clique Aqui para Recuperar</a>
         </p> -->
-        
+
     </div>
 
     <footer style="text-align: center; padding: 10px; color: white;">
@@ -47,17 +49,18 @@ include '../backend/login.php';
     </footer>
 
     <script>
-    document.getElementById('cpf').addEventListener('input', function (e) {
-        let cpf = e.target.value.replace(/\D/g, ''); // Remove tudo que não for número
-        cpf = cpf.replace(/^(\d{3})(\d)/, '$1.$2');
-        cpf = cpf.replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
-        cpf = cpf.replace(/\.(\d{3})(\d)/, '.$1-$2');
-        e.target.value = cpf.substring(0, 14); // Limita a 14 caracteres (XXX.XXX.XXX-XX)
-    });
+        document.getElementById('cpf').addEventListener('input', function(e) {
+            let cpf = e.target.value.replace(/\D/g, ''); // Remove tudo que não for número
+            cpf = cpf.replace(/^(\d{3})(\d)/, '$1.$2');
+            cpf = cpf.replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
+            cpf = cpf.replace(/\.(\d{3})(\d)/, '.$1-$2');
+            e.target.value = cpf.substring(0, 14); // Limita a 14 caracteres (XXX.XXX.XXX-XX)
+        });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Link para a tratativa do JS -->
-    <script src="../tratativa/script.js"></script>
+    <!-- Link para arquivos JS -->
+    <script src="../interatividade/devtools_block.js"></script>
 </body>
+
 </html>

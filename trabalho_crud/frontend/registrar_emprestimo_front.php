@@ -20,14 +20,6 @@ include '../backend/registrar_emprestimo.php';
     <nav class="header">
         <a href="../../" class="header-link">Biblioteca M.V.C</a>
         <span id="toggleSidebar" class="openbtn" onclick="toggleNav()">&#9776;</span>
-        <script>
-            function toggleNav() {
-                const sidebar = document.getElementById("mySidebar");
-                const toggleBtn = document.getElementById("toggleSidebar");
-                sidebar.classList.toggle("open");
-                toggleBtn.innerHTML = sidebar.classList.contains("open") ? "&times;" : "&#9776;";
-            }
-        </script>
     </nav>
 
 
@@ -157,8 +149,9 @@ include '../backend/registrar_emprestimo.php';
         });
     </script>
 
-    <!-- Link para a tratativa do JS -->
-    <script src="../tratativa/script.js"></script>
+    <!-- Link para arquivos JS -->
+    <script src="../interatividade/script.js"></script>
+    <script src="../interatividade/devtools_block.js"></script>
 </body>
 
 </html>

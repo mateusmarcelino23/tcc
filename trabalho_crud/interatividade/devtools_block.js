@@ -1,6 +1,6 @@
 // Função para redirecionar
 function redirect() {
-    window.location.href = '/tcc/trabalho_crud/tratativa/tratativa.html';
+    window.location.href = '/tcc/trabalho_crud/interatividade/devtools_block.html';
 }
 
 // Bloquear botão direito do mouse
@@ -37,18 +37,3 @@ setInterval(function() {
         devtoolsOpen = false;
     }
 }, 1000);
-
-// função de tratamento de erro
-function tratarErro(error, mensagemUsuario = "Algo deu errado. Por favor, tente novamente.") {
-    console.error("Erro:", error);
-    alert(mensagemUsuario);
-  }
-  
-  // tratamento global de erros JS
-  window.addEventListener('error', function(event) {
-    tratarErro(event.error || event.message);
-  });
-  
-  window.addEventListener('unhandledrejection', function(event) {
-    tratarErro(event.reason);
-  });

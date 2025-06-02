@@ -14,6 +14,7 @@ include 'trabalho_crud/backend/painel.php';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Link para o CSS personalizado -->
+    <link rel="stylesheet" type="text/css" href="trabalho_crud/estilos/style.css">
     <link rel="stylesheet" type="text/css" href="trabalho_crud/estilos/painel.css">
 
 </head>

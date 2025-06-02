@@ -41,6 +41,9 @@ include '../backend/relatorios.php';
       ]);
 
       var options = {
+        titleTextStyle: {
+          fontSize: 24
+        },
         title: 'Top 5 Alunos que mais leram',
         legend: {
           position: 'none'
@@ -77,6 +80,9 @@ include '../backend/relatorios.php';
       ]);
 
       var options = {
+        titleTextStyle: {
+          fontSize: 24
+        },
         title: 'Top 5 Livros mais lidos',
         legend: {
           position: 'none'
@@ -113,6 +119,9 @@ include '../backend/relatorios.php';
       ]);
 
       var options = {
+        titleTextStyle: {
+          fontSize: 24
+        },
         title: 'Top 5 Turmas que mais leram',
         legend: {
           position: 'none'
@@ -144,72 +153,72 @@ include '../backend/relatorios.php';
     <a href="../../" class="header-link">Biblioteca M.V.C</a>
   </nav>
 
-    <!-- Voltar para a página de antes com $paginaAnterior -->
-    <div class="mt-3 text-start">
-      <a href="../../" class="link-back">&lt; Voltar</a>
+  <!-- Voltar para a página de antes com $paginaAnterior -->
+  <div class="mt-3 text-start">
+    <a href="../../" class="link-back">&lt; Voltar</a>
+  </div>
+
+
+  <div class="d-flex">
+    <div class="relatorios-container flex-grow-1">
+      <div id="graficoAlunos-container">
+        <div id="graficoAlunos" class="grafico"></div>
+        <?php if (!$temAlunos): ?>
+          <div id="semDadosAlunos" class="alert alert-warning">Nenhum dado de empréstimo devolvido encontrado para alunos.</div>
+        <?php endif; ?>
+      </div>
+
+      <div id="graficoLivros-container">
+        <div id="graficoLivros" class="grafico"></div>
+        <?php if (!$temLivros): ?>
+          <div id="semDadosLivros" class="alert alert-warning">Nenhum dado de empréstimo devolvido encontrado para livros.</div>
+        <?php endif; ?>
+      </div>
+
+      <div id="graficoSeries-container">
+        <div id="graficoSeries" class="grafico"></div>
+        <?php if (!$temSeries): ?>
+          <div id="semDadosSeries" class="alert alert-warning">Nenhum dado de empréstimo devolvido encontrado para séries.</div>
+        <?php endif; ?>
+      </div>
     </div>
 
-
-    <div class="d-flex">
-      <div class="relatorios-container flex-grow-1">
-        <div id="graficoAlunos-container">
-          <div id="graficoAlunos" class="grafico"></div>
-          <?php if (!$temAlunos): ?>
-            <div id="semDadosAlunos" class="alert alert-warning">Nenhum dado de empréstimo devolvido encontrado para alunos.</div>
-          <?php endif; ?>
-        </div>
-
-        <div id="graficoLivros-container">
-          <div id="graficoLivros" class="grafico"></div>
-          <?php if (!$temLivros): ?>
-            <div id="semDadosLivros" class="alert alert-warning">Nenhum dado de empréstimo devolvido encontrado para livros.</div>
-          <?php endif; ?>
-        </div>
-
-        <div id="graficoSeries-container">
-          <div id="graficoSeries" class="grafico"></div>
-          <?php if (!$temSeries): ?>
-            <div id="semDadosSeries" class="alert alert-warning">Nenhum dado de empréstimo devolvido encontrado para séries.</div>
-          <?php endif; ?>
-        </div>
-      </div>
-
-      <!-- BARRA LATERAL -->
-      <div class="sidebar">
-        <div class="lista-observacoes">
-          <?php if ($resultNotas->num_rows > 0): ?>
-            <?php while ($nota = $resultNotas->fetch_assoc()): ?>
-              <div class="card">
-                <button class="btn-excluir" data-id="<?php echo $nota['id']; ?>">x</button>
-                <div class="card-header">
-                  <strong><?php echo htmlspecialchars($nota['professor_nome']); ?></strong>
-                  <span class="data-anotacao">
-                    <?php echo date('d/m/Y - H:i', strtotime($nota['data_corrigida'])); ?>
-                  </span>
-                </div>
-                <div class="card-body">
-                  <p class="card-text"><?php echo nl2br(htmlspecialchars($nota['texto'])); ?></p>
-                </div>
+    <!-- BARRA LATERAL -->
+    <div class="barra-lateral">
+      <div class="lista-observacoes">
+        <?php if ($resultNotas->num_rows > 0): ?>
+          <?php while ($nota = $resultNotas->fetch_assoc()): ?>
+            <div class="card">
+              <button class="btn-excluir" data-id="<?php echo $nota['id']; ?>">x</button>
+              <div class="card-header">
+                <strong><?php echo htmlspecialchars($nota['professor_nome']); ?></strong>
+                <span class="data-anotacao">
+                  <?php echo date('d/m/Y - H:i', strtotime($nota['data_corrigida'])); ?>
+                </span>
               </div>
-            <?php endwhile; ?>
-          <?php else: ?>
-            <div class="alert alert-warning">Nenhuma anotação encontrada.</div>
-          <?php endif; ?>
-        </div>
-
-        <button id="btnNovaAnotacao" class="btn">Nova Anotação</button>
-
-        <div id="novaAnotacao" class="nova-anotacao" style="display: none;">
-          <form method="POST" action="../backend/salvar_anotacao.php">
-            <textarea name="texto" class="form-control mb-2" rows="4" placeholder="Escreva sua observação..." required></textarea>
-            <div class="btn-group-center">
-              <button type="submit" class="btn-sal">Salvar</button>
-              <button type="button" id="btnCancelar" class="btn-can">Cancelar</button>
+              <div class="card-body">
+                <p class="card-text"><?php echo nl2br(htmlspecialchars($nota['texto'])); ?></p>
+              </div>
             </div>
-          </form>
-        </div>
-
+          <?php endwhile; ?>
+        <?php else: ?>
+          <div class="alert alert-warning">Nenhuma anotação encontrada.</div>
+        <?php endif; ?>
       </div>
+
+      <button id="btnNovaAnotacao" class="btn">Nova Anotação</button>
+
+      <div id="novaAnotacao" class="nova-anotacao" style="display: none;">
+        <form method="POST" action="../backend/salvar_anotacao.php">
+          <textarea name="texto" class="form-control mb-2" rows="4" placeholder="Escreva sua observação..." required></textarea>
+          <div class="btn-group-center">
+            <button type="submit" class="btn-sal">Salvar</button>
+            <button type="button" id="btnCancelar" class="btn-can">Cancelar</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

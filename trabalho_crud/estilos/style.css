@@ -1,0 +1,138 @@
+/* Reset básico */
+body {
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+/* Cabeçalho estilizado */
+.header {
+    width: 100%;
+    background-color: #004080;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 26px;
+    font-weight: bold;
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 900;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Se quiser permitir que o link seja selecionável (opcional) */
+.header a {
+    user-select: text;
+}
+
+.header-link {
+    color: white;
+    text-decoration: none;
+}
+
+/* Sidebar estilizada */
+.sidebar {
+    position: fixed;
+    top: 79px;
+    /* Ajuste este valor para a altura da navbar */
+    right: -250px;
+    /* Inicialmente escondido */
+    width: 250px;
+    height: calc(100% - 70px);
+    /* Ajuste a altura para ocupar o restante da tela */
+    color: white;
+    padding: 20px;
+    transition: right 0.3s ease;
+    box-shadow: -4px 0 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    /* Para garantir que fique sobre outros elementos */
+    position: fixed;
+    background-color: #263238;
+    transition: right 0.3s ease-in-out;
+    padding-top: 30px;
+}
+
+.sidebar.open {
+    right: 0;
+    /* Exibe o menu lateral */
+}
+
+/* Botão de toggle (abrir/fechar) */
+.openbtn {
+    position: fixed;
+    top: 12px;
+    right: 20px;
+    font-size: 36px;
+    color: white;
+    cursor: pointer;
+    z-index: 1100;
+    /* acima da sidebar */
+}
+
+.sidebar .closebtn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 36px;
+    color: white;
+    cursor: pointer;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar li {
+    margin-bottom: 15px;
+    /* Espaço entre os itens da lista */
+}
+
+.sidebar a {
+    color: rgb(255, 255, 255);
+    /* Cor do texto */
+    text-decoration: none;
+    /* Remove o sublinhado */
+    font-size: 18px;
+    /* Tamanho da fonte */
+    padding: 3px 0;
+    /* Espaço ao redor do texto */
+    display: block;
+    /* Faz com que o link ocupe toda a largura do item da lista */
+    transition: color 0.3s ease;
+    /* Transição suave para a cor */
+}
+
+.sidebar a {
+    padding: 12px 20px;
+    text-decoration: none;
+    font-size: 18px;
+    color: white;
+    display: block;
+    transition: background 0.3s;
+}
+
+.sidebar a:hover {
+    background-color: #37474f;
+}
+
+.sidebar .closebtn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 32px;
+    color: white;
+    cursor: pointer;
+}

@@ -9,6 +9,7 @@ include '../backend/editar_aluno.php';
     <meta charset="UTF-8">
     <title>Editar Aluno</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../estilos/style.css">
     <link rel="stylesheet" type="text/css" href="../estilos/registrar.css">
 </head>
 

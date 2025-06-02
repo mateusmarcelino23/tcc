@@ -14,6 +14,7 @@ include '../backend/ver_emprestimos.php'; // Inclui o script de backend para bus
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <!-- CSS personalizado -->
+    <link rel="stylesheet" type="text/css" href="../estilos/style.css">
     <link rel="stylesheet" href="../estilos/ver.css">
 </head>
 

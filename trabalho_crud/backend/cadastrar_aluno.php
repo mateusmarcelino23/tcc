@@ -7,12 +7,6 @@ if (!isset($_SESSION['professor_id'])) {
     exit();
 }
 
-// Exibir mensagens de feedback armazenadas na sessão
-if (isset($_SESSION['mensagem_aluno'])) {
-    echo $_SESSION['mensagem_aluno'];
-    unset($_SESSION['mensagem_aluno']); // para mostrar só uma vez
-}
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     include '../conexao.php';
 

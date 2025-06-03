@@ -53,13 +53,13 @@ include '../backend/registrar_emprestimo.php';
 
             <div class="mb-3">
                 <label for="id_aluno" class="form-label">Aluno:</label>
-                <select name="id_aluno" id="id_aluno" class="form-select" required style="width: 100%;"></select>
+                <select name="id_aluno" id="id_aluno" class="form-select" required></select>
             </div>
 
 
             <div class="mb-3">
                 <label for="id_livro" class="form-label">Livro:</label>
-                <select name="id_livro" id="id_livro" class="form-select" required style="width: 100%;"></select>
+                <select name="id_livro" id="id_livro" class="form-select" required></select>
             </div>
 
 

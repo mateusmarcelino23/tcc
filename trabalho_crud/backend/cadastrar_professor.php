@@ -8,12 +8,6 @@ if (!isset($_SESSION['professor_id'])) {
     exit();
 }
 
-// Exibir mensagens de feedback armazenadas na sessão
-if (isset($_SESSION['mensagem_professor'])) {
-    echo $_SESSION['mensagem_professor'];
-    unset($_SESSION['mensagem_professor']); // para mostrar só uma vez
-}
-
 // Verifica a conexão
 if ($conn->connect_error) {
     $_SESSION['mensagem_professor'] = "<p style='color: red;'>Falha na conexão com o banco de dados: " . $conn->connect_error . "</p>";

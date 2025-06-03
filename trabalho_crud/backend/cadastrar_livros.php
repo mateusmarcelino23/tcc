@@ -8,12 +8,6 @@ if (!isset($_SESSION['professor_id'])) {
     exit();
 }
 
-// Exibir mensagens de feedback armazenadas na sessão
-if (isset($_SESSION['mensagem_livro'])) {
-    echo $_SESSION['mensagem_livro'];
-    unset($_SESSION['mensagem_livro']); // para mostrar só uma vez
-}
-
 // Função para buscar livros na API do Google Books
 function buscarLivros($termo) {
     // Limpa espaços extras

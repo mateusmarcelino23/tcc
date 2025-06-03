@@ -28,7 +28,7 @@ include '../backend/login.php';
         <form action="../backend/login.php" method="POST">
             <div class="mb-3">
                 <label for="cpf" class="form-label">CPF:</label>
-                <input type="text" name="cpf" id="cpf" class="form-control shadow-sm" required>
+                <input type="text" name="cpf" id="cpf" class="form-control shadow-sm" autocomplete="off" required>
             </div>
             <div class="mb-3">
                 <label for="senha" class="form-label">Senha:</label>

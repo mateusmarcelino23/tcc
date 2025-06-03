@@ -41,7 +41,7 @@ include 'trabalho_crud/backend/painel.php';
 
     <!-- Mensagem de boas-vindas -->
     <div class="welcome">
-        Bem-vindo, <?php echo $_SESSION['professor_nome']; ?>!
+        Bem-vindo(a), <?php echo $_SESSION['professor_nome']; ?>!
     </div>
 
     <!-- mensagem acima do container-->

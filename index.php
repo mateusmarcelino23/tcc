@@ -22,9 +22,13 @@ include 'trabalho_crud/backend/painel.php';
 <body>
     <!-- Cabeçalho -->
     <nav class="header">
-        <a href="" class="header-link">Biblioteca M.V.C</a>
+        <a href="" class="header-link">
+            <img src="trabalho_crud/imagens/1748908346791.png" alt="Logo" class="header-logo" />
+            Biblioteca M.V.C
+        </a>
         <span id="toggleSidebar" class="openbtn" onclick="toggleNav()">&#9776;</span>
     </nav>
+
 
 
     <!-- Menu lateral -->

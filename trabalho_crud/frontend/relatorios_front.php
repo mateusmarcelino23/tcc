@@ -154,7 +154,10 @@ include '../backend/relatorios.php';
 <body>
   <!-- Cabeçalho -->
   <nav class="header">
-    <a href="../../" class="header-link">Biblioteca M.V.C</a>
+    <a href="../../" class="header-link">
+      <img src="../imagens/1748908346791.png" alt="Logo" class="header-logo" />
+      Biblioteca M.V.C
+    </a>
   </nav>
 
   <!-- Voltar à página anterior -->

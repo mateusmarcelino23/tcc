@@ -27,7 +27,10 @@ include '../backend/ver_emprestimos.php'; // Inclui o script de backend para bus
 
     <!-- Cabeçalho -->
     <nav class="header">
-        <a href="../../" class="header-link">Biblioteca M.V.C</a>
+        <a href="../../" class="header-link">
+            <img src="../imagens/1748908346791.png" alt="Logo" class="header-logo" />
+            Biblioteca M.V.C
+        </a>
         <span id="toggleSidebar" class="openbtn" onclick="toggleNav()">&#9776;</span>
     </nav>
 

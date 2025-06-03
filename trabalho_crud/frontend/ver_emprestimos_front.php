@@ -180,7 +180,7 @@ include '../backend/ver_emprestimos.php'; // Inclui o script de backend para bus
             if (!devolvido) {
                 // Se não está devolvido, confirma a devolução
                 if (confirm('Confirmar devolução do empréstimo?')) {
-                    fetch('devolver_emprestimo.php?id=' + id)
+                    fetch('../backend/devolver_emprestimo.php?id=' + id)
                         .then(response => response.text())
                         .then(data => {
                             if (data.trim() === 'ok') {
@@ -201,7 +201,7 @@ include '../backend/ver_emprestimos.php'; // Inclui o script de backend para bus
             } else {
                 // Se está devolvido, confirma o cancelamento
                 if (confirm('Deseja cancelar a devolução?')) {
-                    fetch('cancelar_devolucao.php?id=' + id)
+                    fetch('../backend/cancelar_devolucao.php?id=' + id)
                         .then(response => response.text())
                         .then(data => {
                             if (data.trim() === 'ok') {

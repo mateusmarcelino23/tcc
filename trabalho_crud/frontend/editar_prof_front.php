@@ -33,7 +33,7 @@ include '../backend/editar_prof.php';
     </div>
 
     <div class="mt-3 text-start">
-        <a href="ver_professores.php_front" class="link-back">
+        <a href="ver_professores_front.php" class="link-back">
             < Voltar</a>
     </div>
 

@@ -95,6 +95,7 @@ include '../backend/relatorios.php';
           width: '70%'
         },
         height: 400,
+        width: 900,
         hAxis: {
           minValue: 0,
           textStyle: {
@@ -134,6 +135,7 @@ include '../backend/relatorios.php';
           width: '70%'
         },
         height: 400,
+        width: 900,
         hAxis: {
           minValue: 0,
           textStyle: {

@@ -19,9 +19,13 @@ include '../backend/login.php';
         <img src="../imagens/1748908346791.png" alt="Logo da Biblioteca M.V.C" class="logo">
     </div>
 
+    <footer style="text-align: center; font-size: 29px; position: fixed; top: 270px; color: black;">
+        <p>Gestão da Biblioteca</p>
+    </footer>
+
     <div class="container">
         <div class="text-center">
-            <h1 class="h1">Login</h1>
+            <h1 class="h1" style="font-size: 30px;">Login do Professor</h1>
         </div>
 
         <?php if (!empty($erro)): ?>
@@ -39,12 +43,12 @@ include '../backend/login.php';
                 <label for="senha" class="form-label">Senha:</label>
                 <input type="password" name="senha" id="senha" class="form-control shadow-sm" autocomplete="off" required>
             </div>
-            <button type="submit" class="login-container button" style="margin-top: 20px;">Entrar</button>
+            <button type="submit" class="login-container button" style="margin-top: 30px;">Entrar</button>
         </form>
 
     </div>
 
-    <footer style="text-align: center; position: fixed; margin-top: 500px; color: black;">
+    <footer style="text-align: center; position: fixed; bottom: 0; color: black;">
         <p>&copy; 2025 Mateus Marcelino.</p>
     </footer>
 

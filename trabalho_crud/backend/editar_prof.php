@@ -14,14 +14,15 @@ if ($conn->connect_error) {
 
 // Verifica se o ID do professor foi passado
 if (!isset($_GET['id'])) {
-    echo "<p style='color: red;'>ID do professor não especificado.</p>";
-    exit;
+    $_SESSION['mensagem_editar_professor'] = "<p style='color: red;'>ID do professor não especificado.</p>";
+    header("Location: ../frontend/ver_professores_front.php");
+    exit();
 }
 
 $id = intval($_GET['id']);
 
 // Atualização (POST)
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome = $_POST['nome'];
     $cpf = preg_replace('/\D/', '', $_POST['cpf']); // Remove pontos e traços
     $email = $_POST['email'];
@@ -29,23 +30,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (!empty($senha)) {
         $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
-        $sql = "UPDATE professor SET nome='$nome', cpf='$cpf', email='$email', senha='$senha_hash' WHERE id=$id";
+        $sql = "UPDATE professor SET nome = ?, cpf = ?, email = ?, senha = ? WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssssi", $nome, $cpf, $email, $senha_hash, $id);
     } else {
-        $sql = "UPDATE professor SET nome='$nome', cpf='$cpf', email='$email' WHERE id=$id";
+        $sql = "UPDATE professor SET nome = ?, cpf = ?, email = ? WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sssi", $nome, $cpf, $email, $id);
     }
 
-    if ($conn->query($sql) === TRUE) {
-        echo "<p style='color: green;'>Dados atualizados com sucesso!</p>";
+    if ($stmt->execute()) {
+        $_SESSION['mensagem_editar_professor'] = "<p style='color: green;'>Dados atualizados com sucesso!</p>";
     } else {
-        echo "<p style='color: red;'>Erro ao atualizar: " . $conn->error . "</p>";
+        $_SESSION['mensagem_editar_professor'] = "<p style='color: red;'>Erro ao atualizar: " . $stmt->error . "</p>";
     }
+
+    $stmt->close();
+    header("Location: ../frontend/editar_prof_front.php?id=$id");
+    exit();
 }
 
 // Recupera dados do professor
-$result = $conn->query("SELECT * FROM professor WHERE id = $id");
-if ($result->num_rows != 1) {
-    echo "<p style='color: red;'>Professor não encontrado.</p>";
-    exit;
+$sql = "SELECT * FROM professor WHERE id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows !== 1) {
+    $_SESSION['mensagem_editar_professor'] = "<p style='color: red;'>Professor não encontrado.</p>";
+    header("Location: ../frontend/ver_professores_front.php");
+    exit();
 }
+
 $prof = $result->fetch_assoc();
+$prof_id = $prof['id'];
+
+$stmt->close();
 ?>

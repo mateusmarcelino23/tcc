@@ -37,6 +37,16 @@ include '../backend/editar_emprestimo.php';
         <a href="ver_emprestimos_front.php" class="link-back">&lt; Voltar</a>
     </div>
 
+    <!-- Mensagem de feedback -->
+    <div class="mensagem">
+        <?php
+        if (isset($_SESSION['mensagem_editar_emprestimo'])) {
+            echo $_SESSION['mensagem_editar_emprestimo'];
+            unset($_SESSION['mensagem_editar_emprestimo']);
+        }
+        ?>
+    </div>
+
     <div class="container mt-4">
         <h2 class="text-center">Editar Empréstimo</h2>
         <form action="../backend/editar_emprestimo.php?id=<?php echo $id_emprestimo; ?>" method="POST">
@@ -105,8 +115,8 @@ include '../backend/editar_emprestimo.php';
                 });
             }
 
-            initSelect2('#id_aluno', 'buscar_alunos.php', 'Digite o nome do aluno');
-            initSelect2('#id_livro', 'buscar_livros.php', 'Digite o nome do livro');
+            initSelect2('#id_aluno', '../backend/buscar_alunos.php', 'Digite o nome do aluno');
+            initSelect2('#id_livro', '../backend/buscar_livros.php', 'Digite o nome do livro');
 
             flatpickr("#data_emprestimo", {
                 dateFormat: "d/m/Y",

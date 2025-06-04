@@ -37,6 +37,15 @@ include '../backend/editar_aluno.php';
             < Voltar</a>
     </div>
 
+    <div class="mensagem">
+        <?php
+        if (isset($_SESSION['mensagem_editar_aluno'])) {
+            echo $_SESSION['mensagem_editar_aluno'];
+            unset($_SESSION['mensagem_editar_aluno']);
+        }
+        ?>
+    </div>
+
     <div class="container">
         <h2 class="text-center">Editar Aluno</h2>
 

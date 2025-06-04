@@ -91,6 +91,7 @@
   align-items: center;
   background-color: #004080;
   color: #fff;
+  height: 30px;
 }
 
 .data-anotacao {
@@ -120,8 +121,8 @@
   background-color: #dc3545;
   color: white;
   border: none;
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   font-size: 16px;
   cursor: pointer;
   display: flex;

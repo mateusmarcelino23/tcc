@@ -37,9 +37,17 @@ include '../backend/editar_prof.php';
             < Voltar</a>
     </div>
 
+    <div class="mensagem">
+        <?php
+        if (isset($_SESSION['mensagem_editar_professor'])) {
+            echo $_SESSION['mensagem_editar_professor'];
+            unset($_SESSION['mensagem_editar_professor']);
+        }
+        ?>
+    </div>
+
     <div class="container">
         <h2 class="text-center">Editar Professor</h2>
-
         <form action="../backend/editar_prof.php?id=<?= $prof_id ?>" id="editarForm" method="POST" novalidate>
             <div class="mb-3">
                 <label for="nome" class="form-label">Nome e Sobrenome:</label>

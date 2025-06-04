@@ -162,3 +162,7 @@ body {
 .link-back:hover {
     text-decoration: underline;
 }
+
+#logoutLink {
+    color: #ff0000;
+}

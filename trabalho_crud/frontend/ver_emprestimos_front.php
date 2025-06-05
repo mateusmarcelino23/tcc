@@ -86,12 +86,12 @@ include '../backend/ver_emprestimos.php'; // Inclui o script de backend para bus
                                 $classeStatus = 'status-devolvido';
                                 break;
                             case 1:
-                                $status = 'Atrasado';
+                                $status = 'Pendente';
                                 $classeStatus = 'status-atrasado';
                                 break;
                             default:
-                                if ($emprestimo['data_devolucao'] < $hoje) {
-                                    $status = 'Atrasado';
+                                if ($emprestimo['data_devolucao'] <= $hoje) {
+                                    $status = 'Pendente';
                                     $classeStatus = 'status-atrasado';
                                 } else {
                                     $status = 'Em andamento';

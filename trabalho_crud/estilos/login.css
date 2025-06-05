@@ -2,6 +2,8 @@ body {
     background: url(../imagens/School_White_background_Pencils_Multicolor_568201_1920x1080.jpg);
     margin: 0;
     padding: 0;
+    background-size: cover;
+    background-repeat: no-repeat;
     font-family: 'Roboto', sans-serif;
     display: flex;
     justify-content: center;

@@ -64,7 +64,6 @@ body {
     color: white;
     padding: 20px;
     transition: right 0.3s ease;
-    box-shadow: -4px 0 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
     /* Para garantir que fique sobre outros elementos */
     position: fixed;

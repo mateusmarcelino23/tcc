@@ -19,7 +19,7 @@ include '../backend/login.php';
         <img src="../imagens/1748908346791.png" alt="Logo da Biblioteca M.V.C" class="logo">
     </div>
 
-    <footer style="text-align: center; font-size: 29px; position: fixed; top: 270px; color: black;">
+    <footer style="text-align: center; font-size: 29px; position: absolute; top: 270px; padding: 0px; color: black;">
         <p>Gestão da Biblioteca</p>
     </footer>
 

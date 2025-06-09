@@ -51,4 +51,15 @@ function toggleNav() {
     closeSidebarInstantly();
   });
    
-  
+// Mensagem que aparece após registro ou edição
+window.onload = function() {
+  var mensagemElement = document.querySelector('.mensagem');
+  if (mensagemElement) {
+      setTimeout(function() {
+          mensagemElement.style.opacity = '0';
+          setTimeout(function() {
+              mensagemElement.style.display = 'none';
+          }, 500); // tempo para a transição de opacidade
+      }, 3000); // tempo que a mensagem ficará visível
+  }
+};

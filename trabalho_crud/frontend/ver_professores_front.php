@@ -24,7 +24,7 @@ include '../backend/ver_professores.php';
     <nav class="header">
         <a href="../../" class="header-link">
             <img src="../imagens/1748908346791.png" alt="Logo" class="header-logo" />
-            Biblioteca M.V.C
+            <span class="header-text">Biblioteca M.V.C </span>
         </a>
         <span id="toggleSidebar" class="openbtn" onclick="toggleNav()">&#9776;</span>
     </nav>
@@ -59,16 +59,24 @@ include '../backend/ver_professores.php';
                     <tr>
                         <th>Nome</th>
                         <th>Email</th>
+                        <th>CPF</th>
                         <th></th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    while ($row = $result->fetch_assoc()) {
+                <?php
+                // Função para formatar CPF
+                function formatarCPF($cpf)
+                {
+                    return preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "$1.$2.$3-$4", $cpf);
+                }
+
+                while ($row = $result->fetch_assoc()) {
                         echo "<tr>";
                         echo "<td class='scrollable-cell'>" . $row['nome'] . "</td>";
                         echo "<td class='scrollable-cell'>" . $row['email'] . "</td>";
+                        echo "<td class='scrollable-cell'>" . formatarCPF($row['cpf']) . "</td>";
                         echo "<td class='scrollable-cell'><a href='editar_prof_front.php?id=" . $row['id'] . "' class='edit-link'>Editar</a></td>";
                         echo "<td class='scrollable-cell'><a href='?remover=" . $row['id'] . "' class='delete-link' onclick='return confirm(\"Tem certeza de que deseja remover este professor?\")'>Remover</a></td>";
                         echo "</tr>";

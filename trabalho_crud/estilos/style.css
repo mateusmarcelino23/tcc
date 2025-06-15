@@ -165,3 +165,34 @@ body {
 #logoutLink {
     color: #ff0000;
 }
+
+/* Responsividade */
+/* Smartphones pequenos */
+@media (max-width: 480px) {
+    /* Cabeçalho estilizado */
+    .header {
+        font-size: 19px;
+        padding: 30px;
+    }
+
+    .header-text {
+        display: none;
+    }
+
+    .header-logo {
+        height: 40px;
+        top: 50%;
+        right: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .openbtn {
+        font-size: 30px;
+        top: 8px;
+    }
+
+    .sidebar {
+        top: 60px;
+    }
+}

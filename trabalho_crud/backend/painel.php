@@ -15,20 +15,11 @@ if ($conn->connect_error) {
     die("Falha na conexão com o banco de dados: " . $conn->connect_error);
 }
 
-// Remover empréstimo se o ID for passado via GET
-if (isset($_GET['remover_id'])) {
-    $id = intval($_GET['remover_id']);
-    $conn->query("DELETE FROM emprestimo WHERE id = $id");
-    header("Location: painel.php");
-    exit();
+// Primeiro nome do professor logado no painel
+if (!isset($_SESSION['professor_primeiro_nome']) && isset($_SESSION['professor_nome'])) {
+    $nomeCompleto = trim($_SESSION['professor_nome']);
+    $_SESSION['professor_primeiro_nome'] = explode(' ', $nomeCompleto)[0];
 }
-
-// Consulta para buscar todos os empréstimos
-$sql = "SELECT e.id, e.data_emprestimo, e.data_devolucao, a.nome AS aluno_nome, l.nome_livro, l.nome_autor 
-        FROM emprestimo e
-        JOIN aluno a ON e.id_aluno = a.id
-        JOIN livro l ON e.id_livro = l.id";
-$result = $conn->query($sql);
 
 $conn->close();
 ?>

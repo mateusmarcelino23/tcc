@@ -23,7 +23,7 @@ include '../backend/cadastrar_aluno.php';
     <nav class="header">
         <a href="../../" class="header-link">
             <img src="../imagens/1748908346791.png" alt="Logo" class="header-logo" />
-            Biblioteca M.V.C
+            <span class="header-text">Biblioteca M.V.C </span>
         </a>
         <span id="toggleSidebar" class="openbtn" onclick="toggleNav()">&#9776;</span>
     </nav>

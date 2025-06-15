@@ -158,7 +158,7 @@ include '../backend/relatorios.php';
   <nav class="header">
     <a href="../../" class="header-link">
       <img src="../imagens/1748908346791.png" alt="Logo" class="header-logo" />
-      Biblioteca M.V.C
+      <span class="header-text">Biblioteca M.V.C </span>
     </a>
   </nav>
 

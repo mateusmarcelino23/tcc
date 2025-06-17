@@ -42,16 +42,21 @@ include '../backend/ver_professores.php';
     <div class="mt-3 text-start">
         <a href="../../" class="link-back">
             < Voltar para o painel</a>
-
     </div>
+
+    <div class="mt-3 text-start">
+        <a href="../../" class="link-back responsive-link">
+            < Voltar</a>
+    </div>
+
 
     <!-- Cadastrar professor -->
     <div class="mt-3 text-end">
         <a href="cadastrar_professor_front.php" class="link-registrar">Cadastrar Professor</a>
     </div>
 
-    <div class="container">
-        <h2 class="text-center">Professores Cadastrados</h2>
+    <div class="container mt-5">
+        <h2 class="text-center">LIsta de Professores</h2>
 
         <div class="table-container">
             <table id="emprestimosTable" class="table table-striped">
@@ -65,14 +70,14 @@ include '../backend/ver_professores.php';
                     </tr>
                 </thead>
                 <tbody>
-                <?php
-                // Função para formatar CPF
-                function formatarCPF($cpf)
-                {
-                    return preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "$1.$2.$3-$4", $cpf);
-                }
+                    <?php
+                    // Função para formatar CPF
+                    function formatarCPF($cpf)
+                    {
+                        return preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "$1.$2.$3-$4", $cpf);
+                    }
 
-                while ($row = $result->fetch_assoc()) {
+                    while ($row = $result->fetch_assoc()) {
                         echo "<tr>";
                         echo "<td class='scrollable-cell'>" . $row['nome'] . "</td>";
                         echo "<td class='scrollable-cell'>" . $row['email'] . "</td>";
@@ -88,20 +93,12 @@ include '../backend/ver_professores.php';
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                $('#emprestimosTable').DataTable({
-                    language: {
-                        url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json'
-                    }
-                });
-            });
-        </script>
 
         <!-- Link para arquivos JS -->
         <script src="../interatividade/script.js"></script>
         <script src="../interatividade/devtools_block.js"></script>
         <script src="../interatividade/logout.js"></script>
+        <script src="../interatividade/ver.js"></script>
 
 </body>
 

@@ -1,46 +1,3 @@
-/* Estilo do corpo da página */
-body {
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    flex-direction: column;
-}
-
-/* Cabeçalho estilizado */
-.header {
-    width: 100%;
-    background-color: #004080;
-    color: white;
-    text-align: center;
-    padding: 20px;
-    font-size: 26px;
-    font-weight: bold;
-    position: fixed;
-    top: 0;
-    left: 0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 900;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-/* Se quiser permitir que o link seja selecionável (opcional) */
-.header a {
-    user-select: text;
-}
-
-.header-link {
-    color: white;
-    text-decoration: none;
-}
-
 .container {
     background: white;
     width: 95%;
@@ -62,9 +19,7 @@ body {
     border-radius: 10px;
 }
 
-/* Remova esse trecho */
-.emprestimosTable {
-    /* Remover max-height e overflow daqui */
+#emprestimosTable {
     margin-top: 20px;
 }
 
@@ -73,35 +28,39 @@ body {
     table-layout: fixed;
 }
 
-.table th, .table td {
-    white-space: nowrap; /* evita quebra de linha dentro da célula */
+.table th,
+.table td {
+    white-space: nowrap;
+    /* evita quebra de linha dentro da célula */
     text-overflow: ellipsis;
     overflow: hidden;
 }
 
-.badge {
+/* .badge {
     padding: 6px 10px;
     border-radius: 8px;
     font-weight: bold;
     display: inline-block;
-  }
-  
-  .status-andamento {
-    background-color: #28a745; /* verde */
-    color: white;
-  }
-  
-  .status-atrasado {
-    background-color: #dc3545; /* vermelho */
-    color: white;
-  }
+} */
 
-  .status-devolvido {
+.status-andamento {
+    background-color: #28a745;
+    /* verde */
+    color: white;
+}
+
+.status-atrasado {
+    background-color: #dc3545;
+    /* vermelho */
+    color: white;
+}
+
+.status-devolvido {
     background-color: #0bb8b8 !important;
     color: white !important;
-  }
+}
 
-  /* Estilo do botão */
+/* Estilo do botão */
 .btn {
     display: inline-block;
     padding: 10px 20px;
@@ -121,14 +80,19 @@ body {
 }
 
 td {
-    vertical-align: middle; /* Garante que o botão fique centralizado verticalmente */
-    text-align: center; /* Centraliza horizontalmente */
+    vertical-align: middle;
+    /* Garante que o botão fique centralizado verticalmente */
+    text-align: center;
+    /* Centraliza horizontalmente */
 }
 
 /* Remover borda e efeitos dos botões */
-td .status-entregue, td .edit-link, td .delete-link {
+td .status-entregue,
+td .edit-link,
+td .delete-link {
     border: none;
-    text-decoration: none; /* Remover sublinhado */
+    text-decoration: none;
+    /* Remover sublinhado */
     display: inline-block;
     font-size: 16px;
     transition: color 0.3s ease;
@@ -161,7 +125,8 @@ td .delete-link:hover {
 /* Estilo do botão marcar como devolvido */
 /* Botão de confirmar devolução */
 .status-entregue[data-devolvido="false"] {
-    color: #198b19; /* Verde */
+    color: #198b19;
+    /* Verde */
 }
 
 .status-entregue[data-devolvido="false"]:hover {
@@ -170,7 +135,8 @@ td .delete-link:hover {
 
 /* Botão de cancelar devolução */
 .status-entregue[data-devolvido="true"] {
-    color: #8b8b8b; /* Vermelho */
+    color: #8b8b8b;
+    /* Vermelho */
 }
 
 .status-entregue[data-devolvido="true"]:hover {
@@ -201,8 +167,10 @@ td .delete-link:hover {
     text-overflow: ellipsis;
     cursor: pointer;
     transition: all 0.3s ease;
-    word-break: normal;        /* quebra normal, respeitando espaços */
-    overflow-wrap: break-word; /* força quebra em palavras longas */
+    word-break: normal;
+    /* quebra normal, respeitando espaços */
+    overflow-wrap: break-word;
+    /* força quebra em palavras longas */
 }
 
 .scrollable-cell:hover {
@@ -213,3 +181,57 @@ td .delete-link:hover {
     overflow-wrap: break-word;
 }
 
+/* Responsividade */
+/* Smartphones pequenos */
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+        font-size: 16px;
+        margin-top: 60px;
+        height: 460px; /* Limita a altura máxima */
+    }
+
+    .table-container {
+        overflow-x: auto; /* Habilita scroll horizontal */
+        -webkit-overflow-scrolling: touch; /* Suaviza o scroll em iOS */
+        max-height: 370px; /* Limita a altura máxima */
+    }
+
+    /* Aplica a todos */
+    .table {
+        width: max-content;
+    }
+    
+    /* Especificamente para a tabela de empréstimos */
+    #emprestimosTable {
+        min-width: 900px;
+    }
+
+    .link-registrar {
+        display: block;
+        position: fixed;
+        top: 80px;
+        right: 20px;
+        font-size: 20px;
+        text-decoration: none;
+    }
+
+    .scrollable-cell {
+        white-space: normal; 
+    }
+
+
+}
+
+
+/* Smartphones médios e grandes */
+@media (min-width: 481px) and (max-width: 768px) {}
+
+/* Tablets */
+@media (min-width: 769px) and (max-width: 1024px) {}
+
+/* Laptops */
+@media (min-width: 1025px) and (max-width: 1280px) {}
+
+/* Desktops */
+@media (min-width: 1281px) and (max-width: 1440px) {}

@@ -158,6 +158,18 @@ body {
     cursor: pointer;
 }
 
+.link-back.responsive-link {
+    display: none;
+    color: black;
+    font-size: 20px;
+    text-decoration: none;
+     position: fixed;
+    top: 100px;
+    left: 20px;
+    transition: color 0.3s ease;
+    cursor: pointer;
+}
+
 .link-back:hover {
     text-decoration: underline;
 }
@@ -194,5 +206,19 @@ body {
 
     .sidebar {
         top: 60px;
+    }
+
+    .link-back {
+        display: none;
+    }
+
+    .link-back.responsive-link {
+        display: block;
+        position: fixed;
+        top: 80px;
+        left: 20px;
+        font-size: 20px;
+        color: black;
+        text-decoration: none;
     }
 }

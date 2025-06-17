@@ -45,6 +45,11 @@ include '../backend/ver_alunos.php'; // Inclui o script de backend para ver alun
             < Voltar para o painel</a>
     </div>
 
+    <div class="mt-3 text-start">
+        <a href="../../" class="link-back responsive-link">
+            < Voltar</a>
+    </div>
+
     <div class="container mt-5">
         <h2 class="text-center">Lista de Alunos</h2>
 
@@ -77,22 +82,15 @@ include '../backend/ver_alunos.php'; // Inclui o script de backend para ver alun
                 </tbody>
             </table>
         </div>
+
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                $('#emprestimosTable').DataTable({
-                    language: {
-                        url: 'https://cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json'
-                    }
-                });
-            });
-        </script>
 
         <!-- Link para arquivos JS -->
         <script src="../interatividade/script.js"></script>
         <script src="../interatividade/devtools_block.js"></script>
         <script src="../interatividade/logout.js"></script>
+        <script src="../interatividade/ver.js"></script>
 </body>
 
 </html>

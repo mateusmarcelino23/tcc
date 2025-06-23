@@ -102,6 +102,18 @@ a:hover {
     text-decoration: underline; /* Adiciona sublinhado no hover */
 }
 
+.mensagem-login {
+    position: fixed;
+    color: red;
+    font-weight: bold;
+    font-size: 22px;
+    margin-bottom: 15px;
+    margin-top: 600px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+}
+
 /* Responsividade */
 /* Smartphones pequenos */
 @media (max-width: 480px) {

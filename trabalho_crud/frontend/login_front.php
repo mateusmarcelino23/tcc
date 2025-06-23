@@ -1,7 +1,3 @@
-<?php
-include '../backend/login.php';
-?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -24,6 +20,7 @@ include '../backend/login.php';
     </footer>
 
     <div class="container">
+    
         <div class="text-center">
             <h1 class="h1" style="font-size: 30px;">Login do Professor</h1>
         </div>
@@ -48,6 +45,14 @@ include '../backend/login.php';
 
     </div>
 
+    <?php
+        session_start();
+        if (!empty($_SESSION['mensagem_login'])) {
+            echo '<div class="mensagem-login" id="mensagemLogin">' . htmlspecialchars($_SESSION['mensagem_login']) . '</div>';
+            unset($_SESSION['mensagem_login']);
+        }
+    ?>
+
     <footer style="text-align: center; position: fixed; bottom: 0; color: black;">
         <p>&copy; 2025 Mateus Marcelino.</p>
     </footer>
@@ -60,6 +65,17 @@ include '../backend/login.php';
             cpf = cpf.replace(/\.(\d{3})(\d)/, '.$1-$2');
             e.target.value = cpf.substring(0, 14); // Limita a 14 caracteres (XXX.XXX.XXX-XX)
         });
+
+        setTimeout(function () {
+            var mensagem = document.getElementById('mensagemLogin');
+            if (mensagem) {
+                mensagem.style.transition = 'opacity 0.5s ease';
+                mensagem.style.opacity = '0';
+                setTimeout(function () {
+                    mensagem.remove(); // Remove o elemento do DOM
+                }, 500); // Aguarda o tempo da transição para remover
+            }
+        }, 2000);
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 

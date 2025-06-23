@@ -222,3 +222,7 @@ body {
         text-decoration: none;
     }
 }
+
+/* Responsividade */
+/* Meu Laptop */
+@media (width: 1281px) and (height: 1440px) {}

@@ -208,9 +208,3 @@ input, select {
     opacity: 1;
     transition: opacity 0.5s ease-out;
 }
-
-/* Responsividade */
-/* Meu Laptop */
-@media (width: 1281px) and (height: 1440px) {
-    
-}

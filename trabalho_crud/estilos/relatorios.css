@@ -36,11 +36,11 @@
   position: fixed;
   top: 0;
   right: 0;
-  height: 990px; /* altura total da tela */
-  width: 400px; /* ou ajuste conforme preferir */
-  background-color: #f8f9fa; /* cor clara, ou altere conforme o tema */
+  height: calc(100vh - 80px);
+  width: 400px;
+  background-color: #f8f9fa;
   padding: 20px;
-  overflow-y: auto; /* rolagem caso tenha muitas observações */
+  overflow-y: none;
   box-shadow: -2px 0 5px rgba(0,0,0,0.1);
   display: flex;
   flex-direction: column;
@@ -186,7 +186,3 @@
 .btn-can:hover {
     background-color: #c82333;
 }
-
-/* Responsividade */
-/* Meu Laptop */
-@media (width: 1281px) and (height: 1440px) {}

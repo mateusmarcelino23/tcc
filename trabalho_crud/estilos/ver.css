@@ -180,7 +180,3 @@ td .delete-link:hover {
     word-break: normal;
     overflow-wrap: break-word;
 }
-
-/* Responsividade */
-/* Meu Laptop */
-@media (width: 1281px) and (height: 1440px) {}

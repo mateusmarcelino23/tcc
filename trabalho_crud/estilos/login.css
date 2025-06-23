@@ -113,6 +113,3 @@ a:hover {
     transform: translateX(-50%);
     z-index: 9999;
 }
-
-/* Laptops */
-@media (width: 1281px) and (height: 1440px) {}

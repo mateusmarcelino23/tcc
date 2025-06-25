@@ -7,7 +7,7 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     font-size: 20px;
-    margin-top: 100px;
+    margin-top: 80px;
 }
 
 .table-container {
@@ -31,7 +31,6 @@
 .table th,
 .table td {
     white-space: nowrap;
-    /* evita quebra de linha dentro da célula */
     text-overflow: ellipsis;
     overflow: hidden;
 }
@@ -45,19 +44,29 @@
 
 .status-andamento {
     background-color: #28a745;
-    /* verde */
     color: white;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .status-atrasado {
     background-color: #dc3545;
-    /* vermelho */
     color: white;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .status-devolvido {
     background-color: #0bb8b8 !important;
     color: white !important;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 /* Estilo do botão */
@@ -92,7 +101,11 @@ td .edit-link,
 td .delete-link {
     border: none;
     text-decoration: none;
-    /* Remover sublinhado */
+    background: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     display: inline-block;
     font-size: 16px;
     transition: color 0.3s ease;
@@ -122,11 +135,13 @@ td .delete-link:hover {
     color: rgb(153, 0, 0);
 }
 
-/* Estilo do botão marcar como devolvido */
 /* Botão de confirmar devolução */
 .status-entregue[data-devolvido="false"] {
     color: #198b19;
-    /* Verde */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .status-entregue[data-devolvido="false"]:hover {
@@ -136,7 +151,10 @@ td .delete-link:hover {
 /* Botão de cancelar devolução */
 .status-entregue[data-devolvido="true"] {
     color: #8b8b8b;
-    /* Vermelho */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .status-entregue[data-devolvido="true"]:hover {

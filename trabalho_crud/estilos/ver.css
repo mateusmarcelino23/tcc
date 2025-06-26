@@ -194,7 +194,6 @@ td .delete-link:hover {
 .scrollable-cell:hover {
     white-space: normal;
     overflow: visible;
-
     word-break: normal;
     overflow-wrap: break-word;
 }

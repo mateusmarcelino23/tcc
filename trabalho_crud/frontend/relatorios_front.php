@@ -33,15 +33,20 @@ include '../backend/relatorios.php';
 
     function drawAlunosChart() {
       var data = google.visualization.arrayToDataTable([
-        ['Aluno', 'Livros Lidos'],
+        ['Aluno', 'Livros Lidos', {
+          role: 'annotation'
+        }],
         <?php
         if ($resultAlunos->num_rows > 0) {
           while ($row = $resultAlunos->fetch_assoc()) {
-            echo "['" . addslashes($row['aluno_nome']) . "', " . (int)$row['total'] . "],";
+            $nome = addslashes($row['aluno_nome']);
+            $total = (int)$row['total'];
+            echo "['$nome', $total, '$total'],";
           }
         }
         ?>
       ]);
+
 
       var options = {
         titleTextStyle: {
@@ -73,15 +78,20 @@ include '../backend/relatorios.php';
 
     function drawLivrosChart() {
       var data = google.visualization.arrayToDataTable([
-        ['Livro', 'Leituras'],
+        ['Livro', 'Leituras', {
+          role: 'annotation'
+        }],
         <?php
         if ($resultLivros->num_rows > 0) {
           while ($row = $resultLivros->fetch_assoc()) {
-            echo "['" . addslashes($row['nome_livro']) . "', " . (int)$row['total'] . "],";
+            $nome = addslashes($row['nome_livro']);
+            $total = (int)$row['total'];
+            echo "['$nome', $total, '$total'],";
           }
         }
         ?>
       ]);
+
 
       var options = {
         titleTextStyle: {
@@ -113,15 +123,20 @@ include '../backend/relatorios.php';
 
     function drawSeriesChart() {
       var data = google.visualization.arrayToDataTable([
-        ['Série', 'Leituras'],
+        ['Série', 'Leituras', {
+          role: 'annotation'
+        }],
         <?php
         if ($resultSeries->num_rows > 0) {
           while ($row = $resultSeries->fetch_assoc()) {
-            echo "['" . addslashes($row['serie']) . "', " . (int)$row['total'] . "],";
+            $nome = addslashes($row['serie']);
+            $total = (int)$row['total'];
+            echo "['$nome', $total, '$total'],";
           }
         }
         ?>
       ]);
+
 
       var options = {
         titleTextStyle: {

@@ -7,7 +7,7 @@ include '../backend/ver_emprestimos.php'; // Inclui o script de backend para bus
 
 <head>
     <meta charset="UTF-8">
-    <title>Lista de Empréstimos</title>
+    <title>Empréstimos</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">

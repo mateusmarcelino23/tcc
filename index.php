@@ -9,6 +9,7 @@ include 'trabalho_crud/backend/painel.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel da Biblioteca</title>
+    <link rel="icon" href="trabalho_crud/imagens/1748908346791.png" type="image/x-icon">
 
     <!-- Link para conexão com Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">

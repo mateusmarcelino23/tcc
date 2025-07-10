@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Delay para dificultar ataques de força bruta
         usleep(500000);
         // Mensagem de usuário não encontrado na sessão e redireciona
-        $_SESSION['mensagem_login'] = "Usuário não encontrado.";
+        $_SESSION['mensagem_login'] = "CPF ou senha incorretos.";
         $stmt->close();
         $conn->close();
         header("Location: ../frontend/login_front.php");

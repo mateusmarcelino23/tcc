@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="icon" href="../imagens/1748908346791.png" type="image/x-icon">
-    
+
     <link rel="stylesheet" href="../estilos/login.css">
 </head>
 
@@ -46,6 +46,39 @@
         </form>
 
     </div>
+
+    <!-- Mensagem canto superior direito -->
+    <div class="mensagem-topo">
+        <p>
+            <strong>Não possui conta?</strong><br>
+            <strong>CPF:</strong> 000.000.000-00<br>
+            <strong>Senha:</strong> senha123
+        </p>
+    </div>
+
+    <style>
+        .mensagem-topo {
+            position: fixed;
+            /* Fixa no canto */
+            top: 20px;
+            right: 30px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border: 2px solid #333;
+            padding: 30px;
+            /* Mais espaço interno */
+            border-radius: 15px;
+            font-size: 18px;
+            /* Texto maior */
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+            max-width: 280px;
+            /* Limite de largura */
+            text-align: left;
+        }
+    </style>
+
+
 
     <?php
     session_start();

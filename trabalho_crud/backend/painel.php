@@ -11,7 +11,7 @@ if (!isset($_SESSION['professor_id'])) {
 }
 
 // Conectar com o banco de dados
-include 'trabalho_crud/conexao.php';
+include '../conexao.php';
 
 // Verifica a conexão
 if ($conn->connect_error) {

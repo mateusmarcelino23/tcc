@@ -56,30 +56,6 @@
         </p>
     </div>
 
-    <style>
-        .mensagem-topo {
-            position: fixed;
-            /* Fixa no canto */
-            top: 20px;
-            right: 30px;
-            background-color: rgba(255, 255, 255, 0.95);
-            border: 2px solid #333;
-            padding: 30px;
-            /* Mais espaço interno */
-            border-radius: 15px;
-            font-size: 18px;
-            /* Texto maior */
-            font-weight: 500;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            z-index: 9999;
-            max-width: 280px;
-            /* Limite de largura */
-            text-align: left;
-        }
-    </style>
-
-
-
     <?php
     session_start();
     if (!empty($_SESSION['mensagem_login'])) {
@@ -112,6 +88,7 @@
             }
         }, 2000);
     </script>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Link para arquivos JS -->

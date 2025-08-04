@@ -50,7 +50,7 @@
     <!-- Mensagem canto superior direito -->
     <div class="mensagem-topo">
         <p>
-            <strong>Não possui conta?</strong><br>
+            <strong>Ainda não possui uma conta? Use:</strong><br>
             <strong>CPF:</strong> 000.000.000-00<br>
             <strong>Senha:</strong> senha123
         </p>
@@ -88,7 +88,7 @@
             }
         }, 2000);
     </script>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Link para arquivos JS -->

@@ -45,9 +45,9 @@ CREATE TABLE `livro` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ================================
--- Tabela: anotacao
+-- Tabela: anotacoes
 -- ================================
-CREATE TABLE `anotacao` (
+CREATE TABLE `anotacoes` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `id_professor` INT NOT NULL,
   `texto` TEXT NOT NULL,

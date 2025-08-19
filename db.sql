@@ -92,5 +92,3 @@ INSERT INTO `professor` (`nome`, `cpf`, `email`, `senha`) VALUES
 -- ================================
 INSERT INTO `aluno` (`nome`, `serie`, `email`) VALUES
 ('Aluno', '1º Ano EM A', 'aluno@gmail.com');
-
-COMMIT;

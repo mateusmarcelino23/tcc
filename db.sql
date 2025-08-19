@@ -68,7 +68,7 @@ CREATE TABLE `emprestimo` (
   `id_livro` INT NOT NULL,
   `data_emprestimo` DATE NOT NULL,
   `data_devolucao` DATE NOT NULL,
-  `status` ENUM('pendente','devolvido','atrasado') NOT NULL DEFAULT 'pendente',
+  `status` tinyint(2) NOT NULL,
   CONSTRAINT `fk_emprestimo_aluno` 
     FOREIGN KEY (`id_aluno`) REFERENCES `aluno` (`id`) 
     ON DELETE CASCADE ON UPDATE CASCADE,

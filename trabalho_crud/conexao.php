@@ -4,7 +4,7 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 // Obtém as variáveis de ambiente para conexão com o banco de dados
 $host = 'localhost';       // Endereço do servidor de banco de dados
-$usuario = 'host'; // Nome de usuário do banco
+$usuario = 'root'; // Nome de usuário do banco
 $senha = '';     // Senha do banco
 $banco = 'crud_db';     // Nome do banco de dados
 

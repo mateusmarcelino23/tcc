@@ -30,6 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sala = $_POST['sala'] ?? '';
     $email = $_POST['email'] ?? '';
 
+    $sala = strtoupper($_POST['sala']);
+
     // Validação básica
     if (empty($nome) || empty($ano) || empty($sala) || empty($email)) {
         echo json_encode([

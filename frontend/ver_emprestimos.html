@@ -76,8 +76,8 @@
         // Função para formatar datas no padrão brasileiro
         function formatarData(data) {
             if (!data || data === '0000-00-00') return '-';
-            const dt = new Date(data);
-            return dt.toLocaleDateString('pt-BR');
+            const dt = new Date(data + "T00:00:00Z"); // fixa como UTC
+            return dt.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
         }
 
         // Função para renderizar o status do empréstimo

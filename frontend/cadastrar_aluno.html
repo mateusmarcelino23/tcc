@@ -81,16 +81,19 @@
     </div>
 
     <script>
-        // Transformar a entrada da sala para maiúscula
-        document.getElementById('formCadastrarAluno').addEventListener('submit', function(e) {
+        document.getElementById('formCadastrarAluno').addEventListener('submit', function (e) {
             e.preventDefault(); // Evita reload da página
+
+            // Força a sala para maiúscula antes de enviar
+            const salaInput = document.getElementById('sala');
+            salaInput.value = salaInput.value.toUpperCase();
 
             const formData = new FormData(this);
 
             fetch('../backend/cadastrar_aluno.php', {
-                    method: 'POST',
-                    body: formData
-                })
+                method: 'POST',
+                body: formData
+            })
                 .then(response => response.json())
                 .then(data => {
                     const mensagemDiv = document.getElementById('mensagem');
@@ -102,14 +105,12 @@
                         document.getElementById('formCadastrarAluno').reset();
                     }
 
-                    // Aplica o fade out como no script.js
-                    setTimeout(function() {
+                    setTimeout(function () {
                         mensagemDiv.style.opacity = '0';
-                        setTimeout(function() {
+                        setTimeout(function () {
                             mensagemDiv.style.display = 'none';
-                        }, 500); // tempo para a transição de opacidade
-                    }, 3000); // tempo que a mensagem ficará visível
-
+                        }, 500);
+                    }, 3000);
                 })
                 .catch(error => {
                     const mensagemDiv = document.getElementById('mensagem');
@@ -117,9 +118,9 @@
                     mensagemDiv.style.display = 'block';
                     mensagemDiv.style.opacity = '1';
 
-                    setTimeout(function() {
+                    setTimeout(function () {
                         mensagemDiv.style.opacity = '0';
-                        setTimeout(function() {
+                        setTimeout(function () {
                             mensagemDiv.style.display = 'none';
                         }, 500);
                     }, 3000);

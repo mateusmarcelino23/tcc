@@ -19,6 +19,27 @@
     border-radius: 10px;
 }
 
+table.dataTable td {
+    max-width: 150px;
+    /* largura máxima da célula */
+    white-space: nowrap;
+    /* impede quebra de linha */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+table.dataTable td:hover {
+    white-space: normal;
+    /* deixa quebrar linha */
+    max-width: none;
+    /* remove limite */
+    overflow: visible;
+    z-index: 1;
+    position: relative;
+    background-color: #fff;
+    /* evita sobreposição estranha */
+}
+
 #emprestimosTable {
     margin-top: 20px;
 }

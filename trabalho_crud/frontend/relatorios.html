@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Relatórios</title>
+  <link rel="icon" href="../imagens/1748908346791.png" type="image/x-icon">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link rel="stylesheet" type="text/css" href="../estilos/style.css">
+  <link rel="stylesheet" type="text/css" href="../estilos/relatorios.css">
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
+
+  <script>
+    // Carrega a biblioteca do Google Charts
+    google.charts.load('current', {
+      packages: ['corechart']
+    });
+
+    // Função principal para carregar os dados
+    async function carregarDados() {
+      try {
+        const response = await fetch('../backend/relatorios.php');
+        const data = await response.json();
+
+        // Salva em variável global
+        window.dadosRelatorios = data;
+
+        // Desenha gráficos
+        google.charts.setOnLoadCallback(drawCharts);
+
+        // Renderiza observações
+        renderObservacoes(data.notas || []);
+      } catch (error) {
+        console.error("Erro ao carregar dados:", error);
+      }
+    }
+
+    // Função que desenha todos os gráficos
+    function drawCharts() {
+      const {
+        alunos,
+        livros,
+        series
+      } = window.dadosRelatorios;
+
+      if (alunos.length > 0) drawAlunosChart(alunos);
+      else document.getElementById('semDadosAlunos').style.display = 'block';
+
+      if (livros.length > 0) drawLivrosChart(livros);
+      else document.getElementById('semDadosLivros').style.display = 'block';
+
+      if (series.length > 0) drawSeriesChart(series);
+      else document.getElementById('semDadosSeries').style.display = 'block';
+    }
+
+    // Funções para desenhar cada gráfico
+    function drawAlunosChart(alunos) {
+      const data = google.visualization.arrayToDataTable([
+        ['Aluno', 'Livros Lidos', {
+          role: 'annotation'
+        }],
+        ...alunos.map(a => [a.aluno_nome, parseInt(a.total), String(a.total)])
+      ]);
+
+      const options = {
+        title: 'Top 5 Alunos que mais leram',
+        titleTextStyle: {
+          fontSize: 24
+        },
+        legend: {
+          position: 'none'
+        },
+        chartArea: {
+          width: '70%'
+        },
+        height: 400,
+        width: 900,
+        hAxis: {
+          minValue: 0,
+          textStyle: {
+            color: 'transparent'
+          },
+          gridlines: {
+            color: 'transparent'
+          }
+        }
+      };
+
+      new google.visualization.BarChart(document.getElementById('graficoAlunos')).draw(data, options);
+    }
+
+    function drawLivrosChart(livros) {
+      const data = google.visualization.arrayToDataTable([
+        ['Livro', 'Leituras', {
+          role: 'annotation'
+        }],
+        ...livros.map(l => [l.nome_livro, parseInt(l.total), String(l.total)])
+      ]);
+
+      const options = {
+        title: 'Top 5 Livros mais lidos',
+        titleTextStyle: {
+          fontSize: 24
+        },
+        legend: {
+          position: 'none'
+        },
+        chartArea: {
+          width: '70%'
+        },
+        height: 400,
+        width: 900,
+        hAxis: {
+          minValue: 0,
+          textStyle: {
+            color: 'transparent'
+          },
+          gridlines: {
+            color: 'transparent'
+          }
+        }
+      };
+
+      new google.visualization.BarChart(document.getElementById('graficoLivros')).draw(data, options);
+    }
+
+    function drawSeriesChart(series) {
+      const data = google.visualization.arrayToDataTable([
+        ['Série', 'Leituras', {
+          role: 'annotation'
+        }],
+        ...series.map(s => [s.serie, parseInt(s.total), String(s.total)])
+      ]);
+
+      const options = {
+        title: 'Top 5 Turmas que mais leram',
+        titleTextStyle: {
+          fontSize: 24
+        },
+        legend: {
+          position: 'none'
+        },
+        chartArea: {
+          width: '70%'
+        },
+        height: 400,
+        width: 900,
+        hAxis: {
+          minValue: 0,
+          textStyle: {
+            color: 'transparent'
+          },
+          gridlines: {
+            color: 'transparent'
+          }
+        }
+      };
+
+      new google.visualization.BarChart(document.getElementById('graficoSeries')).draw(data, options);
+    }
+
+    // Função que renderiza observações
+    function renderObservacoes(notas) {
+      const container = document.querySelector('.lista-observacoes');
+      container.innerHTML = "";
+
+      if (notas.length === 0) {
+        container.innerHTML = `<div class="alert alert-warning">Nenhuma anotação encontrada.</div>`;
+        return;
+      }
+
+      notas.forEach(nota => {
+        const card = document.createElement('div');
+        card.classList.add('card');
+        card.innerHTML = `
+        <button class="btn-excluir" data-id="${nota.id}">x</button>
+        <div class="card-header">
+          <strong>${nota.professor_nome}</strong>
+          <span class="data-anotacao">
+            ${new Date(nota.data_corrigida).toLocaleString('pt-BR')}
+          </span>
+        </div>
+        <div class="card-body">
+          <p class="card-text">${nota.texto.replace(/\n/g, "<br>")}</p>
+        </div>
+      `;
+        container.appendChild(card);
+      });
+    }
+
+    // Função para deletar anotação
+    async function deletarAnotacao(id, cardElement) {
+      if (!confirm("Tem certeza que deseja excluir esta anotação?")) return;
+
+      try {
+        const response = await fetch('../backend/excluir_anotacao.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: `id=${encodeURIComponent(id)}`
+        });
+
+        const data = await response.json();
+        console.log(data); // Para debug
+
+        if (data.success) { // <--- Aqui mudou
+          cardElement.remove();
+        } else {
+          alert(data.message || "Erro ao excluir a anotação."); // <-- muda para message
+        }
+      } catch (err) {
+        console.error("Erro ao excluir anotação:", err);
+        alert("Erro ao excluir a anotação.");
+      }
+    }
+
+    // Delegação de evento para elementos criados dinamicamente
+    document.addEventListener('DOMContentLoaded', () => {
+      const lista = document.querySelector('.lista-observacoes');
+      if (lista) {
+        lista.addEventListener('click', function(e) {
+          if (e.target.classList.contains('btn-excluir')) {
+            const card = e.target.closest('.card');
+            const id = e.target.getAttribute('data-id');
+            deletarAnotacao(id, card);
+          }
+        });
+      }
+
+      // Carrega os dados após DOM estar pronto
+      carregarDados();
+    });
+  </script>
+
+</head>
+
+<body>
+  <!-- Cabeçalho -->
+  <nav class="header">
+    <a href="../../" class="header-link">
+      <img src="../imagens/1748908346791.png" alt="Logo" class="header-logo" />
+      <span class="header-text">Biblioteca M.V.C </span>
+    </a>
+  </nav>
+
+  <!-- Voltar à página anterior -->
+  <div class="mt-3 text-start">
+    <a href="#" onclick="goBack()" class="link-back">&lt; Voltar</a>
+  </div>
+
+  <script>
+    function goBack() {
+      if (document.referrer) {
+        history.back();
+      } else {
+        window.location.href = '../../';
+      }
+    }
+  </script>
+
+  <div class="d-flex">
+    <div class="relatorios-container flex-grow-1">
+      <div id="graficoAlunos-container">
+        <div id="graficoAlunos" class="grafico"></div>
+        <div id="semDadosAlunos" class="alert alert-warning" style="display:none">
+          Nenhum dado de empréstimo devolvido encontrado para alunos.
+        </div>
+      </div>
+
+      <div id="graficoLivros-container">
+        <div id="graficoLivros" class="grafico"></div>
+        <div id="semDadosLivros" class="alert alert-warning" style="display:none">
+          Nenhum dado de empréstimo devolvido encontrado para livros.
+        </div>
+      </div>
+
+      <div id="graficoSeries-container">
+        <div id="graficoSeries" class="grafico"></div>
+        <div id="semDadosSeries" class="alert alert-warning" style="display:none">
+          Nenhum dado de empréstimo devolvido encontrado para séries.
+        </div>
+      </div>
+    </div>
+
+    <!-- BARRA LATERAL -->
+    <div class="barra-lateral">
+      <div class="lista-observacoes"></div>
+
+      <button id="btnNovaAnotacao" class="btn">Nova Anotação</button>
+
+      <div id="novaAnotacao" class="nova-anotacao" style="display: none;">
+        <form id="formNovaAnotacao">
+          <textarea name="texto" class="form-control mb-2" rows="4" placeholder="Escreva sua observação..." required></textarea>
+          <div class="btn-group-center">
+            <button type="submit" class="btn-sal">Salvar</button>
+            <button type="button" id="btnCancelar" class="btn-can">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  document.getElementById('btnNovaAnotacao').addEventListener('click', function() {
+    document.getElementById('novaAnotacao').style.display = 'block';
+    this.style.display = 'none';
+  });
+
+  document.getElementById('btnCancelar').addEventListener('click', function() {
+    document.getElementById('novaAnotacao').style.display = 'none';
+    document.getElementById('btnNovaAnotacao').style.display = 'inline-block';
+  });
+</script>
+
+<!-- Link para arquivos JS -->
+<script src="../interatividade/devtools_block.js"></script>
+<script src="../interatividade/anotacoes.js"></script>
+
+</html>

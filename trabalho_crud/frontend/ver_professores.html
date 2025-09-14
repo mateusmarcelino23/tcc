@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professores</title>
+    <link rel="icon" href="../imagens/1748908346791.png" type="image/x-icon">
+
+    <!-- CSS Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- CSS DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <!-- CSS personalizado -->
+    <link rel="stylesheet" type="text/css" href="../estilos/style.css">
+    <link rel="stylesheet" type="text/css" href="../estilos/ver.css">
+</head>
+
+<body>
+    <!-- Cabeçalho -->
+    <nav class="header">
+        <a href="painel.html" class="header-link">
+            <img src="../imagens/1748908346791.png" alt="Logo" class="header-logo" />
+            <span class="header-text">Biblioteca M.V.C </span>
+        </a>
+        <span id="toggleSidebar" class="openbtn" onclick="toggleNav()">&#9776;</span>
+    </nav>
+
+    <!-- Menu lateral -->
+    <div class="sidebar" id="mySidebar">
+        <ul>
+            <li><a href="relatorios.html">Relatórios</a></li>
+            <li><a href="../backend/logout.php" id="logoutLink">Logout</a></li>
+        </ul>
+    </div>
+
+    <!-- Voltar ao painel -->
+    <div class="mt-3 text-start">
+        <a href="painel.html" class="link-back">&lt; Voltar para o painel</a>
+    </div>
+
+    <!-- Cadastrar professor -->
+    <div class="mt-3 text-end">
+        <a href="cadastrar_professor.html" class="link-registrar">Cadastrar Professor</a>
+    </div>
+
+    <div class="container mt-5">
+        <h2 class="text-center">Lista de Professores</h2>
+
+        <div class="table-container">
+            <table id="professoresTable" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>CPF</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Conteúdo carregado via AJAX -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Função para formatar CPF
+            function formatarCPF(cpf) {
+                return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+            }
+
+            // Função para carregar professores
+            function carregarProfessores() {
+                $.ajax({
+                    url: '../backend/ver_professores.php',
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        const tbody = $('#professoresTable tbody');
+                        tbody.empty();
+
+                        response.professores.forEach(prof => {
+                            const tr = $('<tr>');
+                            tr.append('<td class="scrollable-cell">' + prof.nome + '</td>');
+                            tr.append('<td class="scrollable-cell">' + prof.email + '</td>');
+                            tr.append('<td class="scrollable-cell">' + formatarCPF(prof.cpf) + '</td>');
+                            tr.append('<td class="scrollable-cell"><a href="editar_professor.html?id=' + prof.id + '" class="edit-link">Editar</a></td>');
+                            tr.append('<td class="scrollable-cell"><a href="#" class="delete-link" data-id="' + prof.id + '">Remover</a></td>');
+                            tbody.append(tr);
+                        });
+
+                        $('#professoresTable').DataTable();
+                    },
+                    error: function(xhr) {
+                        alert('Erro ao carregar professores: ' + xhr.responseText);
+                    }
+                });
+            }
+
+            // Chamar a função para carregar os professores ao carregar a página
+            carregarProfessores();
+
+            // Remover professor
+            $('#professoresTable').on('click', '.delete-link', function(e) {
+                e.preventDefault();
+                const professorId = $(this).data('id');
+
+                if (confirm('Tem certeza de que deseja remover este professor?')) {
+                    $.ajax({
+                        url: '../backend/ver_professores.php',
+                        method: 'GET',
+                        data: {
+                            remover: professorId
+                        },
+                        dataType: 'json',
+                        success: function(response) {
+                            if (response.success) {
+                                alert(response.success);
+                                carregarProfessores();
+                            } else if (response.error) {
+                                alert(response.error);
+                            }
+                        },
+                        error: function(xhr) {
+                            alert('Erro ao remover professor: ' + xhr.responseText);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+    <!-- JS personalizado -->
+    <script src="../interatividade/script.js"></script>
+    <script src="../interatividade/devtools_block.js"></script>
+    <script src="../interatividade/logout.js"></script>
+</body>
+
+</html>

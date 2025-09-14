@@ -1,10 +1,13 @@
 <?php
 session_start();
+header('Content-Type: application/json'); // Define resposta como JSON
 
 // Verifica se o professor está logado
 if (!isset($_SESSION['professor_id'])) {
-    // Redireciona para a página de login se não estiver logado
-    header("Location: ../frontend/login_front.php");
+    echo json_encode([
+        "success" => false,
+        "message" => "Professor não está logado."
+    ]);
     exit();
 }
 
@@ -13,7 +16,32 @@ include '../conexao.php';
 
 // Verifica se ocorreu erro na conexão
 if ($conn->connect_error) {
-    die("Falha na conexão com o banco de dados: " . $conn->connect_error);
+    echo json_encode([
+        "success" => false,
+        "message" => "Falha na conexão com o banco de dados: " . $conn->connect_error
+    ]);
+    exit();
+}
+
+// Se foi solicitada remoção de um empréstimo
+if (isset($_GET['remover'])) {
+    $id_emprestimo = intval($_GET['remover']); // Garante que seja um número inteiro
+    $sql_remover = "DELETE FROM emprestimo WHERE id = $id_emprestimo";
+
+    if ($conn->query($sql_remover) === TRUE) {
+        echo json_encode([
+            "success" => true,
+            "message" => "Empréstimo removido com sucesso."
+        ]);
+    } else {
+        echo json_encode([
+            "success" => false,
+            "message" => "Erro ao remover o empréstimo: " . $conn->error
+        ]);
+    }
+
+    $conn->close();
+    exit();
 }
 
 // Consulta SQL para buscar todos os empréstimos com dados relacionados
@@ -27,20 +55,19 @@ $sql = "SELECT e.id, e.data_emprestimo, e.data_devolucao, e.status,
 
 $result = $conn->query($sql);
 
-// Verifica se foi solicitada remoção de um empréstimo
-if (isset($_GET['remover'])) {
-    $id_emprestimo = intval($_GET['remover']); // Garante que seja um número inteiro
-    $sql_remover = "DELETE FROM emprestimo WHERE id = $id_emprestimo";
+$emprestimos = [];
 
-    if ($conn->query($sql_remover) === TRUE) {
-        // Redireciona após remoção
-        header("Location: ../frontend/ver_emprestimos_front.php");
-        exit();
-    } else {
-        echo "Erro ao remover o empréstimo: " . $conn->error;
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $emprestimos[] = $row;
     }
 }
 
-// Fecha a conexão
+// Retorna os dados em JSON
+echo json_encode([
+    "success" => true,
+    "data" => $emprestimos
+]);
+
 $conn->close();
 ?>

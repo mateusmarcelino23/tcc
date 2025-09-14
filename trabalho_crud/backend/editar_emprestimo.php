@@ -1,16 +1,24 @@
 <?php
 session_start();
+header('Content-Type: application/json');
 
 // Verifica se o professor está logado
 if (!isset($_SESSION['professor_id'])) {
-    header("Location: ../frontend/login_front.php");
+    echo json_encode([
+        'success' => false,
+        'message' => 'Professor não está logado.'
+    ]);
     exit();
 }
 
 // Conexão com o banco
 include '../conexao.php';
 if ($conn->connect_error) {
-    die("Erro de conexão: " . $conn->connect_error);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Erro de conexão: ' . $conn->connect_error
+    ]);
+    exit();
 }
 
 // Função para converter data de d/m/Y para Y-m-d
@@ -28,8 +36,10 @@ function converterDataParaBR($data)
 }
 
 if (!isset($_GET['id'])) {
-    $_SESSION['mensagem_editar_emprestimo'] = "<p style='color: red;'>ID do empréstimo não fornecido.</p>";
-    header("Location: ../frontend/editar_emprestimo_front.php");
+    echo json_encode([
+        'success' => false,
+        'message' => 'ID do empréstimo não fornecido.'
+    ]);
     exit();
 }
 
@@ -43,8 +53,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data_devolucao = converterDataParaBD($_POST['data_devolucao']);
 
     if ($data_devolucao < $data_emprestimo) {
-        $_SESSION['mensagem_editar_emprestimo'] = "<p style='color: red;'>A data de devolução não pode ser anterior à data de empréstimo.</p>";
-        header("Location: ../frontend/editar_emprestimo_front.php?id=$id_emprestimo");
+        echo json_encode([
+            'success' => false,
+            'message' => 'A data de devolução não pode ser anterior à data de empréstimo.'
+        ]);
         exit();
     }
 
@@ -52,20 +64,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("iissi", $id_aluno, $id_livro, $data_emprestimo, $data_devolucao, $id_emprestimo);
 
     if ($stmt->execute()) {
-        $_SESSION['mensagem_editar_emprestimo'] = "<p style='color: green;'>Empréstimo atualizado com sucesso!</p>";
+        $response = [
+            'success' => true,
+            'message' => 'Empréstimo atualizado com sucesso!'
+        ];
     } else {
-        $_SESSION['mensagem_editar_emprestimo'] = "<p style='color: red;'>Erro ao atualizar: " . $stmt->error . "</p>";
+        $response = [
+            'success' => false,
+            'message' => 'Erro ao atualizar: ' . $stmt->error
+        ];
     }
 
     $stmt->close();
     $conn->close();
 
-    // Redireciona para o front para mostrar a mensagem
-    header("Location: ../frontend/editar_emprestimo_front.php?id=$id_emprestimo");
+    echo json_encode($response);
     exit();
 }
 
-// Se não for POST, busca os dados do empréstimo para exibir no front (pode ser usado para carregar os dados inicialmente)
+// Se não for POST, busca os dados do empréstimo
 $stmt = $conn->prepare("SELECT e.id, e.id_aluno, e.id_livro, e.data_emprestimo, e.data_devolucao, a.nome AS aluno_nome, l.nome_livro
                         FROM emprestimo e
                         JOIN aluno a ON e.id_aluno = a.id
@@ -76,8 +93,10 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
-    $_SESSION['mensagem_editar_emprestimo'] = "<p style='color: red;'>Empréstimo não encontrado.</p>";
-    header("Location: ../frontend/editar_emprestimo_front.php");
+    echo json_encode([
+        'success' => false,
+        'message' => 'Empréstimo não encontrado.'
+    ]);
     exit();
 }
 
@@ -85,4 +104,10 @@ $emprestimo = $result->fetch_assoc();
 
 $stmt->close();
 $conn->close();
+
+echo json_encode([
+    'success' => true,
+    'data' => $emprestimo
+]);
+exit();
 ?>

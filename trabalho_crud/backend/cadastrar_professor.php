@@ -1,39 +1,75 @@
 <?php
 session_start();
+header('Content-Type: application/json');
+
 include '../conexao.php';
 
 // Verifica se o professor está logado
 if (!isset($_SESSION['professor_id'])) {
-    header("Location: ../frontend/login_front.php");
+    echo json_encode([
+        'success' => false,
+        'message' => 'Usuário não está logado.'
+    ]);
     exit();
 }
 
 // Verifica a conexão
 if ($conn->connect_error) {
-    $_SESSION['mensagem_professor'] = "<p style='color: red;'>Falha na conexão com o banco de dados: " . $conn->connect_error . "</p>";
-    header("Location: ../frontend/cadastrar_professor_front.php");
+    echo json_encode([
+        'success' => false,
+        'message' => 'Falha na conexão com o banco de dados: ' . $conn->connect_error
+    ]);
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $nome = $_POST['nome'];
-    $cpf = preg_replace('/\D/', '', $_POST['cpf']);
-    $email = $_POST['email'];
-    $senha = $_POST['senha'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Recebe dados JSON
+    $data = json_decode(file_get_contents('php://input'), true);
+
+    if (!$data) {
+        echo json_encode([
+            'success' => false,
+            'message' => 'JSON inválido ou ausente.'
+        ]);
+        exit();
+    }
+
+    $nome = $conn->real_escape_string($data['nome'] ?? '');
+    $cpf = preg_replace('/\D/', '', $data['cpf'] ?? '');
+    $email = $conn->real_escape_string($data['email'] ?? '');
+    $senha = $data['senha'] ?? '';
+
+    if (empty($nome) || empty($cpf) || empty($email) || empty($senha)) {
+        echo json_encode([
+            'success' => false,
+            'message' => 'Todos os campos são obrigatórios.'
+        ]);
+        exit();
+    }
 
     $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
 
     $sql = "INSERT INTO professor (nome, cpf, email, senha) VALUES ('$nome', '$cpf', '$email', '$senha_hash')";
 
     if ($conn->query($sql) === TRUE) {
-        $_SESSION['mensagem_professor'] = "<p style='color: green;'>Professor cadastrado com sucesso!</p>";
+        echo json_encode([
+            'success' => true,
+            'message' => 'Professor cadastrado com sucesso!'
+        ]);
     } else {
-        $_SESSION['mensagem_professor'] = "<p style='color: red;'>Erro ao cadastrar professor: " . $conn->error . "</p>";
+        echo json_encode([
+            'success' => false,
+            'message' => 'Erro ao cadastrar professor: ' . $conn->error
+        ]);
     }
 
     $conn->close();
-
-    header("Location: ../frontend/cadastrar_professor_front.php");
-    exit();
+} else {
+    echo json_encode([
+        'success' => false,
+        'message' => 'Método HTTP inválido. Use POST.'
+    ]);
 }
+
+exit();
 ?>

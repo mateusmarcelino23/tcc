@@ -2,75 +2,105 @@
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Painel da Biblioteca</title>
-    <link rel="icon" href="trabalho_crud/imagens/1748908346791.png" type="image/x-icon" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="trabalho_crud/estilos/style.css" />
-    <link rel="stylesheet" href="trabalho_crud/estilos/painel.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="trabalho_crud/estilos/login.css">
 </head>
 
-<body>
+<body class="body">
 
-    <nav class="header">
-        <a href="" class="header-link">
-            <img src="trabalho_crud/imagens/1748908346791.png" alt="Logo" class="header-logo" />
-            <span class="header-text">Biblioteca M.V.C</span>
-        </a>
-        <span id="toggleSidebar" class="openbtn" onclick="toggleNav()">&#9776;</span>
-    </nav>
-
-    <div class="sidebar" id="mySidebar">
-        <ul>
-            <li><a href="trabalho_crud/frontend/relatorios_front.php">Relatórios</a></li>
-            <li><a href="trabalho_crud/backend/logout.php" id="logoutLink">Logout</a></li>
-        </ul>
+    <!-- Logo -->
+    <div class="text-center mb-3">
+        <img src="trabalho_crud/imagens/1748908346791.png" alt="Logo da Biblioteca M.V.C" class="logo">
     </div>
-
-    <div class="welcome">
-        Bem-vindo(a), <span id="nomeProfessor"></span>!
-    </div>
-
-    <div class="explanation">Painel do Professor</div>
 
     <div class="container">
-        <div class="btn-container">
-            <a href="trabalho_crud/frontend/ver_emprestimos_front.php" class="btn">Empréstimos</a>
-            <a href="trabalho_crud/frontend/cadastrar_livros_front.php" class="btn">Cadastrar Livros</a>
-            <a href="trabalho_crud/frontend/ver_alunos_front.php" class="btn">Alunos</a>
-            <a href="trabalho_crud/frontend/ver_professores_front.php" class="btn">Professores</a>
+        <div class="text-center">
+            <h1 class="h1" style="font-size: 30px;">Login do Professor</h1>
         </div>
+
+        <!-- Div para exibir mensagens de erro dinamicamente -->
+        <div id="mensagemLogin" class="alert alert-danger mt-3 d-none"></div>
+
+        <!-- Formulário de login -->
+        <form id="loginForm">
+            <div class="mb-3">
+                <label for="cpf" class="form-label">CPF:</label>
+                <input type="text" name="cpf" id="cpf" class="form-control shadow-sm" autocomplete="off" required>
+            </div>
+            <div class="mb-3">
+                <label for="senha" class="form-label">Senha:</label>
+                <input type="password" name="senha" id="senha" class="form-control shadow-sm" autocomplete="off"
+                    required>
+            </div>
+            <button type="submit" class="login-container button" style="margin-top: 30px;">Entrar</button>
+        </form>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="trabalho_crud/interatividade/script.js"></script>
-    <script src="trabalho_crud/interatividade/devtools_block.js"></script>
-    <script src="trabalho_crud/interatividade/logout.js"></script>
+    <!-- Informações de teste -->
+    <div class="mensagem-topo">
+        <p>
+            <strong>Ainda não possui uma conta? Use:</strong><br>
+            <strong>CPF:</strong> 000.000.000-00<br>
+            <strong>Senha:</strong> senha123
+        </p>
+    </div>
+
+    <!-- Footer -->
+    <footer style="text-align: center; position: fixed; bottom: 0; color: black;">
+        <p>&copy; 2025 Mateus Marcelino.</p>
+    </footer>
 
     <script>
-        async function carregarNomeProfessor() {
+        // Máscara de CPF para o campo de entrada
+        document.getElementById('cpf').addEventListener('input', function (e) {
+            let cpf = e.target.value.replace(/\D/g, ''); // Remove tudo que não for número
+            cpf = cpf.replace(/^(\d{3})(\d)/, '$1.$2'); // Adiciona primeiro ponto
+            cpf = cpf.replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3'); // Segundo ponto
+            cpf = cpf.replace(/\.(\d{3})(\d)/, '.$1-$2'); // Hífen
+            e.target.value = cpf.substring(0, 14); // Limita a 14 caracteres
+        });
+
+        // Captura a submissão do formulário
+        document.getElementById('loginForm').addEventListener('submit', async function (e) {
+            e.preventDefault(); // Evita que a página seja recarregada
+
+            const cpf = document.getElementById('cpf').value;
+            const senha = document.getElementById('senha').value;
+
             try {
-                const response = await fetch('trabalho_crud/backend/painel.php', {
-                    credentials: 'include' // para enviar cookies de sessão
+                // Envia dados para login.php via POST
+                const response = await fetch('trabalho_crud/backend/login.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({ cpf, senha }) // Codifica os dados
                 });
-                if (!response.ok) {
-                    if (response.status === 401) {
-                        // Redireciona para login se não autenticado
-                        window.location.href = 'trabalho_crud/frontend/login_front.php';
-                        return;
-                    }
-                    throw new Error('Erro ao carregar dados');
+
+                const data = await response.json(); // Converte resposta em JSON
+                const mensagemDiv = document.getElementById('mensagemLogin');
+
+                if (data.success) {
+                    // Login bem-sucedido, redireciona para a página principal
+                    window.location.href = 'trabalho_crud/frontend/painel.html';
+                } else {
+                    // Mostra mensagem de erro
+                    mensagemDiv.textContent = data.message;
+                    mensagemDiv.classList.remove('d-none');
+
+                    // Remove a mensagem após 2 segundos
+                    setTimeout(() => mensagemDiv.classList.add('d-none'), 2000);
                 }
-                const data = await response.json();
-                document.getElementById('nomeProfessor').textContent = data.professor_primeiro_nome;
-            } catch (error) {
-                console.error(error);
-                document.getElementById('nomeProfessor').textContent = "Visitante";
+            } catch (err) {
+                console.error('Erro na requisição:', err);
             }
-        }
-        carregarNomeProfessor();
+        });
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="trabalho_crud/interatividade/devtools_block.js"></script>
 </body>
 
 </html>

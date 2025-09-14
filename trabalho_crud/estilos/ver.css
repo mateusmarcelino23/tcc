@@ -35,12 +35,12 @@
     overflow: hidden;
 }
 
-/* .badge {
+.badge {
     padding: 6px 10px;
     border-radius: 8px;
     font-weight: bold;
     display: inline-block;
-} */
+}
 
 .status-andamento {
     background-color: #28a745;

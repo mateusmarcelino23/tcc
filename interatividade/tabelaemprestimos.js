@@ -38,7 +38,7 @@ function toggleDevolucao(botao, id) {
 
                             if (dataDev < hoje) {
                                 statusCell.className = 'badge status-atrasado';
-                                statusCell.textContent = 'Atrasado';
+                                statusCell.textContent = 'Pendente';
                             } else {
                                 statusCell.className = 'badge status-andamento';
                                 statusCell.textContent = 'Em andamento';

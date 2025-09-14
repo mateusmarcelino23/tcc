@@ -25,24 +25,19 @@ if ($conn->connect_error) {
 
 // Se foi solicitada remoção de um empréstimo
 if (isset($_GET['remover'])) {
-    $id_emprestimo = intval($_GET['remover']); // Garante que seja um número inteiro
+    $id_emprestimo = intval($_GET['remover']);
     $sql_remover = "DELETE FROM emprestimo WHERE id = $id_emprestimo";
 
-    if ($conn->query($sql_remover) === TRUE) {
-        echo json_encode([
-            "success" => true,
-            "message" => "Empréstimo removido com sucesso."
-        ]);
-    } else {
+    if ($conn->query($sql_remover) === FALSE) {
         echo json_encode([
             "success" => false,
             "message" => "Erro ao remover o empréstimo: " . $conn->error
         ]);
+        $conn->close();
+        exit();
     }
-
-    $conn->close();
-    exit();
 }
+
 
 // Consulta SQL para buscar todos os empréstimos com dados relacionados
 $sql = "SELECT e.id, e.data_emprestimo, e.data_devolucao, e.status, 

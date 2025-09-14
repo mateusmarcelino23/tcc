@@ -15,8 +15,8 @@ $alunos = [];
 
 while ($row = $resultado->fetch_assoc()) {
     $alunos[] = [
-        'id' => $row['id'],     // esse valor vai no form
-        'text' => $row['nome']  // esse valor aparece pro usuário
+        'id' => $row['id'],
+        'text' => $row['nome']
     ];
 }
 

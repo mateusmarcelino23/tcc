@@ -46,4 +46,4 @@ CREATE TABLE IF NOT EXISTS emprestimo (
 
 -- Dados iniciais
 INSERT INTO professor (nome, cpf, email, senha) VALUES
-('Professor', '00000000000', 'professor@email.com', '$2y$10$9wsKRk73Ak7JUVY88kKfM.fXP1c5t9aMP/o2J3IxJ/AsaVrCEpjZq');
+('Professor(a)', '00000000000', 'professor@email.com', '$2y$10$9wsKRk73Ak7JUVY88kKfM.fXP1c5t9aMP/o2J3IxJ/AsaVrCEpjZq');

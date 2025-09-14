@@ -180,7 +180,14 @@
         <div class="card-header">
           <strong>${nota.professor_nome}</strong>
           <span class="data-anotacao">
-            ${new Date(nota.data_corrigida).toLocaleString('pt-BR')}
+            ${new Date(nota.data_corrigida).toLocaleString('pt-BR', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: false
+            })}
           </span>
         </div>
         <div class="card-body">

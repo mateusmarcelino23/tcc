@@ -1,6 +1,6 @@
 // Função para redirecionar
 function redirect() {
-    window.location.href = '/tcc/trabalho_crud/interatividade/devtools_block.html';
+    window.location.href = '/tcc/interatividade/devtools_block.html';
 }
 
 // Bloquear botão direito do mouse

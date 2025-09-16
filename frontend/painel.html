@@ -58,7 +58,7 @@
                 if (!response.ok) {
                     if (response.status === 401) {
                         // Redireciona para login se não autenticado
-                        window.location.href = '../../';
+                        window.location.href = '../';
                         return;
                     }
                     throw new Error('Erro ao carregar dados');

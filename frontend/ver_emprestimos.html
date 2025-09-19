@@ -54,7 +54,6 @@
                         <th>Livro</th>
                         <th>Retirada</th>
                         <th>Devolução</th>
-                        <th>Professor</th>
                         <th>Status</th>
                         <th></th> <!-- Confirmar devolução ou cancelar -->
                         <th></th> <!-- Editar -->
@@ -157,7 +156,6 @@
                     { data: 'nome_livro' },
                     { data: 'data_emprestimo', render: formatarData },
                     { data: 'data_devolucao', render: formatarData },
-                    { data: 'professor_nome' },
                     { data: null, render: renderStatus },
                     { data: null, render: renderDevolucao },
                     { data: null, render: renderEditar },

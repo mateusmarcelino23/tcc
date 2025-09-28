@@ -73,44 +73,51 @@
 
     <script>
         $(document).ready(function() {
+            const tabela = $('#professoresTable').DataTable({
+                language: {
+                    url: "https://cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
+                }
+            })
+
             // Função para formatar CPF
             function formatarCPF(cpf) {
                 return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
             }
 
-            // Função para carregar professores
+            // Função para carregar professores via AJAX
             function carregarProfessores() {
                 $.ajax({
                     url: '../backend/ver_professores.php',
                     method: 'GET',
                     dataType: 'json',
-                    success: function(response) {
-                        const tbody = $('#professoresTable tbody');
-                        tbody.empty();
+                    success: function (response) {
+                        tabela.clear();
 
-                        response.professores.forEach(prof => {
-                            const tr = $('<tr>');
-                            tr.append('<td class="scrollable-cell">' + prof.nome + '</td>');
-                            tr.append('<td class="scrollable-cell">' + prof.email + '</td>');
-                            tr.append('<td class="scrollable-cell">' + formatarCPF(prof.cpf) + '</td>');
-                            tr.append('<td class="scrollable-cell"><a href="editar_professor.html?id=' + prof.id + '" class="edit-link">Editar</a></td>');
-                            tr.append('<td class="scrollable-cell"><a href="#" class="delete-link" data-id="' + prof.id + '">Remover</a></td>');
-                            tbody.append(tr);
-                        });
-
-                        $('#professoresTable').DataTable();
+                        if (response.success) {
+                            response.professores.forEach(professor => {
+                                tabela.row.add([
+                                    professor.nome,
+                                    professor.email,
+                                    formatarCPF(professor.cpf),
+                                    `<a href='editar_professor.html?id=${professor.id}' class='edit-link'>Editar</a>`,
+                                    `<a href='#' class='delete-link' data-id='${professor.id}'>Remover</a>`,
+                                ]).draw();
+                            });
+                        } else {
+                            alert(response.message || 'Erro ao carregar professores.');
+                        }
                     },
-                    error: function(xhr) {
-                        alert('Erro ao carregar professores: ' + xhr.responseText);
+                    error: function () {
+                        alert('Erro ao conectar com o servidor')
                     }
                 });
             }
 
-            // Chamar a função para carregar os professores ao carregar a página
+            // Carrega os professores ao iniciar
             carregarProfessores();
 
-            // Remover professor
-            $('#professoresTable').on('click', '.delete-link', function(e) {
+            // Evento de exclusão
+            $('#professoresTable tbody').on('click', '.delete-link', function (e) {
                 e.preventDefault();
                 const professorId = $(this).data('id');
 
@@ -118,20 +125,18 @@
                     $.ajax({
                         url: '../backend/ver_professores.php',
                         method: 'GET',
-                        data: {
-                            remover: professorId
-                        },
+                        data: { remover: professorId },
                         dataType: 'json',
-                        success: function(response) {
+                        success: function (response) {
                             if (response.success) {
-                                alert(response.success);
-                                carregarProfessores();
-                            } else if (response.error) {
-                                alert(response.error);
+                                alert(response.message);
+                                carregarProfessores(); // Recarrega a tabela
+                            } else {
+                                alert(response.message);
                             }
                         },
-                        error: function(xhr) {
-                            alert('Erro ao remover professor: ' + xhr.responseText);
+                        error: function () {
+                            alert('Erro ao tentar remover o professor.');
                         }
                     });
                 }

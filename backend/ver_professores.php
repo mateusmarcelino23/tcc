@@ -22,31 +22,33 @@ if ($conn->connect_error) {
     exit();
 }
 
-// Remover professor, se solicitado
+// Remover professor se solicitado
 if (isset($_GET['remover'])) {
-    $professor_id = intval($_GET['remover']); // segurança básica
+    $professor_id = intval($_GET['remover']); // segurança contra SQL Injection
 
     // Verifica se o professor está vinculado a algum empréstimo
     $check_emprestimo = "SELECT * FROM emprestimo WHERE id_professor = $professor_id";
     $result_check = $conn->query($check_emprestimo);
 
     if ($result_check->num_rows > 0) {
-        http_response_code(400); // Bad Request
-        $response = ['error' => 'O professor está vinculado a um empréstimo. Primeiro remova o empréstimo para depois excluir o professor.'];
+        $response['success'] = false;
+        $response['message'] = 'O professor está vinculado a um ou mais empréstimos. Primeiro remova os empréstimos em seu nome para depois excluí-lo.';
+        echo json_encode($response);
+        exit();
     } else {
         // Remove o professor
         $sql_remover = "DELETE FROM professor WHERE id = $professor_id";
         if ($conn->query($sql_remover) === TRUE) {
-            $response = ['success' => 'Professor removido com sucesso'];
+            $response['success'] = true;
+            $response['message'] = 'Professor removido com sucesso.';
         } else {
             http_response_code(500);
-            $response = ['error' => 'Erro ao remover o professor'];
+            $response['success'] = false;
+            $response['message'] = 'Erro ao remover professor: ' . $conn->error;
         }
+        echo json_encode($response);
+        exit();
     }
-
-    echo json_encode($response);
-    $conn->close();
-    exit();
 }
 
 // Caso contrário, retorna todos os professores
@@ -60,7 +62,10 @@ if ($result->num_rows > 0) {
     }
 }
 
-echo json_encode(['professores' => $professores]);
+$response['success'] = true;
+$response['professores'] = $professores;
+
+echo json_encode($response);
 
 // Fecha a conexão
 $conn->close();

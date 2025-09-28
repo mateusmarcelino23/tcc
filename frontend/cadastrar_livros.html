@@ -50,6 +50,11 @@
             <input type="text" id="termo_busca" name="termo_busca" autocomplete="off" required>
             <button type="submit" class="btn">Buscar</button>
         </form>
+
+        <div id="loader" style="display:none; text-align:center; margin-top:10px;">
+            <img src="https://i.gifer.com/ZZ5H.gif" alt="Carregando..." width="50">
+            <p>Buscando livros...</p>
+        </div>
     </div>
 
     <!-- Modal -->
@@ -90,9 +95,15 @@
         let resultadosGlobais = null;
 
         // Buscar livros via AJAX
+        const loader = document.getElementById('loader');
+
         document.getElementById('buscarLivrosForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const termo = document.getElementById('termo_busca').value;
+
+            // Mostra o loader
+            loader.style.display = 'block';
+            mensagemDiv.innerHTML = ''; // limpa mensagens anteriores
 
             try {
                 const res = await fetch('../backend/cadastrar_livros.php', {
@@ -101,6 +112,9 @@
                     body: `termo_busca=${encodeURIComponent(termo)}`
                 });
                 const data = await res.json();
+
+                // Esconde o loader
+                loader.style.display = 'none';
 
                 if (data.error) {
                     mensagemDiv.innerHTML = `<p style="color:red;">${data.error}</p>`;
@@ -112,24 +126,21 @@
                     return;
                 }
 
-                // Armazena resultados globalmente
                 resultadosGlobais = data.resultados;
-
                 resultadosLista.innerHTML = '';
                 data.resultados.items.forEach((item, index) => {
                     const li = document.createElement('li');
                     li.innerHTML = `
-                        <img src="${item.volumeInfo.imageLinks?.thumbnail || 'Imagem não disponível'}" alt="Capa do Livro">
-                        <div>
-                            <strong>${item.volumeInfo.title}</strong>
-                            <p>Autor(a): ${item.volumeInfo.authors ? item.volumeInfo.authors.join(', ') : 'Autor desconhecido'}</p>
-                            <p>ISBN: ${item.volumeInfo.industryIdentifiers ? item.volumeInfo.industryIdentifiers[0].identifier : 'ISBN não disponível'}</p>
-                            <button class="modal-btn" data-index="${index}">Adicionar Livro</button>
-                        </div>`;
+                <img src="${item.volumeInfo.imageLinks?.thumbnail || 'Imagem não disponível'}" alt="Capa do Livro">
+                <div>
+                    <strong>${item.volumeInfo.title}</strong>
+                    <p>Autor(a): ${item.volumeInfo.authors ? item.volumeInfo.authors.join(', ') : 'Autor desconhecido'}</p>
+                    <p>ISBN: ${item.volumeInfo.industryIdentifiers ? item.volumeInfo.industryIdentifiers[0].identifier : 'ISBN não disponível'}</p>
+                    <button class="modal-btn" data-index="${index}">Adicionar Livro</button>
+                </div>`;
                     resultadosLista.appendChild(li);
                 });
 
-                // Adiciona listener para os botões "Adicionar Livro"
                 resultadosLista.querySelectorAll('.modal-btn').forEach(btn => {
                     btn.addEventListener('click', () => {
                         const index = btn.getAttribute('data-index');
@@ -139,11 +150,12 @@
 
                 resultadosModal.show();
             } catch (err) {
+                loader.style.display = 'none'; // esconde o loader em caso de erro
                 mensagemDiv.innerHTML = `<p style="color:red;">Erro ao buscar livros.</p>`;
                 console.error(err);
             }
         });
-
+        
         // Adicionar livro da lista de resultados
         async function adicionarLivro(index) {
                 if (!resultadosGlobais) return;

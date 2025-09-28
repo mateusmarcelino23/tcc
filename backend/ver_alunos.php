@@ -30,7 +30,7 @@ if (isset($_GET['remover'])) {
 
     if ($result_check->num_rows > 0) {
         $response['success'] = false;
-        $response['message'] = 'O aluno está registrado em um empréstimo. Primeiro remova o empréstimo para depois excluir o aluno.';
+        $response['message'] = 'O aluno está vinculado a um ou mais empréstimos. Primeiro remova os empréstimos em seu nome para depois excluí-lo.';
         echo json_encode($response);
         exit();
     } else {
@@ -49,7 +49,7 @@ if (isset($_GET['remover'])) {
     }
 }
 
-// Buscar todos os alunos
+// Caso contrário, retorna todos os professores
 $sql = "SELECT * FROM aluno";
 $result = $conn->query($sql);
 
@@ -65,6 +65,7 @@ $response['alunos'] = $alunos;
 
 echo json_encode($response);
 
+// Fecha a conexão
 $conn->close();
 exit();
 ?>

@@ -74,32 +74,19 @@ h1 {
     background-color: #003366;
 }
 
-a {
-    color: #004080;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-.esqueceu-senha-texto {
-    text-align: center; /* Centraliza o conteúdo */
-    margin-top: 1rem; /* Ajusta espaçamento */
-}
-
-.texto-esqueci-senha {
-    color: #000; /* preto */
-}
-
-.link-esqueci-senha {
-    color: #007bff; /* azul padrão bootstrap */
+.toggle-senha {
+    position: absolute;
+    right: 10px;
+    top: 38px;
+    /* ajuste conforme altura do input */
     cursor: pointer;
+    color: #6c757d;
+    /* tom cinza profissional */
 }
 
-.link-esqueci-senha:hover {
-    color: #0056b3; /* azul mais escuro no hover */
-    text-decoration: underline; /* Adiciona sublinhado no hover */
+.toggle-senha svg {
+    pointer-events: none;
+    /* evita que o clique passe pelo SVG */
 }
 
 .mensagem-login {

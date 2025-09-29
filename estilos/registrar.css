@@ -199,12 +199,18 @@ input, select {
 
 .mensagem {
     position: fixed;
+    background-color: #fff;
+    padding: 10px 10px;
+    border: 2px solid #575757;
+    border-radius: 5px;
     margin-top: 20px;
     top: 80px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
     font-size: 25px;
-    opacity: 1;
+    text-align: center;
+    opacity: 0;
+    display: none;
     transition: opacity 0.5s ease-out;
 }

@@ -34,118 +34,177 @@
         </a>
     </div>
 
-            <div class="mensagem" id="mensagem"></div>
-
-            <div class="container">
-                <h2 class="text-center">Editar Professor</h2>
-                <form id="editarForm" novalidate>
-                    <div class="mb-3">
-                        <label for="nome" class="form-label">Nome e Sobrenome:</label>
-                        <input type="text" name="nome" id="nome" class="form-control" required autocomplete="off">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="cpf" class="form-label">CPF:</label>
-                        <input type="text" name="cpf" id="cpf" class="form-control" autocomplete="off" required
-                            pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" placeholder="000.000.000-00">
-                        <div class="invalid-feedback">Informe um CPF válido no formato 000.000.000-00.</div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email:</label>
-                        <input type="email" name="email" id="email" class="form-control" required autocomplete="off">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="senha" class="form-label">Nova Senha (opcional):</label>
-                        <input type="text" name="senha" id="senha" class="form-control" autocomplete="off"
-                            pattern="[a-z0-9]{8,16}" minlength="8" maxlength="16"
-                            title="A senha deve conter apenas letras minúsculas e números, entre 8 e 16 caracteres.">
-                        <div class="invalid-feedback">Use apenas letras minúsculas e números (8-16 caracteres).</div>
-                    </div>
-
-                    <button type="submit" class="btn btn-gradient w-100">Salvar Alterações</button>
-                </form>
+    <!-- Mensagem de feedback -->
+    <div class="mensagem" id="mensagem"></div>
+    
+    <div class="container">
+        <h2 class="text-center">Editar Professor</h2>
+    
+        <form id="editarForm" novalidate>
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome e Sobrenome:</label>
+                <input type="text" name="nome" id="nome" class="form-control" autocomplete="off" required>
             </div>
-
+    
+            <div class="mb-3">
+                <label for="cpf" class="form-label">CPF:</label>
+                <input type="text" name="cpf" id="cpf" class="form-control" autocomplete="off" required
+                    pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" placeholder="000.000.000-00">
+                <div class="invalid-feedback">Informe um CPF válido no formato 000.000.000-00.</div>
+            </div>
+    
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" name="email" id="email" class="form-control" autocomplete="off"
+                    placeholder="Utilize o e-mail pessoal" required>
+                <div class="invalid-feedback">Informe um e-mail válido.</div>
+            </div>
+    
+            <div class="mb-3">
+                <label for="senha" class="form-label">Nova Senha (opcional):</label>
+                <input type="text" name="senha" id="senha" class="form-control" autocomplete="off" pattern="[a-z0-9]{8,16}"
+                    minlength="8" maxlength="16"
+                    placeholder="A senha deve conter apenas letras minúsculas e números, entre 8 e 16 caracteres."
+                    title="A senha deve conter apenas letras minúsculas e números, entre 8 e 16 caracteres.">
+                <div class="invalid-feedback">Use apenas letras minúsculas e números (8-16 caracteres).</div>
+            </div>
+    
+            <div class="mb-3">
+                <label for="confirmarSenha" class="form-label">Confirmar Nova Senha:</label>
+                <input type="password" name="confirmarSenha" id="confirmarSenha" class="form-control" autocomplete="off"
+                    placeholder="Repita a nova senha">
+                <div class="invalid-feedback">As senhas não coincidem.</div>
+            </div>
+    
+            <button type="submit" class="btn btn-gradient w-100">Salvar Alterações</button>
+        </form>
+    </div>
+    
     <script>
-        const professorId = new URLSearchParams(window.location.search).get('id');
-        const mensagemDiv = document.querySelector('.mensagem');
+        document.addEventListener("DOMContentLoaded", function () {
+            const professorId = new URLSearchParams(window.location.search).get('id');
+            const cpfInput = document.getElementById("cpf");
+            const form = document.getElementById("editarForm");
+            const mensagemDiv = document.querySelector('.mensagem');
 
-        // Função para mostrar mensagens temporárias
-        function showMessage(message, success = true) {
-            mensagemDiv.innerHTML = `<p style="color:${success ? 'green' : 'red'}">${message}</p>`;
-            mensagemDiv.style.opacity = '1';
-            mensagemDiv.style.display = 'block';
-
-            setTimeout(() => {
-                mensagemDiv.style.opacity = '0';
+            // Mostrar mensagem
+            function mostrarMensagem(texto, sucesso = true) {
+                mensagemDiv.innerHTML = `<p style="color:${sucesso ? 'green' : 'red'};">${texto}</p>`;
+                mensagemDiv.style.opacity = '1';
+                mensagemDiv.style.display = 'block';
                 setTimeout(() => {
-                    mensagemDiv.style.display = 'none';
-                }, 500); // tempo do fade-out
-            }, 3000); // tempo visível
-        }
+                    mensagemDiv.style.transition = 'opacity 0.5s';
+                    mensagemDiv.style.opacity = '0';
+                    setTimeout(() => {
+                        mensagemDiv.style.display = 'none';
+                        mensagemDiv.style.transition = '';
+                    }, 500);
+                }, 3000);
+            }
 
-        // Formatar CPF enquanto digita
-        document.getElementById('cpf').addEventListener('input', function () {
-            let value = this.value.replace(/\D/g, '');
-            if (value.length > 11) value = value.slice(0, 11);
-            value = value.replace(/(\d{3})(\d)/, '$1.$2');
-            value = value.replace(/(\d{3})(\d)/, '$1.$2');
-            value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-            this.value = value;
-        });
+            // Máscara do CPF
+            cpfInput.addEventListener("input", function () {
+                let value = cpfInput.value.replace(/\D/g, "");
+                if (value.length > 11) value = value.slice(0, 11);
+                value = value.replace(/(\d{3})(\d)/, "$1.$2");
+                value = value.replace(/(\d{3})(\d)/, "$1.$2");
+                value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+                cpfInput.value = value;
+            });
 
-        // Carrega os dados do professor via AJAX
-        async function carregarProfessor() {
-            try {
-                const response = await fetch(`../backend/editar_professor.php?id=${professorId}`);
-                const data = await response.json();
-
-                if (data.status !== 'success') {
-                    showMessage(data.message, false);
-                    return;
+            // Validar campo individual
+            function validarCampo(campo) {
+                if (campo.value.trim() === "") {
+                    campo.classList.remove("is-invalid");
+                    campo.classList.remove("is-valid");
+                    return campo.hasAttribute('required') ? false : true;
                 }
 
-                const prof = data.data;
-                document.getElementById('nome').value = prof.nome;
-                document.getElementById('cpf').value = prof.cpf.replace(
-                    /(\d{3})(\d{3})(\d{3})(\d{2})/,
-                    '$1.$2.$3-$4'
-                );
-                document.getElementById('email').value = prof.email;
-            } catch (error) {
-                showMessage('Erro ao carregar dados do professor.', false);
-                console.error(error);
+                // Validação do campo de confirmação de senha
+                if (campo.id === "confirmarSenha") {
+                    const senha = document.getElementById("senha").value.trim();
+                    if (senha && campo.value !== senha) {
+                        campo.classList.add("is-invalid");
+                        campo.classList.remove("is-valid");
+                        return false;
+                    } else {
+                        campo.classList.remove("is-invalid");
+                        if (senha) campo.classList.add("is-valid");
+                        return true;
+                    }
+                }
+
+                if (!campo.checkValidity()) {
+                    campo.classList.add("is-invalid");
+                    campo.classList.remove("is-valid");
+                    return false;
+                } else {
+                    campo.classList.remove("is-invalid");
+                    campo.classList.add("is-valid");
+                    return true;
+                }
             }
-        }
 
-        // Submissão do formulário via AJAX
-        document.getElementById('editarForm').addEventListener('submit', async function (e) {
-            e.preventDefault();
+            // Validação em tempo real
+            const campos = form.querySelectorAll("input");
+            campos.forEach(campo => {
+                campo.addEventListener("input", () => validarCampo(campo));
+                campo.addEventListener("blur", () => validarCampo(campo));
+            });
 
-            const formData = new FormData(this);
-            const payload = Object.fromEntries(formData.entries());
+            // Carregar dados do professor
+            async function carregarProfessor() {
+                try {
+                    const response = await fetch(`../backend/editar_professor.php?id=${professorId}`);
+                    const data = await response.json();
+                    if (data.status !== 'success') {
+                        mostrarMensagem(data.message, false);
+                        return;
+                    }
+                    const prof = data.data;
+                    document.getElementById('nome').value = prof.nome;
+                    document.getElementById('cpf').value = prof.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+                    document.getElementById('email').value = prof.email;
+                } catch (error) {
+                    mostrarMensagem('Erro ao carregar dados do professor.', false);
+                    console.error(error);
+                }
+            }
 
-            try {
-                const response = await fetch(`../backend/editar_professor.php?id=${professorId}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(payload)
+            // Submit
+            form.addEventListener("submit", async function (e) {
+                e.preventDefault();
+
+                let todosValidos = true;
+                campos.forEach(campo => {
+                    if (!validarCampo(campo)) todosValidos = false;
                 });
+                if (!todosValidos) return;
 
-                const data = await response.json();
-                showMessage(data.message, data.status === 'success');
-            } catch (error) {
-                showMessage('Erro ao atualizar professor.', false);
-                console.error(error);
-            }
+                const formData = {
+                    nome: document.getElementById("nome").value.trim(),
+                    cpf: document.getElementById("cpf").value.trim(),
+                    email: document.getElementById("email").value.trim(),
+                    senha: document.getElementById("senha").value.trim()
+                };
+
+                try {
+                    const response = await fetch(`../backend/editar_professor.php?id=${professorId}`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const data = await response.json();
+                    mostrarMensagem(data.message, data.status === 'success');
+                } catch (error) {
+                    mostrarMensagem('Erro na comunicação com o servidor.', false);
+                    console.error(error);
+                }
+            });
+
+            carregarProfessor();
         });
-
-        // Inicializa
-        carregarProfessor();
     </script>
 
     <!-- Link para arquivos JS -->

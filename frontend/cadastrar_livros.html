@@ -96,6 +96,7 @@
 
         // Buscar livros via AJAX
         const loader = document.getElementById('loader');
+        const buscarBtn = document.querySelector('#buscarLivrosForm button');
 
         document.getElementById('buscarLivrosForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -103,6 +104,7 @@
 
             // Mostra o loader
             loader.style.display = 'block';
+            buscarBtn.disabled = true; // desabilita o botão de busca
             mensagemDiv.innerHTML = ''; // limpa mensagens anteriores
 
             try {
@@ -115,6 +117,7 @@
 
                 // Esconde o loader
                 loader.style.display = 'none';
+                buscarBtn.disabled = false; // reabilita o botão de busca
 
                 if (data.error) {
                     mensagemDiv.innerHTML = `<p style="color:red;">${data.error}</p>`;
@@ -151,11 +154,12 @@
                 resultadosModal.show();
             } catch (err) {
                 loader.style.display = 'none'; // esconde o loader em caso de erro
+                buscarBtn.disabled = false; // reabilita o botão de busca
                 mensagemDiv.innerHTML = `<p style="color:red;">Erro ao buscar livros.</p>`;
                 console.error(err);
             }
         });
-        
+
         // Adicionar livro da lista de resultados
         async function adicionarLivro(index) {
                 if (!resultadosGlobais) return;

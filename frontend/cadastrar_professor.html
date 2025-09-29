@@ -43,65 +43,76 @@
     </div>
 
     <!-- Mensagem de feedback -->
-    <div class="mensagem my-2"></div>
+    <div class="mensagem" id="mensagem"></div>
 
     <div class="container">
         <h2 class="text-center">Cadastrar Professor</h2>
-
+    
         <form id="cadastroForm" novalidate>
             <div class="mb-3">
                 <label for="nome" class="form-label">Nome e Sobrenome:</label>
                 <input type="text" name="nome" id="nome" class="form-control" autocomplete="off" required>
             </div>
-
+    
             <div class="mb-3">
                 <label for="cpf" class="form-label">CPF:</label>
                 <input type="text" name="cpf" id="cpf" class="form-control" autocomplete="off" required
                     pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" placeholder="000.000.000-00">
                 <div class="invalid-feedback">Informe um CPF válido no formato 000.000.000-00.</div>
             </div>
-
+    
             <div class="mb-3">
                 <label for="email" class="form-label">Email:</label>
-                <input type="email" name="email" id="email" class="form-control" autocomplete="off" required>
+                <input type="email" name="email" id="email" class="form-control" autocomplete="off"
+                    placeholder="Utilize o e-mail pessoal" required>
+                <div class="invalid-feedback">Informe um e-mail válido.</div>
             </div>
-
+    
             <div class="mb-3">
                 <label for="senha" class="form-label">Senha:</label>
-                <input type="text" name="senha" id="senha" class="form-control" autocomplete="off" required
-                    pattern="[a-z0-9]{8,16}" minlength="8" maxlength="16"
+                <input type="text" name="senha" id="senha" class="form-control" autocomplete="off" required pattern="[a-z0-9]{8,16}"
+                    minlength="8" maxlength="16"
+                    placeholder="A senha deve conter apenas letras minúsculas e números, entre 8 e 16 caracteres."
                     title="A senha deve conter apenas letras minúsculas e números, entre 8 e 16 caracteres.">
                 <div class="invalid-feedback">Use apenas letras minúsculas e números (8-16 caracteres).</div>
             </div>
-
+            
+            <div class="mb-3">
+                <label for="confirmarSenha" class="form-label">Confirmar Senha:</label>
+                <input type="password" name="confirmarSenha" id="confirmarSenha" class="form-control" autocomplete="off" required
+                    placeholder="Repita a senha">
+                <div class="invalid-feedback">As senhas não coincidem.</div>
+            </div>
+    
             <button type="submit" class="btn btn-gradient w-100">Cadastrar Professor</button>
         </form>
     </div>
 
     <!-- Scripts -->
     <script>
-        // Função para mostrar mensagem com fade-out
-        function mostrarMensagem(texto, sucesso = true) {
-            const mensagemDiv = document.querySelector('.mensagem');
-            mensagemDiv.innerHTML = `<p style="color:${sucesso ? 'green' : 'red'};">${texto}</p>`;
-            mensagemDiv.style.opacity = '1';
-            mensagemDiv.style.display = 'block';
-
-            setTimeout(() => {
-                mensagemDiv.style.transition = 'opacity 0.5s';
-                mensagemDiv.style.opacity = '0';
-                setTimeout(() => {
-                    mensagemDiv.style.display = 'none';
-                    mensagemDiv.style.transition = '';
-                }, 500); // tempo da transição
-            }, 3000); // tempo que a mensagem ficará visível
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const cpfInput = document.getElementById("cpf");
+            const form = document.getElementById("cadastroForm");
+            const mensagemDiv = document.querySelector('.mensagem');
+
+            // Função para mostrar mensagem
+            function mostrarMensagem(texto, sucesso = true) {
+                mensagemDiv.innerHTML = `<p style="color:${sucesso ? 'green' : 'red'};">${texto}</p>`;
+                mensagemDiv.style.opacity = '1';
+                mensagemDiv.style.display = 'block';
+
+                setTimeout(() => {
+                    mensagemDiv.style.transition = 'opacity 0.5s';
+                    mensagemDiv.style.opacity = '0';
+                    setTimeout(() => {
+                        mensagemDiv.style.display = 'none';
+                        mensagemDiv.style.transition = '';
+                    }, 500);
+                }, 3000);
+            }
 
             // Máscara do CPF
-            cpfInput.addEventListener("input", function() {
+            cpfInput.addEventListener("input", function () {
                 let value = cpfInput.value.replace(/\D/g, "");
                 if (value.length > 11) value = value.slice(0, 11);
                 value = value.replace(/(\d{3})(\d)/, "$1.$2");
@@ -110,17 +121,58 @@
                 cpfInput.value = value;
             });
 
-            // Formulário
-            const form = document.getElementById("cadastroForm");
-
-            form.addEventListener("submit", function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-
-                if (!form.checkValidity()) {
-                    form.classList.add("was-validated");
-                    return;
+            // Função para validar um campo individual
+            function validarCampo(campo) {
+                // Se o campo estiver vazio, remove feedback
+                if (campo.value.trim() === "") {
+                    campo.classList.remove("is-invalid");
+                    campo.classList.remove("is-valid");
+                    return false;
                 }
+
+                // Validação do campo "confirmarSenha"
+                if (campo.id === "confirmarSenha") {
+                    const senha = document.getElementById("senha").value;
+                    if (campo.value !== senha) {
+                        campo.classList.add("is-invalid");
+                        campo.classList.remove("is-valid");
+                        return false;
+                    } else {
+                        campo.classList.remove("is-invalid");
+                        campo.classList.add("is-valid");
+                        return true;
+                    }
+                }
+
+                // Validação padrão
+                if (!campo.checkValidity()) {
+                    campo.classList.add("is-invalid");
+                    campo.classList.remove("is-valid");
+                    return false;
+                } else {
+                    campo.classList.remove("is-invalid");
+                    campo.classList.add("is-valid");
+                    return true;
+                }
+            }
+
+            // Validar campos em tempo real
+            const campos = form.querySelectorAll("input");
+            campos.forEach(campo => {
+                campo.addEventListener("input", () => validarCampo(campo));
+                campo.addEventListener("blur", () => validarCampo(campo));
+            });
+
+            // Submit
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                let todosValidos = true;
+                campos.forEach(campo => {
+                    if (!validarCampo(campo)) todosValidos = false;
+                });
+
+                if (!todosValidos) return;
 
                 const formData = {
                     nome: document.getElementById("nome").value.trim(),
@@ -130,16 +182,20 @@
                 };
 
                 fetch("../backend/cadastrar_professor.php", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(formData)
-                    })
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(formData)
+                })
                     .then(response => response.json())
                     .then(data => {
                         mostrarMensagem(data.message, data.success);
-                        if (data.success) form.reset();
+                        if (data.success) {
+                            form.reset();
+                            campos.forEach(c => {
+                                c.classList.remove("is-valid");
+                                c.classList.remove("is-invalid");
+                            });
+                        }
                     })
                     .catch(err => {
                         mostrarMensagem('Erro na comunicação com o servidor.', false);

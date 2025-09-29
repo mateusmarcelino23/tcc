@@ -26,6 +26,14 @@ if ($conn->connect_error) {
 if (isset($_GET['remover'])) {
     $professor_id = intval($_GET['remover']); // segurança contra SQL Injection
 
+    // Impede que o professor logado se remova
+    if ($professor_id == $_SESSION['professor_id']) {
+        $response['success'] = false;
+        $response['message'] = 'Você não pode remover a si mesmo enquanto estiver logado.';
+        echo json_encode($response);
+        exit();
+    }
+
     // Verifica se o professor está vinculado a algum empréstimo
     $check_emprestimo = "SELECT * FROM emprestimo WHERE id_professor = $professor_id";
     $result_check = $conn->query($check_emprestimo);
